@@ -18,6 +18,14 @@ const customerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
 });
 
 const Customer = mongoose.model("Customer", customerSchema);
