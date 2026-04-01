@@ -10,8 +10,8 @@ export class Translation {
 
   private translateService = inject(TranslateService);
   private storageService = inject(StorageService);
-  private storage = inject(StorageService);
   private document = inject(DOCUMENT);
+
   constructor() {
     this.initLanguage();
   }
@@ -19,12 +19,12 @@ export class Translation {
   initLanguage() {
     this.translateService.addLangs(['en', 'ar']);
 
-    const lang = (
-      this.storageService.language ??
-      (navigator.language || window.navigator.language)
-    ).includes('ar')
-      ? 'ar'
-      : 'en';
+    const storedLang = this.storageService.language;
+    const browserLang =
+      (navigator.language || window.navigator.language).includes('ar')
+        ? 'ar'
+        : 'en';
+    const lang = storedLang === 'ar' || storedLang === 'en' ? storedLang : browserLang;
 
     this.translateService.use(lang);
     this.setLanguage(lang);
@@ -32,17 +32,15 @@ export class Translation {
   }
 
   changeLanguage() {
-    const isEnglish = this.translateService.getCurrentLang() === 'en';
-
-    if (isEnglish) this.setLanguage('ar');
-    else this.setLanguage('en');
-
-    this.language.set(this.translateService.getCurrentLang());
+    const nextLang = this.language() === 'en' ? 'ar' : 'en';
+    this.setLanguage(nextLang);
+    // TranslateService updates currentLang async; keep UI reactive immediately.
+    this.language.set(nextLang);
   }
 
   setLanguage(lang: string) {
     this.translateService.use(lang);
-    this.storage.language = lang;
+    this.storageService.language = lang;
     this.document.getElementsByTagName('html')[0].setAttribute('lang', lang);
 
     if (lang !== 'ar') {

@@ -12,17 +12,20 @@
     </button>
 
     <nav class="links" [class.open]="isMenuOpen()">
+      <button class="translate-btn" type="button" (click)="translate()">
+        {{ translatedLang() }}
+      </button>
       <a
         routerLink="/landing"
         routerLinkActive="isActive"
         [routerLinkActiveOptions]="{ exact: true }"
         (click)="closeMenu()"
       >
-        Home
+        {{ "navbar.home" | translate }}
       </a>
 
       <a routerLink="/cars" routerLinkActive="isActive" (click)="closeMenu()">
-        Cars
+        {{ "navbar.cars" | translate }}
       </a>
 
       <span class="spacer"></span>
@@ -32,11 +35,11 @@
         routerLinkActive="isActive"
         (click)="closeMenu()"
       >
-        Login
+        {{ "navbar.login" | translate }}
       </a>
 
       <a class="signup-btn" routerLink="/auth/signup" (click)="closeMenu()">
-        Sign up
+        {{ "navbar.signup" | translate }}
       </a>
     </nav>
   </div>

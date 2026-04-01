@@ -12,45 +12,83 @@ export class StorageService {
   constructor(@Inject(PLATFORM_ID) private readonly platformID: Object) {}
 
   public set accessToken(accessToken: string | null) {
-    this.storage.setItem('accessToken', accessToken!);
+    try {
+      if (accessToken == null) this.storage.removeItem('accessToken');
+      else this.storage.setItem('accessToken', accessToken);
+    } catch {}
   }
 
   public get accessToken(): string | null {
-    return this.storage.getItem('accessToken');
+    try {
+      return this.storage.getItem('accessToken');
+    } catch {
+      return null;
+    }
   }
 
   public get decodedToken(): DecodedTokenI {
-    return JSON.parse(atob(this.accessToken?.split('.')[1]!));
+    const token = this.accessToken;
+    if (!token) return {} as DecodedTokenI;
+    try {
+      return JSON.parse(atob(token.split('.')[1] ?? '')) as DecodedTokenI;
+    } catch {
+      return {} as DecodedTokenI;
+    }
   }
 
   public set refreshToken(refreshToken: string | null) {
-    this.storage.setItem('refreshToken', refreshToken!);
+    try {
+      if (refreshToken == null) this.storage.removeItem('refreshToken');
+      else this.storage.setItem('refreshToken', refreshToken);
+    } catch {}
   }
 
   public get refreshToken(): string | null {
-    return this.storage.getItem('refreshToken');
+    try {
+      return this.storage.getItem('refreshToken');
+    } catch {
+      return null;
+    }
   }
 
   public set language(language: string | null) {
-    this.storage.setItem('language', language!);
+    try {
+      if (language == null) this.storage.removeItem('language');
+      else this.storage.setItem('language', language);
+    } catch {}
   }
 
   public get language(): string | null {
-    return this.storage.getItem('language');
+    try {
+      return this.storage.getItem('language');
+    } catch {
+      return null;
+    }
   }
 
   public set loggedInUser(loggedInUser: UserI | null) {
-    if (isPlatformBrowser(this.platformID))
-      sessionStorage.setItem('loggedInUser', JSON.stringify(loggedInUser!));
+    if (!isPlatformBrowser(this.platformID)) return;
+    try {
+      if (loggedInUser == null) sessionStorage.removeItem('loggedInUser');
+      else sessionStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+    } catch {}
   }
 
   public get loggedInUser(): UserI | null {
-    if (isPlatformBrowser(this.platformID))
-      return JSON.parse(sessionStorage.getItem('loggedInUser')!);
+    if (isPlatformBrowser(this.platformID)) {
+      try {
+        const raw = sessionStorage.getItem('loggedInUser');
+        return raw ? (JSON.parse(raw) as UserI) : null;
+      } catch {
+        return null;
+      }
+    }
     return null;
   }
 
   removeItem(key: string) {
-    localStorage.removeItem(key);
+    try {
+      this.storage.removeItem(key);
+    } catch {}
   }
 }

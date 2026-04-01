@@ -10,6 +10,7 @@
     height: 64px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 16px;
   }
 
@@ -65,10 +66,35 @@
   }
 
   .links {
-    margin-left: auto;
     display: flex;
     align-items: center;
     gap: 14px;
+
+    .translate-btn {
+      appearance: none;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font: inherit;
+      line-height: 1;
+      transition:
+        color 150ms ease,
+        border-color 150ms ease,
+        background-color 150ms ease;
+
+      &:hover {
+        color: var(--text);
+        border-color: var(--primary);
+        background: color-mix(in oklab, var(--primary) 10%, transparent);
+      }
+
+      &:active {
+        transform: translateY(1px);
+      }
+    }
 
     a {
       color: var(--muted);
@@ -134,6 +160,14 @@
         min-width: 100%;
         justify-content: center;
         align-items: center;
+      }
+
+      .translate-btn {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 12px;
       }
 
       .spacer {
