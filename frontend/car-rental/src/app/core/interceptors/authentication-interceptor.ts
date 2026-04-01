@@ -14,6 +14,7 @@ export const authenticationInterceptor: HttpInterceptorFn = (
     INTERCEPTOR_SKIP_CONSTANT.AUTHENTICATION,
   );
   if (skipIntercept) return next(req);
+  if (!skipIntercept) return next(req);
 
   if (!localStorage.getItem('accessToken')) return next(req);
   const modifiedReq = req.clone({

@@ -1,0 +1,67 @@
+<section class="details">
+  <div class="container grid">
+    <div class="gallery card">
+      <img [src]="car()?.imageUrl" [alt]="car()?.carName" />
+
+      <div class="badge" [class.unavailable]="!car()?.available">
+        {{ car()?.available ? "Available" : "Unavailable" }}
+      </div>
+    </div>
+
+    <div class="info">
+      <div class="header">
+        <div>
+          <h1 class="name">{{ car()?.carName }}</h1>
+          <div class="type">{{ car()?.carType }} • {{ car()?.model }}</div>
+        </div>
+
+        <div class="price">
+          ${{ car()?.pricePerDay }}
+          <span>/day</span>
+        </div>
+      </div>
+
+      <div class="specs card">
+        <div class="spec">
+          <div class="label">Transmission</div>
+          <div class="value">{{ car()?.transmissionType }}</div>
+        </div>
+
+        <div class="spec">
+          <div class="label">Seats</div>
+          <div class="value">{{ car()?.seatsNumber }}</div>
+        </div>
+
+        <div class="spec">
+          <div class="label">Type</div>
+          <div class="value">{{ car()?.carType }}</div>
+        </div>
+      </div>
+
+      <div class="description card">
+        <div class="title">About this car</div>
+        <p>
+          Perfect for city drives and long trips. Comfortable seating, reliable
+          performance, and great fuel efficiency. Ideal for business or leisure.
+        </p>
+      </div>
+
+      <div class="booking card">
+        <div class="booking-top">
+          <div class="price">${{ car()?.pricePerDay }} <span>/day</span></div>
+          <div class="status" [class.unavailable]="!car()?.available">
+            {{ car()?.available ? "Available now" : "Not available" }}
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--primary" [disabled]="!car()?.available">
+            Rent Now
+          </button>
+
+          <button class="btn">Contact</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,1 +1,31 @@
-<p>cars works!</p>
+<section class="cars">
+  <div class="container cars__header">
+    <div>
+      <div class="chip">Fleet</div>
+      <h1 class="cars__title">Choose your ride</h1>
+      <p class="cars__subtitle">
+        Filter by type or price, then pick the car that fits your trip.
+      </p>
+    </div>
+
+    <a class="btn btn--primary cars__cta" routerLink="/auth/signup"
+      >Book faster with an account</a
+    >
+  </div>
+
+  <div class="cars-list">
+    <div class="visual-top">
+      <div class="pill"></div>
+      <div class="pill muted"></div>
+      <div class="pill muted"></div>
+    </div>
+
+    <!-- ----------cars----------- -->
+
+    <div class="cars-cards">
+      @for (item of cars(); track $index) {
+        <app-car [car]="item"></app-car>
+      }
+    </div>
+  </div>
+</section>
