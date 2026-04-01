@@ -1,1 +1,36 @@
-<p>footer works!</p>
+<footer class="footer" role="contentinfo">
+  <div class="container grid">
+    <div class="brand">
+      <div class="logo">AC</div>
+
+      <div>
+        <div class="name">Alshamary Car</div>
+        <div class="tagline">
+          Simple, fast car rentals for city trips and weekend getaways.
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="title">Explore</div>
+      <a routerLink="/landing">Home</a>
+      <a routerLink="/cars">Cars</a>
+    </div>
+
+    <div class="col">
+      <div class="title">Account</div>
+      <a routerLink="/auth/login">Login</a>
+      <a routerLink="/auth/signup">Sign up</a>
+    </div>
+
+    <div class="col">
+      <div class="title">Contact</div>
+      <div class="muted">Support: support&#64;sotaalshamary@gmail.com</div>
+    </div>
+  </div>
+
+  <div class="container bottom">
+    <span class="muted">© {{ year() }} AlshamaryCar</span>
+    <span class="muted">Built for AlshamaryCar</span>
+  </div>
+</footer>

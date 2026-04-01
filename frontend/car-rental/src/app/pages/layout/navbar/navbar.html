@@ -1,1 +1,43 @@
-<p>navbar works!</p>
+<header class="nav">
+  <div class="container inner">
+    <a class="brand" routerLink="/landing" (click)="closeMenu()">
+      <span class="mark">AC</span>
+      <span class="name">Alshamary Car</span>
+    </a>
+
+    <button class="toggle" (click)="toggleMenu()">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+
+    <nav class="links" [class.open]="isMenuOpen()">
+      <a
+        routerLink="/landing"
+        routerLinkActive="isActive"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeMenu()"
+      >
+        Home
+      </a>
+
+      <a routerLink="/cars" routerLinkActive="isActive" (click)="closeMenu()">
+        Cars
+      </a>
+
+      <span class="spacer"></span>
+
+      <a
+        routerLink="/auth/login"
+        routerLinkActive="isActive"
+        (click)="closeMenu()"
+      >
+        Login
+      </a>
+
+      <a class="signup-btn" routerLink="/auth/signup" (click)="closeMenu()">
+        Sign up
+      </a>
+    </nav>
+  </div>
+</header>
