@@ -1,0 +1,144 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in oklab, var(--surface) 92%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+
+  .inner {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    letter-spacing: 0.2px;
+
+    .mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: radial-gradient(
+        circle at 30% 30%,
+        color-mix(in oklab, var(--primary) 80%, white) 0%,
+        var(--primary) 45%,
+        color-mix(in oklab, var(--primary) 70%, black) 100%
+      );
+      color: white;
+      font-size: 12px;
+    }
+
+    .name {
+      font-size: 16px;
+    }
+  }
+
+  .toggle {
+    margin-left: auto;
+    display: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+
+    .bar {
+      display: block;
+      width: 18px;
+      height: 2px;
+      margin: 4px auto;
+      border-radius: 99px;
+      background: var(--text);
+      opacity: 0.85;
+    }
+  }
+
+  .links {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+
+      &:hover {
+        color: var(--text);
+        border-bottom: 1px solid var(--primary);
+      }
+
+      &.signup-btn {
+        background-color: var(--primary);
+        color: white;
+        border: 1px solid transparent;
+        border-radius: 8px;
+      }
+
+      &.isActive {
+        color: var(--text);
+        border-bottom: 1px solid var(--primary);
+      }
+    }
+
+    .spacer {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+      margin: 0 4px;
+    }
+  }
+
+  @media (max-width: 570px) {
+    .toggle {
+      display: inline-grid;
+      place-items: center;
+    }
+
+    .links {
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      padding: 12px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: none;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+
+      &.open {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      a {
+        display: flex;
+        padding: 12px;
+        min-width: 100%;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .spacer {
+        display: none;
+      }
+    }
+  }
+}
