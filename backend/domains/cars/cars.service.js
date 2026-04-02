@@ -1,8 +1,8 @@
 const Car = require("./entities/Car");
 
 // get all cars
-const getAllCars = async () => {
-  return await Car.find();
+const getAllCars = async (query) => {
+  return await Car.find(query);
 };
 
 // get car by id

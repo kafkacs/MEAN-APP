@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const auth = require("./middlewares/auth");
 
-const customerRoutes = require("./domains/customers/customers.routes");
+const userRoutes = require("./domains/users/users.routes");
 const carsRoutes = require("./domains/cars/cars.routes");
 
 const app = express();
@@ -16,6 +16,6 @@ app.use(express.json());
 app.use("/api/cars", auth({ required: false }), carsRoutes);
 
 // Protected routes (required auth)
-app.use("/api/customers", auth({ required: true }), customerRoutes);
+app.use("/api/users", auth({ required: false }), userRoutes);
 
 module.exports = app;

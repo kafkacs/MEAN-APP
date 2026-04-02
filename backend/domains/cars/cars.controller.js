@@ -3,7 +3,7 @@ const carsService = require("./cars.service");
 // GET /
 exports.getAll = async (req, res) => {
   try {
-    const cars = await carsService.getAllCars();
+    const cars = await carsService.getAllCars(req.query);
     //TODO:return all requests as this structure { frontFacingMessage, data, httpStatus }
     res.json({
       frontFacingMessage: "Cars retrieved successfully",
