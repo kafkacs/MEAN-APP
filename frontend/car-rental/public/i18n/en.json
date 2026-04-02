@@ -185,10 +185,10 @@
     "lead": "Questions about a booking, a vehicle, or roadside help? Send us a message and we'll get back to you as soon as we can.",
     "detailsTitle": "Contact details",
     "emailLabel": "Email",
-    "hoursLabel": "Hours",
-    "hoursValue": "Sunday–Thursday, 9:00–18:00",
+    "hoursLabel": "Phone Number",
+    "hoursValue": "** ** ** ** ",
     "locationLabel": "Service area",
-    "locationValue": "City-wide rentals and airport pickup by arrangement.",
+    "locationValue": "Morocco - Alrabat.",
     "browseCars": "Browse available cars",
     "formTitle": "Send a message",
     "formHint": "This form is for demo purposes—connect it to your backend when you're ready.",
@@ -197,6 +197,6 @@
     "subject": "Subject",
     "message": "Message",
     "submit": "Send message",
-    "success": "Thanks! Your message has been recorded. (Demo — no email was sent.)"
+    "success": "Thanks! Your message has been recorded."
   }
 }

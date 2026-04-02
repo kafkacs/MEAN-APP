@@ -1,9 +1,13 @@
 const usersService = require("./users.servcie");
 
-// GET /
+// find all /
 exports.getAll = async (req, res) => {
   try {
-    const users = await usersService.getAllUsers();
+    const { skip, limit } = req.query;
+    if (!skip || !limit) {
+      return res.status(400).json({ message: "skip and limit are required" });
+    }
+    const users = await usersService.getAllUsers(req.query);
 
     res.json({
       frontFacingMessage: "Users retrieved successfully",
@@ -15,7 +19,7 @@ exports.getAll = async (req, res) => {
   }
 };
 
-// GET /:id
+// find one /:id
 exports.getOne = async (req, res) => {
   try {
     const user = await usersService.getUserById(req.params.id);
@@ -34,7 +38,7 @@ exports.getOne = async (req, res) => {
   }
 };
 
-// POST /
+// create  /
 exports.create = async (req, res) => {
   try {
     const newUser = await usersService.createUser(req.body);

@@ -1,10 +1,15 @@
 const carsService = require("./cars.service");
 
-// GET /
+// find all /
 exports.getAll = async (req, res) => {
   try {
+    const { skip, limit } = req.query;
+
+    if (!skip || !limit) {
+      return res.status(400).json({ message: "skip and limit are required" });
+    }
+
     const cars = await carsService.getAllCars(req.query);
-    //TODO:return all requests as this structure { frontFacingMessage, data, httpStatus }
     res.json({
       frontFacingMessage: "Cars retrieved successfully",
       data: cars,
@@ -15,7 +20,7 @@ exports.getAll = async (req, res) => {
   }
 };
 
-// GET One
+// find one
 exports.getOne = async (req, res) => {
   try {
     const car = await carsService.getCarById(req.params.id);
@@ -34,7 +39,7 @@ exports.getOne = async (req, res) => {
   }
 };
 
-// POST /
+// create one car
 exports.create = async (req, res) => {
   try {
     const newCar = await carsService.createCar(req.body);
@@ -49,7 +54,7 @@ exports.create = async (req, res) => {
   }
 };
 
-// PATCH /:id
+// update one car
 exports.update = async (req, res) => {
   try {
     const updated = await carsService.updateCar(req.params.id, req.body);
@@ -84,24 +89,5 @@ exports.remove = async (req, res) => {
     });
   } catch (err) {
     res.status(400).json({ message: err.message });
-  }
-};
-
-// DELETE /:id
-exports.remove = async (req, res) => {
-  try {
-    const deleted = await carsService.deleteCar(req.params.id);
-
-    if (!deleted) {
-      return res.status(404).json({ message: "Car not found" });
-    }
-
-    res.json({
-      frontFacingMessage: "Car deleted successfully",
-      data: deleted,
-      httpStatus: 200,
-    });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
   }
 };

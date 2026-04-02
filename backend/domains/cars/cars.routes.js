@@ -5,7 +5,10 @@ const validate = require("../../middlewares/validate");
 const auth = require("../../middlewares/auth");
 const controller = require("./cars.controller");
 
-router.get("/", controller.getAll);
+//findAll cars
+router.get("/", auth({ required: false }), controller.getAll);
+
+//findOne car
 router.get(
   "/:id",
   auth({ required: false }),
@@ -13,17 +16,23 @@ router.get(
   validate,
   controller.getOne,
 );
-router.post("/", controller.create);
+
+//create car
+router.post("/", auth({ required: true }), controller.create);
+
+//update car
 router.patch(
   "/:id",
-  auth({ required: false }),
+  auth({ required: true }),
   param("id").isMongoId().withMessage("Invalid customer ID"),
   validate,
   controller.update,
 );
+
+//delete car
 router.delete(
   "/:id",
-  auth({ required: false }),
+  auth({ required: true }),
   param("id").isMongoId().withMessage("Invalid customer ID"),
   validate,
   controller.remove,

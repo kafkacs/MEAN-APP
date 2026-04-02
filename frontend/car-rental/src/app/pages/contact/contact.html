@@ -20,17 +20,23 @@
       <h2 class="contact-h2">{{ "contactPage.detailsTitle" | translate }}</h2>
       <ul class="info-list">
         <li>
-          <span class="info-label">{{ "contactPage.emailLabel" | translate }}</span>
+          <span class="info-label">{{
+            "contactPage.emailLabel" | translate
+          }}</span>
           <a href="mailto:support&#64;sotaalshamary@gmail.com"
             >support&#64;sotaalshamary@gmail.com</a
           >
         </li>
         <li>
-          <span class="info-label">{{ "contactPage.hoursLabel" | translate }}</span>
+          <span class="info-label">{{
+            "contactPage.hoursLabel" | translate
+          }}</span>
           <span>{{ "contactPage.hoursValue" | translate }}</span>
         </li>
         <li>
-          <span class="info-label">{{ "contactPage.locationLabel" | translate }}</span>
+          <span class="info-label">{{
+            "contactPage.locationLabel" | translate
+          }}</span>
           <span>{{ "contactPage.locationValue" | translate }}</span>
         </li>
       </ul>
@@ -41,7 +47,6 @@
 
     <div class="card contact-form-card">
       <h2 class="contact-h2">{{ "contactPage.formTitle" | translate }}</h2>
-      <p class="form-hint">{{ "contactPage.formHint" | translate }}</p>
 
       @if (sent) {
         <div class="success-banner" role="status">
@@ -54,17 +59,17 @@
           <label class="label" for="contact-name">{{
             "contactPage.name" | translate
           }}</label>
-          <input
-            id="contact-name"
-            type="text"
-            class="input"
-            formControlName="name"
-            autocomplete="name"
-          />
+
+          <app-text-input
+            [config]="{
+              control: form.controls.name,
+              placeholder: ('' | translate),
+            }"
+          ></app-text-input>
           @if (showError("name", "required")) {
             <span class="field-error">{{
               "validation.required"
-                | translate : { value: "contactPage.name" | translate }
+                | translate: { value: "contactPage.name" | translate }
             }}</span>
           }
           @if (showError("name", "minlength")) {
@@ -80,21 +85,23 @@
           <label class="label" for="contact-email">{{
             "contactPage.email" | translate
           }}</label>
-          <input
-            id="contact-email"
-            type="email"
-            class="input"
-            formControlName="email"
-            autocomplete="email"
-          />
+
+          <app-text-input
+            [config]="{
+              control: form.controls.email,
+              placeholder: ('' | translate),
+            }"
+          ></app-text-input>
           @if (showError("email", "required")) {
             <span class="field-error">{{
               "validation.required"
-                | translate : { value: "contactPage.email" | translate }
+                | translate: { value: "contactPage.email" | translate }
             }}</span>
           }
           @if (showError("email", "email")) {
-            <span class="field-error">{{ "validation.email" | translate }}</span>
+            <span class="field-error">{{
+              "validation.email" | translate
+            }}</span>
           }
         </div>
 
@@ -102,16 +109,17 @@
           <label class="label" for="contact-subject">{{
             "contactPage.subject" | translate
           }}</label>
-          <input
-            id="contact-subject"
-            type="text"
-            class="input"
-            formControlName="subject"
-          />
+
+          <app-text-input
+            [config]="{
+              control: form.controls.subject,
+              placeholder: ('' | translate),
+            }"
+          ></app-text-input>
           @if (showError("subject", "required")) {
             <span class="field-error">{{
               "validation.required"
-                | translate : { value: "contactPage.subject" | translate }
+                | translate: { value: "contactPage.subject" | translate }
             }}</span>
           }
           @if (showError("subject", "minlength")) {
@@ -136,7 +144,7 @@
           @if (showError("message", "required")) {
             <span class="field-error">{{
               "validation.required"
-                | translate : { value: "contactPage.message" | translate }
+                | translate: { value: "contactPage.message" | translate }
             }}</span>
           }
           @if (showError("message", "minlength")) {

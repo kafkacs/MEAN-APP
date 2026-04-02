@@ -1,8 +1,9 @@
 const User = require("./entities/User");
 
 // get all
-const getAllUsers = async () => {
-  return await User.find();
+const getAllUsers = async (params) => {
+  const { skip, limit, ...restOfParams } = params;
+  return await User.find(restOfParams).skip(skip).limit(limit);
 };
 
 // get by id
@@ -12,6 +13,12 @@ const getUserById = async (id) => {
 
 // create
 const createUser = async (data) => {
+  const currentDate = new Date().now();
+
+  if (data.birthdate - 18 * 365 * 24 * 60 * 60 * 1000 > currentDate) {
+    throw new Error("User must be at least 18 years old");
+  }
+
   const user = new User(data);
 
   return await user.save();
