@@ -2,7 +2,8 @@ import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { CarI } from '../interfaces/car.interface';
 import { CarsApisService } from '../cars-apis-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TransmissionType } from '../enums/transmission-type.enum';
 
 @Component({
   selector: 'app-car-details',
@@ -12,12 +13,15 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CarDetails implements OnInit {
   private readonly carsApisService = inject(CarsApisService);
+  private readonly router = inject(Router);
 
   private readonly route = inject(ActivatedRoute);
   private destroyRef = inject(DestroyRef);
 
   carID = signal<string>('');
   car = signal<CarI | null>(null);
+
+  transmissionTypeOptions = TransmissionType;
 
   ngOnInit(): void {
     this.getProductFromRoute();
@@ -49,5 +53,9 @@ export class CarDetails implements OnInit {
           console.error('Error fetching car details:', err);
         },
       });
+  }
+
+  goToContact() {
+    this.router.navigate([`contact`]);
   }
 }

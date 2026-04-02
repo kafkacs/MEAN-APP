@@ -24,7 +24,11 @@
       <div class="specs card">
         <div class="spec">
           <div class="label">Transmission</div>
-          <div class="value">{{ car()?.transmissionType }}</div>
+          @if (car()?.transmissionType == 1 + "") {
+            <div class="value">Automatic</div>
+          } @else if (car()?.transmissionType == 2 + "") {
+            <div class="value">Manual</div>
+          }
         </div>
 
         <div class="spec">
@@ -59,7 +63,7 @@
             Rent Now
           </button>
 
-          <button class="btn">Contact</button>
+          <button (click)="goToContact()" class="btn">Contact</button>
         </div>
       </div>
     </div>

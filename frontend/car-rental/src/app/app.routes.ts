@@ -5,6 +5,7 @@ import { Cars } from './pages/cars/cars';
 import { Landing } from './pages/landing/landing';
 import { Layout } from './pages/layout/layout';
 import { CarDetails } from './pages/cars/car-details/car-details';
+import { Contact } from './pages/contact/contact';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,7 @@ export const routes: Routes = [
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'landing' },
       { path: 'landing', component: Landing, title: 'Car Rental - Home' },
+      { path: 'contact', component: Contact, title: 'Car Rental - Contact' },
       { path: 'cars', component: Cars, title: 'Car Rental - Cars' },
       {
         path: 'car-details/:carID',

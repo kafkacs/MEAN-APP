@@ -113,6 +113,7 @@
   "navbar": {
     "home": "Home",
     "cars": "Cars",
+    "contact": "Contact",
     "login": "Login",
     "signup": "Sign Up"
   },

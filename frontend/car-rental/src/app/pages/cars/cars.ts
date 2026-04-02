@@ -9,7 +9,6 @@ import {
 import { Car } from './car/car';
 import { CarI } from './interfaces/car.interface';
 import { CarsApisService } from './cars-apis-service';
-import { FilterCarsDto } from './dtos/filter-cars.dto';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 import { DelegatedUIErrorI } from '../../shared/interfaces/delegated-ui-error.interface';
@@ -39,10 +38,10 @@ export class Cars implements OnInit {
   isFetching = signal<boolean>(false);
 
   ngOnInit(): void {
-    this.findAllCars({ text: '' });
+    this.findAllCars();
   }
 
-  findAllCars(_filterCarsDto: FilterCarsDto) {
+  findAllCars() {
     this.carsApisService
       .findAllCars()
       .pipe(takeUntilDestroyed(this.destroyRef))

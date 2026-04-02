@@ -15,7 +15,11 @@
 
     <div class="meta">
       <span>{{ car().model }}</span>
-      <span>{{ car().transmissionType }}</span>
+      @if (car().transmissionType == 1 + "") {
+        <span>Automatic</span>
+      } @else if (car().transmissionType == 2 + "") {
+        <span>Manual</span>
+      }
       <span>{{ car().seatsNumber }} seats</span>
     </div>
 
