@@ -1,0 +1,30 @@
+@use '../auth-pages' as *;
+
+.auth-shell--signup {
+  max-width: 480px;
+}
+
+.terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 8px 0 16px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1.45;
+  cursor: pointer;
+
+  input {
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    flex-shrink: 0;
+    accent-color: var(--primary);
+  }
+}
+
+.terms-error {
+  display: block;
+  margin: -10px 0 14px;
+}

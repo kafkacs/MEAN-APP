@@ -1,1 +1,95 @@
-<p>login works!</p>
+<div class="auth-page">
+  <div class="auth-backdrop" aria-hidden="true"></div>
+
+  <div class="container auth-shell">
+    <a routerLink="/landing" class="auth-brand">
+      <span class="mark">AC</span>
+      <span class="name">Alshamary Car</span>
+    </a>
+
+    <div class="card auth-card">
+      <div class="auth-card-header">
+        <h1 class="auth-title">{{ "authPages.login.title" | translate }}</h1>
+        <p class="auth-subtitle">
+          {{ "authPages.login.subtitle" | translate }}
+        </p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="field">
+          <label class="label" for="login-email">{{
+            "authPages.login.email" | translate
+          }}</label>
+
+          <app-text-input
+            [config]="{
+              control: loginForm.controls.email,
+              placeholder: ('' | translate),
+            }"
+          ></app-text-input>
+
+          @if (showError("email", "required")) {
+            <span class="field-error">{{
+              "validation.required"
+                | translate: { value: "authPages.login.email" | translate }
+            }}</span>
+          }
+          @if (showError("email", "email")) {
+            <span class="field-error">{{
+              "validation.email" | translate
+            }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label class="label" for="login-password">{{
+            "authPages.login.password" | translate
+          }}</label>
+          <app-password-input
+            [control]="loginForm.controls.password"
+            inputId="login-password"
+            autocomplete="current-password"
+          ></app-password-input>
+
+          @if (showError("password", "required")) {
+            <span class="field-error">{{
+              "validation.required"
+                | translate: { value: "authPages.login.password" | translate }
+            }}</span>
+          }
+          @if (showError("password", "minlength")) {
+            <span class="field-error">{{
+              "validation.minLength"
+                | translate
+                  : {
+                      value: "authPages.login.password" | translate,
+                      length: 8,
+                    }
+            }}</span>
+          }
+        </div>
+
+        <div class="auth-row">
+          <span class="hint">{{
+            "authPages.login.forgotHint" | translate
+          }}</span>
+        </div>
+
+        <button type="submit" class="btn btn--primary auth-submit">
+          {{ "authPages.login.submit" | translate }}
+        </button>
+      </form>
+
+      <p class="auth-footer">
+        {{ "authPages.login.noAccount" | translate }}
+        <a routerLink="/auth/signup">{{
+          "authPages.login.signupLink" | translate
+        }}</a>
+      </p>
+    </div>
+
+    <a routerLink="/landing" class="auth-home-link">{{
+      "authPages.backHome" | translate
+    }}</a>
+  </div>
+</div>

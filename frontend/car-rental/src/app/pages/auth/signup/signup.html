@@ -1,1 +1,139 @@
-<p>signup works!</p>
+<div class="auth-page">
+  <div class="auth-backdrop" aria-hidden="true"></div>
+
+  <div class="container auth-shell auth-shell--signup">
+    <a routerLink="/landing" class="auth-brand">
+      <span class="mark">AC</span>
+      <span class="name">Alshamary Car</span>
+    </a>
+
+    <div class="card auth-card">
+      <div class="auth-card-header">
+        <h1 class="auth-title">{{ "authPages.signup.title" | translate }}</h1>
+        <p class="auth-subtitle">
+          {{ "authPages.signup.subtitle" | translate }}
+        </p>
+      </div>
+
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="field">
+          <label class="label" for="signup-name">{{
+            "authPages.signup.fullName" | translate
+          }}</label>
+
+          <app-text-input
+            [config]="{
+              control: signupForm.controls.fullName,
+              placeholder: ('' | translate),
+            }"
+          ></app-text-input>
+
+          @if (showControlError("fullName", "required")) {
+            <span class="field-error">{{
+              "validation.required"
+                | translate: { value: "authPages.signup.fullName" | translate }
+            }}</span>
+          }
+          @if (showControlError("fullName", "minlength")) {
+            <span class="field-error">{{
+              "validation.minLength"
+                | translate
+                  : {
+                      value: "authPages.signup.fullName" | translate,
+                      length: 2,
+                    }
+            }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label class="label" for="signup-email">{{
+            "authPages.signup.email" | translate
+          }}</label>
+          <app-text-input
+            [config]="{
+              control: signupForm.controls.email,
+              placeholder: ('' | translate),
+            }"
+          ></app-text-input>
+          @if (showControlError("email", "required")) {
+            <span class="field-error">{{
+              "validation.required"
+                | translate: { value: "authPages.signup.email" | translate }
+            }}</span>
+          }
+          @if (showControlError("email", "email")) {
+            <span class="field-error">{{
+              "validation.email" | translate
+            }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label class="label" for="signup-birthdate">{{
+            "authPages.signup.birthdate" | translate
+          }}</label>
+          <app-date-input
+            [config]="{
+              control: signupForm.controls.birthDate,
+            }"
+          ></app-date-input>
+        </div>
+
+        <div class="field">
+          <label class="label" for="signup-phone">{{
+            "authPages.signup.phone" | translate
+          }}</label>
+          <app-text-input
+            [config]="{
+              control: signupForm.controls.phone,
+              placeholder: ('' | translate),
+            }"
+          ></app-text-input>
+        </div>
+
+        <div class="field">
+          <label class="label" for="signup-password">{{
+            "authPages.signup.password" | translate
+          }}</label>
+          <app-password-input
+            [control]="signupForm.controls.password"
+            inputId="signup-password"
+            autocomplete="new-password"
+          ></app-password-input>
+          @if (showControlError("password", "required")) {
+            <span class="field-error">{{
+              "validation.required"
+                | translate: { value: "authPages.signup.password" | translate }
+            }}</span>
+          }
+          @if (showControlError("password", "minlength")) {
+            <span class="field-error">{{
+              "validation.minLength"
+                | translate
+                  : {
+                      value: "authPages.signup.password" | translate,
+                      length: 8,
+                    }
+            }}</span>
+          }
+        </div>
+
+        <button type="submit" class="btn btn--primary auth-submit">
+          {{ "authPages.signup.submit" | translate }}
+        </button>
+      </form>
+
+      <p class="auth-footer">
+        {{ "authPages.signup.hasAccount" | translate }}
+        <a routerLink="/auth/login">{{
+          "authPages.signup.loginLink" | translate
+        }}</a>
+      </p>
+    </div>
+
+    <a routerLink="/landing" class="auth-home-link">{{
+      "authPages.backHome" | translate
+    }}</a>
+  </div>
+</div>

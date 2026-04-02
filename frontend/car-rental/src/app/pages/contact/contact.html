@@ -1,1 +1,157 @@
-<p>contact works!</p>
+<section class="contact-hero">
+  <div class="container">
+    <div class="chip contact-chip">
+      <span class="dot"></span>
+      {{ "contactPage.badge" | translate }}
+    </div>
+    <h1 class="contact-title">
+      {{ "contactPage.title" | translate }}
+      <span class="accent">{{ "contactPage.titleAccent" | translate }}</span>
+    </h1>
+    <p class="contact-lead">
+      {{ "contactPage.lead" | translate }}
+    </p>
+  </div>
+</section>
+
+<section class="contact-body">
+  <div class="container contact-grid">
+    <div class="card contact-info">
+      <h2 class="contact-h2">{{ "contactPage.detailsTitle" | translate }}</h2>
+      <ul class="info-list">
+        <li>
+          <span class="info-label">{{ "contactPage.emailLabel" | translate }}</span>
+          <a href="mailto:support&#64;sotaalshamary@gmail.com"
+            >support&#64;sotaalshamary@gmail.com</a
+          >
+        </li>
+        <li>
+          <span class="info-label">{{ "contactPage.hoursLabel" | translate }}</span>
+          <span>{{ "contactPage.hoursValue" | translate }}</span>
+        </li>
+        <li>
+          <span class="info-label">{{ "contactPage.locationLabel" | translate }}</span>
+          <span>{{ "contactPage.locationValue" | translate }}</span>
+        </li>
+      </ul>
+      <a routerLink="/cars" class="btn btn--primary info-cta">
+        {{ "contactPage.browseCars" | translate }}
+      </a>
+    </div>
+
+    <div class="card contact-form-card">
+      <h2 class="contact-h2">{{ "contactPage.formTitle" | translate }}</h2>
+      <p class="form-hint">{{ "contactPage.formHint" | translate }}</p>
+
+      @if (sent) {
+        <div class="success-banner" role="status">
+          {{ "contactPage.success" | translate }}
+        </div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+        <div class="field">
+          <label class="label" for="contact-name">{{
+            "contactPage.name" | translate
+          }}</label>
+          <input
+            id="contact-name"
+            type="text"
+            class="input"
+            formControlName="name"
+            autocomplete="name"
+          />
+          @if (showError("name", "required")) {
+            <span class="field-error">{{
+              "validation.required"
+                | translate : { value: "contactPage.name" | translate }
+            }}</span>
+          }
+          @if (showError("name", "minlength")) {
+            <span class="field-error">{{
+              "validation.minLength"
+                | translate
+                  : { value: "contactPage.name" | translate, length: 2 }
+            }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label class="label" for="contact-email">{{
+            "contactPage.email" | translate
+          }}</label>
+          <input
+            id="contact-email"
+            type="email"
+            class="input"
+            formControlName="email"
+            autocomplete="email"
+          />
+          @if (showError("email", "required")) {
+            <span class="field-error">{{
+              "validation.required"
+                | translate : { value: "contactPage.email" | translate }
+            }}</span>
+          }
+          @if (showError("email", "email")) {
+            <span class="field-error">{{ "validation.email" | translate }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label class="label" for="contact-subject">{{
+            "contactPage.subject" | translate
+          }}</label>
+          <input
+            id="contact-subject"
+            type="text"
+            class="input"
+            formControlName="subject"
+          />
+          @if (showError("subject", "required")) {
+            <span class="field-error">{{
+              "validation.required"
+                | translate : { value: "contactPage.subject" | translate }
+            }}</span>
+          }
+          @if (showError("subject", "minlength")) {
+            <span class="field-error">{{
+              "validation.minLength"
+                | translate
+                  : { value: "contactPage.subject" | translate, length: 3 }
+            }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label class="label" for="contact-message">{{
+            "contactPage.message" | translate
+          }}</label>
+          <textarea
+            id="contact-message"
+            class="input textarea"
+            rows="5"
+            formControlName="message"
+          ></textarea>
+          @if (showError("message", "required")) {
+            <span class="field-error">{{
+              "validation.required"
+                | translate : { value: "contactPage.message" | translate }
+            }}</span>
+          }
+          @if (showError("message", "minlength")) {
+            <span class="field-error">{{
+              "validation.minLength"
+                | translate
+                  : { value: "contactPage.message" | translate, length: 10 }
+            }}</span>
+          }
+        </div>
+
+        <button type="submit" class="btn btn--primary form-submit">
+          {{ "contactPage.submit" | translate }}
+        </button>
+      </form>
+    </div>
+  </div>
+</section>

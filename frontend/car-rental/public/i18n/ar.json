@@ -144,5 +144,58 @@
     "pickups": "حدد وقت الاستلام والتسليم.",
     "driveAway": "انطلق",
     "grabTheKeys": "استلم المفاتيح واستمتع بالرحلة."
+  },
+  "authPages": {
+    "backHome": "العودة للرئيسية",
+    "login": {
+      "title": "مرحبًا بعودتك",
+      "subtitle": "سجّل الدخول لإدارة حجوزاتك وسياراتك المحفوظة.",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "you@example.com",
+      "passwordPlaceholder": "أدخل كلمة المرور",
+      "password": "كلمة المرور",
+      "rememberMe": "تذكرني",
+      "forgotHint": "نسيت كلمة المرور؟ تواصل مع الدعم.",
+      "submit": "تسجيل الدخول",
+      "noAccount": "جديد هنا؟",
+      "signupLink": "إنشاء حساب"
+    },
+    "signup": {
+      "title": "أنشئ حسابك",
+      "subtitle": "انضم إلى الشمري كار لحجز أسرع ومتابعة الإيجارات.",
+      "fullName": "الاسم الكامل",
+      "fullNamePlaceholder": "اسمك الكامل",
+      "email": "البريد الإلكتروني",
+      "birthdate": "تاريخ الميلاد",
+      "emailPlaceholder": "you@example.com",
+      "phone": "الهاتف (اختياري)",
+      "phonePlaceholder": "مثال: +962 7x xxx xxxx",
+      "password": "كلمة المرور",
+      "passwordPlaceholder": "8 أحرف على الأقل",
+      "submit": "تسجيل",
+      "hasAccount": "لديك حساب بالفعل؟",
+      "loginLink": "تسجيل الدخول"
+    }
+  },
+  "contactPage": {
+    "badge": "نحن هنا للمساعدة",
+    "title": "تواصل ",
+    "titleAccent": "معنا.",
+    "lead": "استفسارات عن الحجز أو السيارة أو المساعدة على الطريق؟ أرسل لنا رسالة وسنرد في أقرب وقت.",
+    "detailsTitle": "بيانات التواصل",
+    "emailLabel": "البريد",
+    "hoursLabel": "ساعات العمل",
+    "hoursValue": "الأحد–الخميس، 9:00–18:00",
+    "locationLabel": "نطاق الخدمة",
+    "locationValue": "إيجار داخل المدن واستلام من المطار حسب التنسيق.",
+    "browseCars": "تصفح السيارات المتاحة",
+    "formTitle": "أرسل رسالة",
+    "formHint": "هذا النموذج للتجربة فقط — اربطه بالخادم عند الجاهزية.",
+    "name": "اسمك",
+    "email": "البريد الإلكتروني",
+    "subject": "الموضوع",
+    "message": "الرسالة",
+    "submit": "إرسال الرسالة",
+    "success": "شكرًا! تم تسجيل رسالتك. (تجريبي — لم يُرسل بريد.)"
   }
 }

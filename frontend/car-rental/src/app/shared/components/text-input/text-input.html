@@ -1,0 +1,10 @@
+@if (config().label) {
+  <label class="text-label">{{ config().label }}</label>
+}
+<section class="text-input-container">
+  <input
+    class="text-input"
+    [placeholder]="config().placeholder"
+    [formControl]="config().control"
+  />
+</section>
