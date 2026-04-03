@@ -12,9 +12,6 @@
     </button>
 
     <nav class="links" [class.open]="isMenuOpen()">
-      <button class="translate-btn" type="button" (click)="translate()">
-        {{ translatedLang() }}
-      </button>
       <a
         routerLink="/landing"
         routerLinkActive="isActive"
@@ -35,6 +32,10 @@
       >
         {{ "navbar.contact" | translate }}
       </a>
+
+      <button class="translate-btn" type="button" (click)="translate()">
+        {{ translatedLang() }}
+      </button>
 
       <span class="spacer"></span>
 

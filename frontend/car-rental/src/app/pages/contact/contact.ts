@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -7,6 +7,10 @@ import {
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TextInput } from '../../shared/components/text-input/text-input';
+import { ContactApisService } from './contact-apis-service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DelegatedUIErrorI } from '../../shared/interfaces/delegated-ui-error.interface';
+import { removeEmptyValues } from '../../shared/utils/remove-empty-vlaues.util';
 
 @Component({
   selector: 'app-contact',
@@ -16,6 +20,9 @@ import { TextInput } from '../../shared/components/text-input/text-input';
 })
 export class Contact {
   private readonly fb = inject(NonNullableFormBuilder);
+  private readonly contactApisService = inject(ContactApisService);
+
+  private readonly destroyRef = inject(DestroyRef);
 
   submitted = false;
   sent = false;
@@ -23,7 +30,6 @@ export class Contact {
   form = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
-    subject: ['', [Validators.required, Validators.minLength(3)]],
     message: ['', [Validators.required, Validators.minLength(10)]],
   });
 
@@ -32,15 +38,23 @@ export class Contact {
     if (this.form.invalid) {
       return;
     }
-    this.sent = true;
-    this.form.reset();
-    this.submitted = false;
+
+    this.contactApisService
+      .createMessage(removeEmptyValues(this.form.getRawValue()))
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.sent = true;
+          this.form.reset();
+          this.submitted = false;
+        },
+        error: (err: DelegatedUIErrorI) => {
+          console.error('Create message error:', err);
+        },
+      });
   }
 
-  showError(
-    controlName: 'name' | 'email' | 'subject' | 'message',
-    error: string,
-  ): boolean {
+  showError(controlName: 'name' | 'email' | 'message', error: string): boolean {
     const c = this.form.controls[controlName];
     return (this.submitted || c.touched || c.dirty) && c.hasError(error);
   }
