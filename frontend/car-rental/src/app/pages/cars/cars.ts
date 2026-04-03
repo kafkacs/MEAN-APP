@@ -4,6 +4,7 @@ import {
   DestroyRef,
   inject,
   OnInit,
+  Renderer2,
   signal,
 } from '@angular/core';
 import { Car } from './car/car';
@@ -12,6 +13,8 @@ import { CarsApisService } from './cars-apis-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 import { DelegatedUIErrorI } from '../../shared/interfaces/delegated-ui-error.interface';
+import { FilterCarsDto } from './dtos/filter-cars.dto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cars',
@@ -22,8 +25,8 @@ import { DelegatedUIErrorI } from '../../shared/interfaces/delegated-ui-error.in
 export class Cars implements OnInit {
   private readonly carsApisService = inject(CarsApisService);
   private readonly cd = inject(ChangeDetectorRef);
-
-  // private readonly renderer = inject(Renderer2);
+  private readonly router = inject(Router);
+  private readonly renderer = inject(Renderer2);
 
   private destroyRef = inject(DestroyRef);
 
@@ -33,17 +36,24 @@ export class Cars implements OnInit {
   throttleTimer!: NodeJS.Timeout | null;
 
   skip = signal<number>(0);
-  limit = signal<number>(15);
+  limit = signal<number>(20);
   lastFetchedCount = signal<number>(-1);
   isFetching = signal<boolean>(false);
 
   ngOnInit(): void {
-    this.findAllCars();
+    this.findAllCars({ skip: 0, limit: this.limit() }, false);
   }
 
-  findAllCars() {
+  goToLogin() {
+    this.router.navigate([`/auth/login`]);
+  }
+
+  findAllCars(filterCarsDto: FilterCarsDto, isOnScroll: boolean) {
     this.carsApisService
-      .findAllCars()
+      .findAllCars({
+        limit: this.limit(),
+        skip: isOnScroll ? filterCarsDto.skip : 0,
+      })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .pipe(
         takeUntilDestroyed(this.destroyRef),
@@ -55,7 +65,6 @@ export class Cars implements OnInit {
       .subscribe({
         next: (productsFindResponse) => {
           this.cars.set(productsFindResponse.data);
-          console.log(productsFindResponse.data);
         },
         error: (err: DelegatedUIErrorI) => {
           this.cars.set([]);
@@ -64,35 +73,34 @@ export class Cars implements OnInit {
       });
   }
 
-  // setupScrollListener() {
-  //   this.scrollListenerFn = this.renderer.listen('window', 'scroll', () => {
-  //     if (this.throttleTimer) return;
+  setupScrollListener() {
+    this.scrollListenerFn = this.renderer.listen('window', 'scroll', () => {
+      if (this.throttleTimer) return;
 
-  //     this.throttleTimer = setTimeout(() => {
-  //       this.checkScrollPosition();
-  //       this.throttleTimer = null;
-  //     }, 200);
-  //   });
-  // }
+      this.throttleTimer = setTimeout(() => {
+        this.checkScrollPosition();
+        this.throttleTimer = null;
+      }, 200);
+    });
+  }
 
-  // checkScrollPosition() {
-  //   if (this.isFetching() || this.lastFetchedCount() === 0) return;
-  //   if (this.lastFetchedCount() < this.limit()) return;
+  checkScrollPosition() {
+    if (this.isFetching() || this.lastFetchedCount() === 0) return;
+    if (this.lastFetchedCount() < this.limit()) return;
 
-  //   const scrollableHeight =
-  //     document.documentElement.scrollHeight - window.innerHeight;
-  //   const scrollPosition = window.scrollY;
-  //   const threshold = 200;
+    const scrollableHeight =
+      document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPosition = window.scrollY;
+    const threshold = 200;
 
-  //   if (scrollPosition >= scrollableHeight - threshold) {
-  //     this.findAllProducts(
-  //       {
-  //         ...this.productsService.filterProducts(),
-  //         skip: this.products().length,
-  //         limit: this.limit(),
-  //       },
-  //       true,
-  //     );
-  //   }
-  // }
+    if (scrollPosition >= scrollableHeight - threshold) {
+      this.findAllCars(
+        {
+          skip: this.cars().length,
+          limit: this.limit(),
+        },
+        true,
+      );
+    }
+  }
 }

@@ -106,32 +106,6 @@
         </div>
 
         <div class="field">
-          <label class="label" for="contact-subject">{{
-            "contactPage.subject" | translate
-          }}</label>
-
-          <app-text-input
-            [config]="{
-              control: form.controls.subject,
-              placeholder: ('' | translate),
-            }"
-          ></app-text-input>
-          @if (showError("subject", "required")) {
-            <span class="field-error">{{
-              "validation.required"
-                | translate: { value: "contactPage.subject" | translate }
-            }}</span>
-          }
-          @if (showError("subject", "minlength")) {
-            <span class="field-error">{{
-              "validation.minLength"
-                | translate
-                  : { value: "contactPage.subject" | translate, length: 3 }
-            }}</span>
-          }
-        </div>
-
-        <div class="field">
           <label class="label" for="contact-message">{{
             "contactPage.message" | translate
           }}</label>

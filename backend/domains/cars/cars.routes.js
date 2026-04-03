@@ -18,7 +18,7 @@ router.get(
 );
 
 //create car
-router.post("/", auth({ required: true }), controller.create);
+router.post("/", auth({ required: false }), controller.create);
 
 //update car
 router.patch(
