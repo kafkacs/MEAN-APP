@@ -90,6 +90,12 @@
       .btn {
         flex: 1;
       }
+
+      .disabled {
+        background: var(--surface-2);
+        color: var(--muted);
+        cursor: not-allowed;
+      }
     }
   }
 }
