@@ -24,6 +24,13 @@ const userSchema = new mongoose.Schema(
       default: 1,
       required: false,
     },
+    bookingsIDs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Booking",
+        required: false,
+      },
+    ],
     password: {
       type: String,
       required: true,

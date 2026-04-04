@@ -1,5 +1,6 @@
 const Booking = require("./entities/Booking");
 const carsService = require("../cars/cars.service");
+const usersService = require("../users/users.service");
 const {
   buildFindAllAggregation,
 } = require("./aggregations/find-all-aggregation");
@@ -62,6 +63,12 @@ const createBooking = async (data) => {
     endDate,
     totalPrice,
   });
+
+  if (data.userID) {
+    const user = await usersService.getUserById(data.userID);
+    user.bookingsIDs.push(booking._id);
+    await user.save();
+  }
 
   return await booking.save();
 };
