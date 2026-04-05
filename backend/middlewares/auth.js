@@ -1,41 +1,58 @@
-const jwt = require("jsonwebtoken");
 const User = require("../domains/users/entities/User");
+const getIdFromToken = require("./extractIdFromToken");
+
+const attachAuthContext = (req, objectId) => {
+  const idStr = objectId.toString();
+  req.userId = idStr;
+  req.auth = { _id: objectId, userId: idStr };
+};
+
+const clearAuthContext = (req) => {
+  req.user = null;
+  req.userId = null;
+  req.auth = null;
+};
+
+const hasBearerAttempt = (req) => {
+  const raw = req.header("Authorization")?.replace("Bearer ", "");
+  return Boolean(raw?.trim());
+};
 
 const auth = (options = { required: true }) => {
   return async (req, res, next) => {
-    const token = req.header("Authorization")?.replace("Bearer ", "");
+    const objectId = getIdFromToken(req);
 
-    if (!token) {
+    if (!objectId) {
       if (options.required) {
-        return res
-          .status(401)
-          .json({ message: "No token, authorization denied" });
-      } else {
-        req.user = null;
-        req.userId = null;
-        return next();
+        return res.status(401).json({
+          message: hasBearerAttempt(req)
+            ? "Token is invalid"
+            : "No token, authorization denied",
+        });
       }
+      clearAuthContext(req);
+      return next();
     }
 
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const userId = decoded.userId || decoded.id;
-      req.userId = userId;
-      req.user = await User.findById(userId).select("-password");
+      const user = await User.findById(objectId).select("-password");
+      if (!user) throw new Error("User not found");
 
-      if (!req.user) throw new Error("User not found");
+      attachAuthContext(req, objectId);
+      req.user = user;
 
       next();
-    } catch (err) {
+    } catch {
+      clearAuthContext(req);
       if (options.required) {
         return res.status(401).json({ message: "Token is invalid" });
-      } else {
-        req.user = null;
-        req.userId = null;
-        next();
       }
+      next();
     }
   };
 };
 
+const protect = auth({ required: true });
+
 module.exports = auth;
+module.exports.protect = protect;

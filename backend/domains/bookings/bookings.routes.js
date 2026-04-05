@@ -6,7 +6,7 @@ const auth = require("../../middlewares/auth");
 const controller = require("./bookings.controller");
 
 //findAll bookings
-router.get("/", auth({ required: false }), controller.findAll);
+router.get("/", auth({ required: true }), controller.findAll);
 
 //findOne booking
 router.get(
