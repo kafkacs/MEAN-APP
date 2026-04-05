@@ -1,6 +1,6 @@
 const Booking = require("./entities/Booking");
 const carsService = require("../cars/cars.service");
-const usersService = require("../users/users.service");
+const usersService = require("../users/users.servcie");
 const {
   buildFindAllAggregation,
 } = require("./aggregations/find-all-aggregation");

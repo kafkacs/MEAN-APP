@@ -1,4 +1,12 @@
 const usersService = require("./users.servcie");
+const { signAuthToken } = require("./auth.token");
+
+const buildAuthResponse = (user) => {
+  const { token } = signAuthToken(user);
+  return {
+    token,
+  };
+};
 
 // find all /
 exports.getAll = async (req, res) => {
@@ -43,14 +51,62 @@ exports.create = async (req, res) => {
   try {
     const newUser = await usersService.createUser(req.body);
 
-    res.json({
+    res.status(201).json({
       frontFacingMessage: "User created successfully",
-      data: newUser,
+      data: buildAuthResponse(newUser),
       httpStatus: 201,
     });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
+};
+
+// POST /register — same as create; explicit registration route
+exports.register = async (req, res) => {
+  try {
+    const newUser = await usersService.createUser(req.body);
+
+    res.status(201).json({
+      frontFacingMessage: "Registered successfully",
+      data: buildAuthResponse(newUser),
+      httpStatus: 201,
+    });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+// POST /login
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "email and password are required" });
+    }
+
+    const user = await usersService.loginUser(email, password);
+
+    res.json({
+      frontFacingMessage: "Login successful",
+      data: buildAuthResponse(user),
+      httpStatus: 200,
+    });
+  } catch (err) {
+    res.status(401).json({ message: err.message });
+  }
+};
+
+// POST /logout
+exports.logout = async (req, res) => {
+  res.json({
+    frontFacingMessage: "Logged out successfully",
+    data: {
+      hint: "Remove the token from the client (memory, localStorage, etc.).",
+    },
+    httpStatus: 200,
+  });
 };
 
 // PUT /:id
