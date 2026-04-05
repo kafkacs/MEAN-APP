@@ -6,6 +6,12 @@ const auth = require("../../middlewares/auth");
 
 const controller = require("./users.controller");
 
+router.post("/register", controller.register);
+
+router.post("/login", controller.login);
+
+router.post("/logout", auth({ required: false }), controller.logout);
+
 router.get("/", auth({ required: false }), controller.getAll);
 
 router.get(

@@ -26,14 +26,13 @@ function requestLogger(req, res, next) {
     if (duration > 1000) timeColor = chalk.red;
     else if (duration > 500) timeColor = chalk.yellow;
 
-    // 🧾 Final log
     console.log(
       [
-        chalk.gray(new Date().toISOString()), // timestamp
-        methodColor.bold(req.method), // method
-        chalk.white(req.originalUrl), // route
-        statusColor.bold(status), // status
-        timeColor(`${duration}ms`), // duration
+        chalk.gray(new Date().toISOString()),
+        methodColor.bold(req.method),
+        chalk.white(req.originalUrl),
+        statusColor.bold(status),
+        timeColor(`${duration}ms`),
       ].join("  "),
     );
   });

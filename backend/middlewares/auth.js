@@ -12,13 +12,16 @@ const auth = (options = { required: true }) => {
           .json({ message: "No token, authorization denied" });
       } else {
         req.user = null;
+        req.userId = null;
         return next();
       }
     }
 
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = await User.findById(decoded.id).select("-password");
+      const userId = decoded.userId || decoded.id;
+      req.userId = userId;
+      req.user = await User.findById(userId).select("-password");
 
       if (!req.user) throw new Error("User not found");
 
@@ -28,6 +31,7 @@ const auth = (options = { required: true }) => {
         return res.status(401).json({ message: "Token is invalid" });
       } else {
         req.user = null;
+        req.userId = null;
         next();
       }
     }
