@@ -1,16 +1,26 @@
 const mongoose = require("mongoose");
 
-const buildFindAllAggregation = (filters = {}, skip = 0, limit = 10) => {
+const buildFindAllForUserAggregation = (filters = {}, skip = 0, limit = 10) => {
+  const match = {};
+
   if (filters.userID) {
-    filters.userID = new mongoose.Types.ObjectId(filters.userID);
+    match.userID = new mongoose.Types.ObjectId(filters.userID);
   }
 
   if (filters.carID) {
-    filters.carID = new mongoose.Types.ObjectId(filters.carID);
+    match.carID = new mongoose.Types.ObjectId(filters.carID);
+  }
+
+  if (filters.startDate) {
+    match.startDate = { $gte: new Date(filters.startDate) };
+  }
+
+  if (filters.endDate) {
+    match.endDate = { $lte: new Date(filters.endDate) };
   }
 
   return [
-    { $match: filters },
+    { $match: match },
 
     {
       $lookup: {
@@ -41,10 +51,8 @@ const buildFindAllAggregation = (filters = {}, skip = 0, limit = 10) => {
         preserveNullAndEmptyArrays: true,
       },
     },
-
     { $skip: Number(skip) },
     { $limit: Number(limit) },
-
     {
       $project: {
         totalPrice: 1,
@@ -53,6 +61,9 @@ const buildFindAllAggregation = (filters = {}, skip = 0, limit = 10) => {
         status: 1,
         "car.carName": 1,
         "car.pricePerDay": 1,
+        "car.imageUrl": 1,
+        "car.transmissionType": 1,
+        "car.model": 1,
         "user.fullName": 1,
         "user.email": 1,
         "user.phone": 1,
@@ -62,5 +73,5 @@ const buildFindAllAggregation = (filters = {}, skip = 0, limit = 10) => {
 };
 
 module.exports = {
-  buildFindAllAggregation,
+  buildFindAllForUserAggregation,
 };

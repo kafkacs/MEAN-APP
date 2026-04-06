@@ -17,6 +17,13 @@ router.get(
   controller.findOne,
 );
 
+//find all bookings for a user
+router.get(
+  "/user/:userID",
+  auth({ required: true }),
+  controller.findAllForUser,
+);
+
 //create booking
 router.post("/", auth({ required: false }), controller.create);
 
