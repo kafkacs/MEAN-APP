@@ -8,6 +8,7 @@ import { CarDetails } from './pages/cars/car-details/car-details';
 import { Contact } from './pages/contact/contact';
 import { Rent } from './pages/rent/rent';
 import { Confirmed } from './pages/rent/confirmed/confirmed';
+import { Profile } from './pages/profile/profile';
 
 export const routes: Routes = [
   {
@@ -24,6 +25,7 @@ export const routes: Routes = [
         title: 'Car Rental - Car Details',
       },
       { path: 'rent/:carID', component: Rent, title: 'Car Rental - Rent' },
+      { path: 'profile', component: Profile, title: 'Car Rental - Profile' },
       {
         path: 'confirmed',
         component: Confirmed,

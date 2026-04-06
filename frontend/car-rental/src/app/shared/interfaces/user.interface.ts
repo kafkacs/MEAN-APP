@@ -3,8 +3,10 @@ export interface UserI {
   fullName: string;
   email: string;
   phone: string;
+  birthDate: string;
   accountStatus: number;
   role: number;
+  bookingsIDs: string[];
 
   [key: string]: any;
 }

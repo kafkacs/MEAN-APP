@@ -38,6 +38,28 @@ exports.findOne = async (req, res) => {
   }
 };
 
+//find all bookings for a user
+exports.findAllForUser = async (req, res) => {
+  try {
+    const { userID } = req.params;
+    const { skip, limit } = req.query;
+
+    if (!skip || !limit) {
+      return res.status(400).json({ message: "skip and limit are required" });
+    }
+
+    const bookings = await bookingsService.findAllForUser(req.query, userID);
+
+    res.json({
+      frontFacingMessage: "User's bookings retrieved successfully",
+      data: bookings,
+      httpStatus: 200,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // create booking
 exports.create = async (req, res) => {
   try {

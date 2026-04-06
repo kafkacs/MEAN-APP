@@ -4,6 +4,9 @@ const usersService = require("../users/users.servcie");
 const {
   buildFindAllAggregation,
 } = require("./aggregations/find-all-aggregation");
+const {
+  buildFindAllForUserAggregation,
+} = require("./aggregations/find-all-for-user-aggregation");
 
 //find all bookings
 const findAll = async (query) => {
@@ -73,6 +76,18 @@ const createBooking = async (data) => {
   return await booking.save();
 };
 
+//find all bookings for a user
+const findAllForUser = async (query, userID) => {
+  const { skip, limit, ...restOfQuery } = query;
+  const pipeline = buildFindAllForUserAggregation(
+    { ...restOfQuery, userID: userID },
+    skip,
+    limit,
+  );
+
+  return await Booking.aggregate(pipeline);
+};
+
 //update booking status
 // const validStatuses = ["pending", "confirmed", "cancelled", "completed"];
 const updateBookingStatus = async (id, data) => {
@@ -116,6 +131,7 @@ const deleteBooking = async (id) => {
 module.exports = {
   findAll,
   findOne,
+  findAllForUser,
   createBooking,
   updateBookingStatus,
   deleteBooking,

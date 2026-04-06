@@ -1,0 +1,100 @@
+<section class="profile-page">
+  <div class="container">
+    @if (isLoading()) {
+      <div class="card loading">Loading profile...</div>
+    } @else {
+      <div class="profile-grid">
+        <div class="card profile-card">
+          <div class="avatar">
+            {{ user()?.fullName?.charAt(0) || "U" }}
+          </div>
+
+          <h2>{{ user()?.fullName }}</h2>
+          <p class="email">{{ user()?.email }}</p>
+
+          <div class="status">Active account</div>
+        </div>
+
+        <div class="card info-card">
+          <h3>Profile details</h3>
+
+          <div class="info-grid">
+            <div class="item">
+              <span>Full name</span>
+              <strong>{{ user()?.fullName }}</strong>
+            </div>
+
+            <div class="item">
+              <span>Email</span>
+              <strong>{{ user()?.email }}</strong>
+            </div>
+
+            <div class="item">
+              <span>Phone</span>
+              <strong>{{ user()?.phone || "-" }}</strong>
+            </div>
+
+            <div class="item">
+              <span>Date of birth</span>
+              <strong>{{ user()?.birthDate }}</strong>
+            </div>
+
+            <div class="item">
+              <span>Number of bookings</span>
+              <strong>{{ user()?.bookingsIDs?.length || 0 }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ✅ moved inside container -->
+      <div class="card bookings-card">
+        <h3>Your bookings</h3>
+
+        @if (isLoadingBookings()) {
+          <div class="loading">Loading bookings...</div>
+        } @else if (bookings().length === 0) {
+          <div class="empty">No bookings yet</div>
+        } @else {
+          <div class="bookings-grid">
+            @for (booking of bookings(); track booking._id) {
+              <div class="booking-card">
+                <div class="image">
+                  <img [src]="booking.car.imageUrl" alt="car" />
+                  <span class="status" [ngClass]="booking.status">
+                    {{ booking.status }}
+                  </span>
+                </div>
+
+                <div class="content">
+                  <div class="header">
+                    <h4>{{ booking.car.carName }}</h4>
+                    <span class="price">${{ booking.totalPrice }}</span>
+                  </div>
+
+                  <div class="meta">
+                    <span>{{ booking.car.model }}</span>
+                    <span>•</span>
+                    <span>{{ booking.car.transmissionType }}</span>
+                  </div>
+
+                  <div class="dates">
+                    <div>
+                      <span>Start</span>
+                      <strong>{{ booking.startDate }}</strong>
+                    </div>
+
+                    <div>
+                      <span>End</span>
+                      <strong>{{ booking.endDate }}</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>

@@ -71,7 +71,6 @@ export class Login {
         next: (loggedInResponse) => {
           const { data } = loggedInResponse;
           this.storageService.loggedInUser = data;
-          console.log(this.storageService.loggedInUser);
 
           this.router.navigate(['/landing']);
         },
