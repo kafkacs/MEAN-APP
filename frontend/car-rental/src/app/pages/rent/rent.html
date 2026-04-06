@@ -1,0 +1,182 @@
+<section class="rent-page">
+  <div class="container layout">
+    <div class="left">
+      <div class="card">
+        <div class="header">
+          <div class="chip">Booking</div>
+          <h1>Rent your car</h1>
+          <p>Pick your dates, enter your details, then confirm your booking.</p>
+        </div>
+
+        @if (isLoadingCar()) {
+          <div class="loading">Loading car details…</div>
+        } @else {
+          <div class="car-body">
+            <img [src]="car()?.imageUrl" [alt]="car()?.carName" />
+
+            <div class="meta">
+              <div class="name">{{ car()?.carName }}</div>
+              <div class="type">{{ car()?.carType }} • {{ car()?.model }}</div>
+              <div class="price">
+                ${{ car()?.pricePerDay }} <span>/day</span>
+              </div>
+              <div class="status" [class.off]="!car()?.available">
+                {{ car()?.available ? "Available" : "Unavailable" }}
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="card form-card">
+        <div class="form-header">
+          <h2>Booking details</h2>
+
+          @if (!isLoggedIn()) {
+            <p class="hint">
+              Want faster bookings?
+              <a routerLink="/auth/login">Log in</a>
+            </p>
+          }
+        </div>
+
+        <form [formGroup]="rentForm" (ngSubmit)="openConfirm()">
+          <div class="cols">
+            <div class="field">
+              <label>Start date</label>
+              <app-date-input
+                [config]="{ control: rentForm.controls.startDate }"
+              />
+            </div>
+
+            <div class="field">
+              <label>End date</label>
+              <app-date-input
+                [config]="{ control: rentForm.controls.endDate }"
+              />
+            </div>
+          </div>
+
+          @if (showFormError("dateRange")) {
+            <div class="error-box">End date must be after start date.</div>
+          }
+
+          <div class="divider"></div>
+
+          <div class="cols">
+            <div class="field">
+              <label>Full name</label>
+              <app-text-input
+                [config]="{
+                  control: rentForm.controls.nameOfBooker,
+                  placeholder: 'Enter your full name',
+                }"
+              />
+            </div>
+
+            <div class="field">
+              <label>Email</label>
+              <app-text-input
+                [config]="{
+                  control: rentForm.controls.emailOfBooker,
+                  placeholder: 'Enter your email address',
+                }"
+              />
+            </div>
+          </div>
+
+          <div class="cols">
+            <div class="field">
+              <label>Contact number</label>
+              <app-text-input
+                [config]="{
+                  control: rentForm.controls.contactNumberOfBooker,
+                  placeholder: 'Enter your phone number or whatsapp ...',
+                }"
+              />
+            </div>
+
+            <div class="field">
+              <label>Notes</label>
+              <app-text-input
+                [config]="{
+                  control: rentForm.controls.notes,
+                  placeholder: 'Add any special requests...',
+                }"
+              />
+            </div>
+          </div>
+
+          <div class="summary">
+            <div class="row">
+              <span>Days</span>
+              <strong>{{ daysCount() }}</strong>
+            </div>
+            <div class="row">
+              <span>Total</span>
+              <strong>${{ estimatedTotal() }}</strong>
+            </div>
+          </div>
+
+          <!-- actions -->
+          <div class="actions">
+            <a class="btn" routerLink="/cars">Back</a>
+
+            <button
+              type="submit"
+              class="btn primary"
+              [disabled]="!car()?.available || isSubmitting()"
+            >
+              Review booking
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  @if (showConfirmDialog()) {
+    <div class="backdrop" (click)="closeConfirm()"></div>
+
+    <div class="dialog card">
+      <div class="dialog-header">
+        <div>
+          <h3>Confirm booking</h3>
+          <p>Double-check before submitting</p>
+        </div>
+        <button (click)="closeConfirm()">×</button>
+      </div>
+
+      <div class="dialog-body">
+        <div class="dialog-grid">
+          <div>
+            <span>Car</span>
+            <strong>{{ car()?.carName }}</strong>
+          </div>
+
+          <div>
+            <span>Days</span>
+            <strong>{{ daysCount() }}</strong>
+          </div>
+
+          <div>
+            <span>Email</span>
+            <strong>{{ rentForm.value.emailOfBooker }}</strong>
+          </div>
+
+          <div>
+            <span>Total</span>
+            <strong>${{ estimatedTotal() }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="dialog-actions">
+        <button class="btn" (click)="closeConfirm()">Cancel</button>
+        <button class="btn primary" (click)="confirmBooking()">Confirm</button>
+      </div>
+    </div>
+  }
+</section>

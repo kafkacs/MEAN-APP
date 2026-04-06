@@ -31,7 +31,7 @@
       @if (car().available == false) {
         <button class="btn disabled" disabled>Rent Now</button>
       } @else {
-        <button class="btn btn--primary">Rent Now</button>
+        <button (click)="goToRent()" class="btn btn--primary">Rent Now</button>
       }
 
       <button (click)="goToDetails()" class="btn">Details</button>

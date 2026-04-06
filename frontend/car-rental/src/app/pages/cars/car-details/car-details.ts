@@ -55,6 +55,11 @@ export class CarDetails implements OnInit {
       });
   }
 
+  goToRent() {
+    if (!this.carID()) return;
+    this.router.navigate([`/rent/${this.carID()}`]);
+  }
+
   goToContact() {
     this.router.navigate([`contact`]);
   }

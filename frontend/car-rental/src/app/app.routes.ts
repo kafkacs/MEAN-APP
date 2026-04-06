@@ -6,6 +6,8 @@ import { Landing } from './pages/landing/landing';
 import { Layout } from './pages/layout/layout';
 import { CarDetails } from './pages/cars/car-details/car-details';
 import { Contact } from './pages/contact/contact';
+import { Rent } from './pages/rent/rent';
+import { Confirmed } from './pages/rent/confirmed/confirmed';
 
 export const routes: Routes = [
   {
@@ -20,6 +22,12 @@ export const routes: Routes = [
         path: 'car-details/:carID',
         component: CarDetails,
         title: 'Car Rental - Car Details',
+      },
+      { path: 'rent/:carID', component: Rent, title: 'Car Rental - Rent' },
+      {
+        path: 'confirmed',
+        component: Confirmed,
+        title: 'Car Rental - Confirmed',
       },
     ],
   },

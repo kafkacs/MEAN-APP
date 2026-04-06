@@ -1,0 +1,220 @@
+.rent-page {
+  padding: 60px 16px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 32px;
+}
+
+@media (max-width: 1000px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.header h1 {
+  margin: 10px 0 6px;
+}
+
+.header p {
+  opacity: 0.7;
+}
+
+.car-body {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 18px;
+  margin-top: 16px;
+  align-items: center;
+}
+
+.car-body img {
+  width: 100%;
+  height: 120px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.meta .name {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.meta .type {
+  opacity: 0.7;
+}
+
+.meta .price {
+  margin-top: 8px;
+  font-weight: 700;
+}
+
+.meta .price span {
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+.status {
+  margin-top: 10px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(0, 255, 150, 0.08);
+  border: 1px solid rgba(0, 255, 150, 0.2);
+  width: fit-content;
+}
+
+.status.off {
+  background: rgba(255, 80, 80, 0.08);
+  border-color: rgba(255, 80, 80, 0.2);
+}
+
+.form-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 700px) {
+  .cols {
+    grid-template-columns: 1fr;
+  }
+
+  .car-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  margin-bottom: 6px;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+app-text-input,
+app-date-input {
+  display: block;
+  width: 100%;
+}
+
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 16px 0;
+}
+
+.error-box {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(255, 80, 80, 0.1);
+  border: 1px solid rgba(255, 80, 80, 0.25);
+}
+
+/* summary */
+.summary {
+  margin-top: 10px;
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.summary .row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.actions {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.btn.primary {
+  background: #4f46e5;
+  color: #fff;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(600px, 90%);
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.dialog-body {
+  margin-top: 10px;
+}
+
+.dialog-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .dialog-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dialog-grid span {
+  font-size: 12px;
+  opacity: 0.6;
+  display: block;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}

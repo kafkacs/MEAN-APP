@@ -16,4 +16,8 @@ export class Car {
   goToDetails() {
     this.router.navigate([`car-details/${this.car()._id}`]);
   }
+
+  goToRent() {
+    this.router.navigate([`rent/${this.car()._id}`]);
+  }
 }
