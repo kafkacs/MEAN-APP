@@ -73,6 +73,41 @@ const createBooking = async (data) => {
   return await booking.save();
 };
 
+//update booking status
+// const validStatuses = ["pending", "confirmed", "cancelled", "completed"];
+const updateBookingStatus = async (id, data) => {
+  const booking = await Booking.findById(id);
+
+  if (!booking) {
+    throw new Error("Booking not found");
+  }
+
+  if (data.status == "confirmed") {
+    const car = await carsService.getCarById(booking.carID);
+
+    if (!car || !car.available) {
+      throw new Error("Car not found or not available");
+    }
+
+    car.available = false;
+    await car.save();
+  }
+
+  if (data.status == "cancelled" || data.status == "completed") {
+    const car = await carsService.getCarById(booking.carID);
+
+    if (!car) {
+      throw new Error("Car not found!");
+    }
+
+    car.available = true;
+    await car.save();
+  }
+
+  Object.assign(booking, data);
+  return await booking.save();
+};
+
 //delete booking
 const deleteBooking = async (id) => {
   return await Booking.findByIdAndDelete(id);
@@ -82,5 +117,6 @@ module.exports = {
   findAll,
   findOne,
   createBooking,
+  updateBookingStatus,
   deleteBooking,
 };

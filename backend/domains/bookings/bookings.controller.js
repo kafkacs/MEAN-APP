@@ -39,7 +39,6 @@ exports.findOne = async (req, res) => {
 };
 
 // create booking
-
 exports.create = async (req, res) => {
   try {
     const newBooking = await bookingsService.createBooking(req.body);
@@ -48,6 +47,24 @@ exports.create = async (req, res) => {
       frontFacingMessage: "Booking created successfully",
       data: newBooking,
       httpStatus: 201,
+    });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+//update booking status
+exports.update = async (req, res) => {
+  try {
+    const updatedBooking = await bookingsService.updateBookingStatus(
+      req.params.id,
+      req.body,
+    );
+
+    res.json({
+      frontFacingMessage: "Booking updated successfully",
+      data: updatedBooking,
+      httpStatus: 200,
     });
   } catch (err) {
     res.status(400).json({ message: err.message });

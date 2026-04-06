@@ -18,6 +18,7 @@ function getIdFromToken(req) {
       return null;
     }
     const idStr = String(id);
+
     return new mongoose.Types.ObjectId(idStr);
   } catch {
     return null;

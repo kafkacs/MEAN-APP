@@ -9,6 +9,7 @@ const BookingSchema = new mongoose.Schema({
   carID: { type: mongoose.Schema.Types.ObjectId, ref: "Car", required: true },
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
+  status: { type: String, required: true, default: "pending" },
   totalPrice: { type: Number, required: false, default: 0 },
 });
 

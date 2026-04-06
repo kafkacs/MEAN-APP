@@ -11,7 +11,7 @@ router.get("/", auth({ required: true }), controller.findAll);
 //findOne booking
 router.get(
   "/:id",
-  auth({ required: false }),
+  auth({ required: true }),
   param("id").isMongoId().withMessage("Invalid booking ID"),
   validate,
   controller.findOne,
@@ -19,6 +19,15 @@ router.get(
 
 //create booking
 router.post("/", auth({ required: false }), controller.create);
+
+//update booking status
+router.patch(
+  "/:id",
+  auth({ required: true }),
+  param("id").isMongoId().withMessage("Invalid booking ID"),
+  validate,
+  controller.update,
+);
 
 //delete booking
 router.delete(

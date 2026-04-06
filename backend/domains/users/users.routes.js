@@ -12,29 +12,36 @@ router.post("/login", controller.login);
 
 router.post("/logout", auth({ required: false }), controller.logout);
 
-router.get("/", auth({ required: false }), controller.getAll);
+router.get(
+  "/logged-in-user",
+  auth({ required: true }),
+  controller.findLoggedInUser,
+);
+
+router.get("/", auth({ required: true }), controller.getAll);
 
 router.get(
   "/:id",
-  auth({ required: false }),
+  auth({ required: true }),
   param("id").isMongoId().withMessage("Invalid user ID"),
   validate,
   controller.getOne,
 );
 
-router.post("/", auth({ required: false }), controller.create);
+router.post("/", auth({ required: true }), controller.create);
 
 router.put(
   "/:id",
-  auth({ required: false }),
+  auth({ required: true }),
   param("id").isMongoId().withMessage("Invalid user ID"),
   validate,
   controller.update,
 );
 
+//delete user
 router.delete(
   "/:id",
-  auth({ required: false }),
+  auth({ required: true }),
   param("id").isMongoId().withMessage("Invalid user ID"),
   validate,
   controller.remove,

@@ -1,5 +1,6 @@
 const usersService = require("./users.servcie");
 const { signAuthToken } = require("./auth.token");
+const getIdFromToken = require("../../middlewares/extractIdFromToken");
 
 const buildAuthResponse = (user) => {
   const { token } = signAuthToken(user);
@@ -12,9 +13,11 @@ const buildAuthResponse = (user) => {
 exports.getAll = async (req, res) => {
   try {
     const { skip, limit } = req.query;
+
     if (!skip || !limit) {
       return res.status(400).json({ message: "skip and limit are required" });
     }
+
     const users = await usersService.getAllUsers(req.query);
 
     res.json({
@@ -38,6 +41,22 @@ exports.getOne = async (req, res) => {
 
     res.json({
       frontFacingMessage: "User retrieved successfully",
+      data: user,
+      httpStatus: 200,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+//find logged in user
+exports.findLoggedInUser = async (req, res) => {
+  try {
+    const userID = getIdFromToken(req);
+    const user = await usersService.getUserById(userID);
+
+    res.json({
+      frontFacingMessage: "Logged-in user retrieved successfully",
       data: user,
       httpStatus: 200,
     });
@@ -80,6 +99,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
     if (!email || !password) {
       return res
         .status(400)
