@@ -18,11 +18,13 @@
       <a routerLink="/contact">Contact</a>
     </div>
 
-    <div class="col">
-      <div class="title">Account</div>
-      <a routerLink="/auth/login">Login</a>
-      <a routerLink="/auth/signup">Sign up</a>
-    </div>
+    @if (!isLoggedIn()) {
+      <div class="col">
+        <div class="title">Account</div>
+        <a routerLink="/auth/login">Login</a>
+        <a routerLink="/auth/signup">Sign up</a>
+      </div>
+    }
 
     <div class="col">
       <div class="title">Contact</div>

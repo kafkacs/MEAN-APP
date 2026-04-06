@@ -1,6 +1,7 @@
 import {
   ChangeDetectorRef,
   Component,
+  computed,
   DestroyRef,
   inject,
   OnInit,
@@ -15,6 +16,7 @@ import { finalize } from 'rxjs';
 import { DelegatedUIErrorI } from '../../shared/interfaces/delegated-ui-error.interface';
 import { FilterCarsDto } from './dtos/filter-cars.dto';
 import { Router } from '@angular/router';
+import { StorageService } from '../../core/services/storage/storage';
 
 @Component({
   selector: 'app-cars',
@@ -27,8 +29,13 @@ export class Cars implements OnInit {
   private readonly cd = inject(ChangeDetectorRef);
   private readonly router = inject(Router);
   private readonly renderer = inject(Renderer2);
+  private readonly storageService = inject(StorageService);
 
   private destroyRef = inject(DestroyRef);
+
+  user = signal(this.storageService.loggedInUser);
+
+  isLoggedIn = computed(() => !!this.user());
 
   cars = signal<CarI[]>([]);
 

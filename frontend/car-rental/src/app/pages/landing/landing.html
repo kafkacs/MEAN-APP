@@ -20,9 +20,11 @@
         <a class="btn btn--primary" routerLink="/cars">{{
           "landing.browseCars" | translate
         }}</a>
-        <a class="btn" routerLink="/auth/signup">{{
-          "landing.createAccount" | translate
-        }}</a>
+        @if (!isLoggedIn()) {
+          <a class="btn" routerLink="/auth/signup">{{
+            "landing.createAccount" | translate
+          }}</a>
+        }
       </div>
     </div>
 

@@ -7,10 +7,11 @@
         Filter by type or price, then pick the car that fits your trip.
       </p>
     </div>
-
-    <a class="btn btn--primary cars__cta" (click)="goToLogin()"
-      >Book faster with an account</a
-    >
+    @if (!isLoggedIn()) {
+      <a class="btn btn--primary cars__cta" (click)="goToLogin()"
+        >Book faster with an account</a
+      >
+    }
   </div>
 
   <div class="cars-list">

@@ -39,17 +39,32 @@
 
       <span class="spacer"></span>
 
-      <a
-        routerLink="/auth/login"
-        routerLinkActive="isActive"
-        (click)="closeMenu()"
-      >
-        {{ "navbar.login" | translate }}
-      </a>
+      @if (!isLoggedIn()) {
+        <a
+          routerLink="/auth/login"
+          routerLinkActive="isActive"
+          (click)="closeMenu()"
+        >
+          {{ "navbar.login" | translate }}
+        </a>
 
-      <a class="signup-btn" routerLink="/auth/signup" (click)="closeMenu()">
-        {{ "navbar.signup" | translate }}
-      </a>
+        <a class="signup-btn" routerLink="/auth/signup" (click)="closeMenu()">
+          {{ "navbar.signup" | translate }}
+        </a>
+      } @else {
+        <div class="user-menu">
+          <button class="user-btn" (click)="toggleDropdown()">
+            Welcome, {{ user()?.fullName }}
+          </button>
+
+          @if (isDropdownOpen()) {
+            <div class="dropdown">
+              <a routerLink="/profile" (click)="closeMenu()">Profile</a>
+              <button (click)="logout()">Logout</button>
+            </div>
+          }
+        </div>
+      }
     </nav>
   </div>
 </header>

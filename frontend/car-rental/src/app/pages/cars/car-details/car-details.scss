@@ -147,6 +147,12 @@
         display: flex;
         gap: 10px;
 
+        .disabled {
+          background: var(--surface-2);
+          color: var(--muted);
+          cursor: not-allowed;
+        }
+
         .btn {
           flex: 1;
         }

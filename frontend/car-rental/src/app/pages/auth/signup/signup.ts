@@ -13,6 +13,8 @@ import { AuthApisService } from '../auth-apis-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DelegatedUIErrorI } from '../../../shared/interfaces/delegated-ui-error.interface';
 import { removeEmptyValues } from '../../../shared/utils/remove-empty-vlaues.util';
+import { LoginService } from '../login/login-service';
+import { StorageService } from '../../../core/services/storage/storage';
 
 @Component({
   selector: 'app-signup',
@@ -31,6 +33,8 @@ export class Signup {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly authApisService = inject(AuthApisService);
   private readonly router = inject(Router);
+  private readonly loginService = inject(LoginService);
+  private readonly storageService = inject(StorageService);
 
   private readonly destroyRef = inject(DestroyRef);
 
@@ -54,11 +58,30 @@ export class Signup {
       .signup(removeEmptyValues(this.signupForm.getRawValue()))
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => {
-          this.router.navigate([`/auth/login`]);
+        next: (signupResponse) => {
+          const { data } = signupResponse;
+          this.loginService.initLoginState(data);
+          this.findLoggedInUser();
         },
         error: (err: DelegatedUIErrorI) => {
           console.error('Signup error:', err);
+        },
+      });
+  }
+
+  findLoggedInUser() {
+    this.authApisService
+      .findLoggedInUser(this.storageService.accessToken!)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (loggedInResponse) => {
+          const { data } = loggedInResponse;
+          this.storageService.loggedInUser = data;
+
+          this.router.navigate(['/landing']);
+        },
+        error: (err: DelegatedUIErrorI) => {
+          console.error('Login error:', err);
         },
       });
   }

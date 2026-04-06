@@ -70,6 +70,60 @@
     align-items: center;
     gap: 14px;
 
+    .user-menu {
+      width: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .user-btn {
+        background: transparent;
+        border: 1px solid var(--border);
+        padding: 10px 12px;
+        border-radius: 12px;
+        cursor: pointer;
+        color: var(--text);
+        transition: all 150ms ease;
+
+        &:hover {
+          border-color: var(--primary);
+          background: color-mix(in oklab, var(--primary) 10%, transparent);
+        }
+      }
+
+      .dropdown {
+        position: absolute;
+        top: 120%;
+        right: 0;
+        min-width: 160px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        display: flex;
+        flex-direction: column;
+        padding: 6px;
+        z-index: 100;
+
+        a,
+        button {
+          background: none;
+          border: none;
+          text-align: left;
+          padding: 10px;
+          border-radius: 8px;
+          cursor: pointer;
+          color: var(--text);
+          width: 100%;
+
+          &:hover {
+            background: color-mix(in oklab, var(--primary) 10%, transparent);
+          }
+        }
+      }
+    }
+
     .translate-btn {
       appearance: none;
       background: transparent;

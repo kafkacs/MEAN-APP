@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { StorageService } from '../../core/services/storage/storage';
 
 @Component({
   selector: 'app-landing',
@@ -8,4 +9,10 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './landing.html',
   styleUrl: './landing.scss',
 })
-export class Landing {}
+export class Landing {
+  private readonly storageService = inject(StorageService);
+
+  user = signal(this.storageService.loggedInUser);
+
+  isLoggedIn = computed(() => !!this.user());
+}
