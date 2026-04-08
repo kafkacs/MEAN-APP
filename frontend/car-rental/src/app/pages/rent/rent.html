@@ -44,25 +44,35 @@
 
         <form [formGroup]="rentForm" (ngSubmit)="openConfirm()">
           <div class="field">
-            <label>Start date</label>
+            <label>Start date <span class="required">*</span></label>
             <app-date-input
               [config]="{ control: rentForm.controls.startDate }"
             />
           </div>
 
           <div class="field">
-            <label>End date</label>
+            <label>End date <span class="required">*</span></label>
             <app-date-input [config]="{ control: rentForm.controls.endDate }" />
           </div>
 
-          @if (showFormError("dateRange")) {
-            <div class="error-box">End date must be after start date.</div>
-          }
-
-          <div class="divider"></div>
+          <div class="field">
+            <label>Start time <span class="required">*</span></label>
+            <app-time-input
+              [config]="{ label: '' }"
+              (timeChange)="onStartTimeChange($event)"
+            />
+          </div>
 
           <div class="field">
-            <label>Full name</label>
+            <label>End time <span class="required">*</span></label>
+            <app-time-input
+              [config]="{ label: '' }"
+              (timeChange)="onEndTimeChange($event)"
+            />
+          </div>
+
+          <div class="field">
+            <label>Full name <span class="required">*</span></label>
             <app-text-input
               [config]="{
                 control: rentForm.controls.nameOfBooker,
@@ -72,7 +82,7 @@
           </div>
 
           <div class="field">
-            <label>Email</label>
+            <label>Email <span class="required">*</span></label>
             <app-text-input
               [config]="{
                 control: rentForm.controls.emailOfBooker,
@@ -82,7 +92,7 @@
           </div>
 
           <div class="field">
-            <label>Contact number</label>
+            <label>Contact number <span class="required">*</span></label>
             <app-text-input
               [config]="{
                 control: rentForm.controls.contactNumberOfBooker,
@@ -92,7 +102,9 @@
           </div>
 
           <div class="field">
-            <label>Image of ID or Passport</label>
+            <label
+              >Image of ID or Passport <span class="required">*</span></label
+            >
             <app-file-upload
               [config]="{
                 text: 'Image of ID or Passport',
@@ -106,7 +118,7 @@
           </div>
 
           <div class="field">
-            <label>Notes</label>
+            <label>Notes (optional)</label>
             <app-text-input
               [config]="{
                 control: rentForm.controls.notes,

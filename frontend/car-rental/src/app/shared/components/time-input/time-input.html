@@ -1,0 +1,37 @@
+<div class="time-dropdown">
+  <select
+    class="time-select"
+    [value]="selectedHour()"
+    (change)="onHourChange($event)"
+  >
+    @for (h of hours; track $index) {
+      <option [value]="h" [selected]="h === selectedHour()">
+        {{ h < 10 ? "0" + h : h }}
+      </option>
+    }
+  </select>
+
+  <span class="separator">:</span>
+
+  <select
+    class="time-select"
+    [value]="selectedMinute()"
+    (change)="onMinuteChange($event)"
+  >
+    @for (m of minutes; track $index) {
+      <option [value]="m" [selected]="m === selectedMinute()">
+        {{ m < 10 ? "0" + m : m }}
+      </option>
+    }
+  </select>
+  <span class="separator">/</span>
+
+  <select
+    class="time-select"
+    [value]="selectedPeriod()"
+    (change)="onPeriodChange($event)"
+  >
+    <option value="AM">AM</option>
+    <option value="PM">PM</option>
+  </select>
+</div>

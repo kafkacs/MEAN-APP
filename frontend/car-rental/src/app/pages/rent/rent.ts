@@ -22,10 +22,18 @@ import { TextInput } from '../../shared/components/text-input/text-input';
 import { DelegatedUIErrorI } from '../../shared/interfaces/delegated-ui-error.interface';
 import { BookingsApisService } from './bookings-apis-service';
 import { FileUpload } from '../../shared/components/file-upload/file-upload';
+import { TimeInput } from '../../shared/components/time-input/time-input';
 
 @Component({
   selector: 'app-rent',
-  imports: [ReactiveFormsModule, RouterLink, DateInput, TextInput, FileUpload],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    DateInput,
+    TextInput,
+    FileUpload,
+    TimeInput,
+  ],
   templateUrl: './rent.html',
   styleUrl: './rent.scss',
 })
@@ -56,6 +64,8 @@ export class Rent implements OnInit {
   rentForm = this.fb.group({
     startDate: ['', [Validators.required]],
     endDate: ['', [Validators.required]],
+    startTime: ['', [Validators.required]],
+    endTime: ['', [Validators.required]],
     nameOfBooker: ['', [Validators.required, Validators.minLength(2)]],
     emailOfBooker: ['', [Validators.required, Validators.email]],
     contactNumberOfBooker: ['', [Validators.required, Validators.minLength(7)]],
@@ -103,6 +113,16 @@ export class Rent implements OnInit {
 
   onFileDrop(files: FileList) {
     this.selectedFile = files[0];
+  }
+
+  onStartTimeChange(event: { hour: number; minute: number; period: string }) {
+    const { hour, minute, period } = event;
+    this.rentForm.controls.startTime.setValue(`${hour}:${minute} ${period}`);
+  }
+
+  onEndTimeChange(event: { hour: number; minute: number; period: string }) {
+    const { hour, minute, period } = event;
+    this.rentForm.controls.endTime.setValue(`${hour}:${minute} ${period}`);
   }
 
   findOneCar(carID: string) {
@@ -164,6 +184,8 @@ export class Rent implements OnInit {
     formData.append('carID', this.carID());
     formData.append('startDate', this.rentForm.controls.startDate.value!);
     formData.append('endDate', this.rentForm.controls.endDate.value!);
+    formData.append('startTime', this.rentForm.controls.startTime.value!);
+    formData.append('endTime', this.rentForm.controls.endTime.value!);
     formData.append('status', this.rentForm.controls.status.value!);
     formData.append('nameOfBooker', this.rentForm.controls.nameOfBooker.value!);
     formData.append(

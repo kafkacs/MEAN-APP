@@ -8,15 +8,10 @@
 }
 
 .layout {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 32px;
-}
-
-@media (max-width: 1000px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1em;
 }
 
 .card {
@@ -107,6 +102,7 @@
 .field {
   display: flex;
   flex-direction: column;
+  margin-block-start: 1em;
 }
 
 .field label {
@@ -115,16 +111,16 @@
   opacity: 0.7;
 }
 
+.required {
+  color: #ff5050;
+  font-size: x-large;
+  font-weight: 600;
+}
+
 app-text-input,
 app-date-input {
   display: block;
   width: 100%;
-}
-
-.divider {
-  height: 1px;
-  background: rgba(255, 255, 255, 0.08);
-  margin: 16px 0;
 }
 
 .error-box {
@@ -135,7 +131,6 @@ app-date-input {
   border: 1px solid rgba(255, 80, 80, 0.25);
 }
 
-/* summary */
 .summary {
   margin-top: 10px;
   padding: 16px;

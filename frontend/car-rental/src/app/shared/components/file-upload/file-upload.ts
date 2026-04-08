@@ -22,7 +22,7 @@ import {
 export class FileUpload {
   @Output() filesDropped = new EventEmitter<FileList>();
 
-  files!: any[];
+  files: any[] = [];
   config = input.required<FileUploadConfigI>();
   validFileFormats: string = '';
   formats: DynamicObjectI = {
