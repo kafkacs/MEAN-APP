@@ -7,6 +7,7 @@ const {
 const {
   buildFindAllForUserAggregation,
 } = require("./aggregations/find-all-for-user-aggregation");
+const fs = require("fs");
 
 //find all bookings
 const findAll = async (query) => {
@@ -29,10 +30,11 @@ const createBooking = async (data) => {
   }
 
   const currentDate = new Date();
+  currentDate.setUTCHours(0, 0, 0, 0);
 
   const parseDate = (dateStr) => {
-    const [day, month, year] = dateStr.split("-");
-    return new Date(`${year}-${month}-${day}`);
+    const [year, month, day] = dateStr.split("-");
+    return new Date(`${year}-${month}-${day}T00:00:00.000Z`);
   };
 
   const startDate = parseDate(data.startDate);
@@ -125,6 +127,19 @@ const updateBookingStatus = async (id, data) => {
 
 //delete booking
 const deleteBooking = async (id) => {
+  const booking = await Booking.findById(id);
+
+  if (!booking) return null;
+
+  // delete image if exists
+  if (booking.imageUrl) {
+    const filePath = booking.imageUrl.replace("http://localhost:3000/", "");
+
+    fs.unlink(filePath, (err) => {
+      if (err) console.log("Failed to delete image:", err);
+    });
+  }
+
   return await Booking.findByIdAndDelete(id);
 };
 

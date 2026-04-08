@@ -21,11 +21,11 @@ import { DateInput } from '../../shared/components/date-input/date-input';
 import { TextInput } from '../../shared/components/text-input/text-input';
 import { DelegatedUIErrorI } from '../../shared/interfaces/delegated-ui-error.interface';
 import { BookingsApisService } from './bookings-apis-service';
-import { removeEmptyValues } from '../../shared/utils/remove-empty-vlaues.util';
+import { FileUpload } from '../../shared/components/file-upload/file-upload';
 
 @Component({
   selector: 'app-rent',
-  imports: [ReactiveFormsModule, RouterLink, DateInput, TextInput],
+  imports: [ReactiveFormsModule, RouterLink, DateInput, TextInput, FileUpload],
   templateUrl: './rent.html',
   styleUrl: './rent.scss',
 })
@@ -43,6 +43,8 @@ export class Rent implements OnInit {
   car = signal<CarI | null>(null);
   isLoadingCar = signal(false);
   isSubmitting = signal(false);
+
+  selectedFile: File | null = null;
 
   submitted = false;
   showConfirmDialog = signal(false);
@@ -99,6 +101,10 @@ export class Rent implements OnInit {
       });
   }
 
+  onFileDrop(files: FileList) {
+    this.selectedFile = files[0];
+  }
+
   findOneCar(carID: string) {
     this.isLoadingCar.set(true);
     this.carsApisService
@@ -130,6 +136,7 @@ export class Rent implements OnInit {
     this.submitted = true;
     if (this.rentForm.invalid) return;
     if (this.car()?.available === false) return;
+    if (this.selectedFile === null) return;
     this.showConfirmDialog.set(true);
   }
 
@@ -148,18 +155,37 @@ export class Rent implements OnInit {
     if (this.rentForm.invalid) return;
     if (!this.carID()) return;
 
-    this.rentForm.controls.carID.setValue(this.carID());
+    const formData = new FormData();
 
-    const payload = {
-      ...removeEmptyValues(this.rentForm.value),
-      startDate: this.formatDate(this.rentForm.controls.startDate.value!),
-      endDate: this.formatDate(this.rentForm.controls.endDate.value!),
-    };
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile);
+    }
+
+    formData.append('carID', this.carID());
+    formData.append('startDate', this.rentForm.controls.startDate.value!);
+    formData.append('endDate', this.rentForm.controls.endDate.value!);
+    formData.append('status', this.rentForm.controls.status.value!);
+    formData.append('nameOfBooker', this.rentForm.controls.nameOfBooker.value!);
+    formData.append(
+      'emailOfBooker',
+      this.rentForm.controls.emailOfBooker.value!,
+    );
+    formData.append(
+      'contactNumberOfBooker',
+      this.rentForm.controls.contactNumberOfBooker.value!,
+    );
+
+    if (this.rentForm.controls.notes.value) {
+      formData.append('notes', this.rentForm.controls.notes.value!);
+    }
+    if (this.rentForm.controls.userID.value) {
+      formData.append('userID', this.rentForm.controls.userID.value!);
+    }
 
     this.isSubmitting.set(true);
 
     this.bookingsApisService
-      .createBooking(payload)
+      .createBooking(formData)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (productsFindResponse) => {

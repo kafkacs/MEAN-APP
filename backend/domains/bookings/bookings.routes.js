@@ -3,6 +3,7 @@ const router = express.Router();
 const { param } = require("express-validator");
 const validate = require("../../middlewares/validate");
 const auth = require("../../middlewares/auth");
+const upload = require("./bookings.upload");
 const controller = require("./bookings.controller");
 
 //findAll bookings
@@ -25,7 +26,12 @@ router.get(
 );
 
 //create booking
-router.post("/", auth({ required: false }), controller.create);
+router.post(
+  "/",
+  auth({ required: false }),
+  upload.single("image"),
+  controller.create,
+);
 
 //update booking status
 router.patch(

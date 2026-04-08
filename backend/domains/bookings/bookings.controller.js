@@ -63,7 +63,22 @@ exports.findAllForUser = async (req, res) => {
 // create booking
 exports.create = async (req, res) => {
   try {
-    const newBooking = await bookingsService.createBooking(req.body);
+    let imageUrl = null;
+
+    if (req.file) {
+      const relativePath = req.file.path
+        .split("backend\\")[1]
+        .replace(/\\/g, "/");
+
+      imageUrl = `${req.protocol}://${req.get("host")}/${relativePath}`;
+    }
+
+    const bookingData = {
+      ...req.body,
+      imageUrl,
+    };
+
+    const newBooking = await bookingsService.createBooking(bookingData);
 
     res.json({
       frontFacingMessage: "Booking created successfully",

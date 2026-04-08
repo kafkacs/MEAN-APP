@@ -37,20 +37,6 @@ const buildFindAllForUserAggregation = (filters = {}, skip = 0, limit = 10) => {
       },
     },
 
-    {
-      $lookup: {
-        from: "users",
-        localField: "userID",
-        foreignField: "_id",
-        as: "user",
-      },
-    },
-    {
-      $unwind: {
-        path: "$user",
-        preserveNullAndEmptyArrays: true,
-      },
-    },
     { $skip: Number(skip) },
     { $limit: Number(limit) },
     {
@@ -59,14 +45,12 @@ const buildFindAllForUserAggregation = (filters = {}, skip = 0, limit = 10) => {
         startDate: 1,
         endDate: 1,
         status: 1,
+        imageUrl: 1,
         "car.carName": 1,
         "car.pricePerDay": 1,
         "car.imageUrl": 1,
         "car.transmissionType": 1,
         "car.model": 1,
-        "user.fullName": 1,
-        "user.email": 1,
-        "user.phone": 1,
       },
     },
   ];
