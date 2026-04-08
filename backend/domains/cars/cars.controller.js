@@ -42,7 +42,21 @@ exports.getOne = async (req, res) => {
 // create one car
 exports.create = async (req, res) => {
   try {
-    const newCar = await carsService.createCar(req.body);
+    let imageUrl = null;
+
+    if (req.file) {
+      const relativePath = req.file.path
+        .split("backend\\")[1]
+        .replace(/\\/g, "/");
+
+      imageUrl = `${req.protocol}://${req.get("host")}/${relativePath}`;
+    }
+
+    const bookingData = {
+      ...req.body,
+      imageUrl,
+    };
+    const newCar = await carsService.createCar(bookingData);
 
     res.json({
       frontFacingMessage: "Car created successfully",

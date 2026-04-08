@@ -50,6 +50,8 @@ const buildFindAllAggregation = (filters = {}, skip = 0, limit = 10) => {
         totalPrice: 1,
         startDate: 1,
         endDate: 1,
+        startTime: 1,
+        endTime: 1,
         status: 1,
         imageUrl: 1,
         "car.carName": 1,

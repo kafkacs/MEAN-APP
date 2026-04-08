@@ -8,8 +8,13 @@ const carSchema = new mongoose.Schema(
     carType: { type: String, required: true },
     model: { type: String, required: true },
     pricePerDay: { type: Number, required: true },
-    imageUrl: { type: String, required: true },
     available: { type: Boolean, required: true },
+    imageUrl: {
+      type: String,
+    },
+    imagePublicId: {
+      type: String,
+    },
   },
   { timestamps: true },
 );

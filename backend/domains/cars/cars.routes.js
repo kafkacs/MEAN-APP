@@ -4,6 +4,7 @@ const { param } = require("express-validator");
 const validate = require("../../middlewares/validate");
 const auth = require("../../middlewares/auth");
 const controller = require("./cars.controller");
+const upload = require("./cars.upload");
 
 //findAll cars
 router.get("/", auth({ required: false }), controller.getAll);
@@ -18,7 +19,12 @@ router.get(
 );
 
 //create car
-router.post("/", auth({ required: true }), controller.create);
+router.post(
+  "/",
+  auth({ required: true }),
+  upload.single("image"),
+  controller.create,
+);
 
 //update car
 router.patch(
