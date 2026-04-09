@@ -32,6 +32,7 @@ router.patch(
   auth({ required: true }),
   param("id").isMongoId().withMessage("Invalid customer ID"),
   validate,
+  upload.single("image"),
   controller.update,
 );
 

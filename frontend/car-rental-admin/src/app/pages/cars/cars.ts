@@ -80,7 +80,6 @@ export class Cars implements OnInit {
         limit: this.limit(),
         skip: isOnScroll ? filterCarsDto.skip : 0,
       })
-      .pipe(takeUntilDestroyed(this.destroyRef))
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {

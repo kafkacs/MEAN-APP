@@ -122,7 +122,7 @@ export class UpdateCar implements OnInit {
     formData.append('seatsNumber', this.updateCarForm.controls.seatsNumber.value!);
     formData.append('transmissionType', this.updateCarForm.controls.transmissionType.value!);
     formData.append('pricePerDay', this.updateCarForm.controls.pricePerDay.value!);
-    // formData.append('available', this.updateCarForm.controls.available.value!);
+    formData.append('available', this.updateCarForm.controls.available.value + '');
 
     this.carsApisService
       .updateCar(this.carID(), formData)

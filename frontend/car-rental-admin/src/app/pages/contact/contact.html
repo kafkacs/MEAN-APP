@@ -1,0 +1,79 @@
+<div class="contacts-page">
+  <div class="page-header">
+    <div>
+      <h1>Contacts</h1>
+      <p>Manage user messages and responses</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <table class="contacts-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Message</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @if (contacts().length === 0) {
+          <tr>
+            <td colspan="6" class="empty">No contacts found</td>
+          </tr>
+        }
+
+        @for (contact of contacts(); track contact._id) {
+          <tr>
+            <td class="name" data-label="Name">{{ contact.name }}</td>
+
+            <td class="email" data-label="Email">{{ contact.email }}</td>
+
+            <td class="message" data-label="Message">
+              {{
+                contact.message.length > 39
+                  ? (contact.message | slice: 0 : 39) + '...'
+                  : contact.message
+              }}
+            </td>
+
+            <td data-label="Status">
+              <select
+                class="status-select"
+                [value]="contact.status"
+                (change)="changeStatus(contact, $event)"
+              >
+                <option value="new">New</option>
+                <option value="read">Read</option>
+                <option value="replied">Replied</option>
+              </select>
+            </td>
+
+            <td class="date" data-label="Created">
+              {{ contact.createdAt | date: 'short' }}
+            </td>
+
+            <td class="actions" data-label="Actions">
+              <button class="icon edit" (click)="editContact(contact)">✏️</button>
+              <button class="icon delete" (click)="deleteContact(contact._id)">🗑</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <!-- PAGINATION -->
+    <div class="pagination">
+      <button (click)="changePage(page() - 1)" [disabled]="page() === 1">← Prev</button>
+
+      <div class="pages">Page {{ page() }}</div>
+
+      <button (click)="changePage(page() + 1)" [disabled]="page() * limit >= total()">
+        Next →
+      </button>
+    </div>
+  </div>
+</div>

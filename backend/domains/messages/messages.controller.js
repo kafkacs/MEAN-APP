@@ -4,11 +4,12 @@ const messagesService = require("./messages.service");
 exports.findAll = async (req, res) => {
   try {
     const { skip, limit } = req.query;
+
     if (!skip || !limit) {
       return res.status(400).json({ message: "skip and limit are required" });
     }
 
-    const messages = await messagesService.findAllMessages();
+    const messages = await messagesService.findAllMessages(req.query);
 
     res.json({
       frontFacingMessage: "Messages retrieved successfully",

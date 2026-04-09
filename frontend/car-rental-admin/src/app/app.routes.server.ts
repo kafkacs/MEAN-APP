@@ -17,6 +17,10 @@ export const serverRoutes: ServerRoute[] = [
     path: 'edit-car/:id',
     renderMode: RenderMode.Client,
   },
+  {
+    path: 'contact',
+    renderMode: RenderMode.Client,
+  },
   // {
   //   path: 'bookings',
   //   renderMode: RenderMode.Client,

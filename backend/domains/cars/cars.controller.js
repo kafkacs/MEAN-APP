@@ -72,7 +72,6 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const updated = await carsService.updateCar(req.params.id, req.body);
-
     if (!updated) {
       return res.status(404).json({ message: "Car not found" });
     }
