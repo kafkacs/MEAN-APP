@@ -1,0 +1,22 @@
+<div class="radio-group">
+  <label class="text-label">{{ label }}</label>
+
+  <div class="options">
+    @for (option of options; track $index) {
+      <div
+        class="option"
+        [class.active]="value === option.value"
+        [class.disabled]="disabled"
+        (click)="select(option.value)"
+      >
+        <div class="circle">
+          @if (value === option.value) {
+            <div class="dot"></div>
+          }
+        </div>
+
+        <span>{{ option.label }}</span>
+      </div>
+    }
+  </div>
+</div>

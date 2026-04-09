@@ -1,1 +1,30 @@
-<p>cars works!</p>
+<section class="cars">
+  <div class="container cars__header">
+    <div>
+      <div class="chip">Fleet</div>
+      <h1 class="cars__title">Manage Cars</h1>
+      <p class="cars__subtitle">Edit, delete, or review your fleet.</p>
+    </div>
+
+    <button class="btn btn--primary cars__create" (click)="onCreateCar()">+ Add Car</button>
+  </div>
+
+  <div class="cars-list">
+    <div class="visual-top">
+      <div class="pill"></div>
+      <div class="pill muted"></div>
+      <div class="pill muted"></div>
+    </div>
+
+    <!-- ----------cars----------- -->
+
+    <div class="cars-cards">
+      @for (item of cars(); track $index) {
+        <app-car [car]="item"></app-car>
+      }
+      @if (cars().length === 0) {
+        <div class="empty">No cars found.</div>
+      }
+    </div>
+  </div>
+</section>

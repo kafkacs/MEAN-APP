@@ -1,0 +1,83 @@
+<section class="create-car">
+  <div class="container">
+    <div class="top-bar">
+      <button class="btn btn--outline" (click)="goBack()">← Back</button>
+
+      <h1 class="title">Update Car</h1>
+    </div>
+
+    <div class="form-card card">
+      <form [formGroup]="updateCarForm" (ngSubmit)="onSubmit()">
+        <div class="grid">
+          <app-text-input
+            [config]="{
+              control: updateCarForm.controls.carName,
+              label: 'Enter car name',
+              placeholder: 'Car Name',
+            }"
+          >
+          </app-text-input>
+
+          <app-number-input
+            [config]="{
+              control: updateCarForm.controls.model,
+              label: 'Model',
+              placeholder: 'Model',
+            }"
+          >
+          </app-number-input>
+
+          <app-radio-input formControlName="carType" label="Car Type" [options]="carTypeOptions">
+          </app-radio-input>
+
+          <app-radio-input
+            formControlName="seatsNumber"
+            label="Seats Number"
+            [options]="seatsNumbersOptions"
+          >
+          </app-radio-input>
+
+          <app-number-input
+            [config]="{
+              control: updateCarForm.controls.pricePerDay,
+              label: 'Price Per Day',
+              placeholder: 'Price Per Day',
+            }"
+          >
+          </app-number-input>
+
+          <app-radio-input
+            formControlName="transmissionType"
+            label="Transmission"
+            [options]="transmissionOptions"
+          >
+          </app-radio-input>
+
+          <app-radio-input
+            formControlName="available"
+            label="Availability"
+            [options]="availabilityOptions"
+          >
+          </app-radio-input>
+
+          <app-file-upload
+            [config]="{
+              text: 'Image of Car',
+              multipleFiles: false,
+              formats: ['image'],
+              min: 1,
+              max: 2,
+            }"
+            (filesDropped)="onFileDrop($event)"
+          ></app-file-upload>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn btn--primary" [disabled]="updateCarForm.invalid">
+            Create Car
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

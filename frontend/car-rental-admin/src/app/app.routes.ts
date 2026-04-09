@@ -5,6 +5,8 @@ import { authenticationGuard } from './core/guards/authentication-guard';
 import { NotFound } from './pages/error-pages/not-found/not-found';
 import { Unauthorized } from './pages/error-pages/unauthorized/unauthorized';
 import { Cars } from './pages/cars/cars';
+import { CreateCar } from './pages/cars/create-car/create-car';
+import { UpdateCar } from './pages/cars/update-car/update-car';
 
 export const routes: Routes = [
   {
@@ -14,6 +16,8 @@ export const routes: Routes = [
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'cars' },
       { path: 'cars', component: Cars, title: 'Cars Management' },
+      { path: 'create-car', component: CreateCar, title: 'Create Car' },
+      { path: 'edit-car/:carID', component: UpdateCar, title: 'Edit Car' },
     ],
   },
   {

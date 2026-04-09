@@ -1,0 +1,22 @@
+<div class="overlay">
+  <div class="dialog">
+    <div class="dialog-header">
+      <h3 class="header-title">
+        {{ 'Are you sure you want to remove this car?' | translate }}
+      </h3>
+    </div>
+
+    <div class="conformation-container">
+      {{ 'if you proceed, this car will be permanently deleted.' | translate }}
+    </div>
+
+    <div class="dialog-buttons">
+      <button class="btn close-btn" (click)="closeDialog()">
+        {{ 'common.cancel' | translate }}
+      </button>
+      <button class="btn save-btn" (click)="removeCar()">
+        {{ 'common.save' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

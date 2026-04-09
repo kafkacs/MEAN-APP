@@ -1,0 +1,38 @@
+<div class="car-card card">
+  <div class="image">
+    <img [src]="car().imageUrl" [alt]="car().carName" />
+
+    <div class="badge" [class.unavailable]="!car().available">
+      {{ car().available ? 'Available' : 'Unavailable' }}
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="top">
+      <div class="name">{{ car().carName }}</div>
+      <div class="price">${{ car().pricePerDay }}/day</div>
+    </div>
+
+    <div class="meta">
+      <span>{{ car().model }}</span>
+
+      @if (car().transmissionType == 1 + '') {
+        <span>Automatic</span>
+      } @else if (car().transmissionType == 2 + '') {
+        <span>Manual</span>
+      }
+
+      <span>{{ car().seatsNumber }} seats</span>
+    </div>
+
+    <div class="type">
+      {{ car().carType }}
+    </div>
+
+    <div class="actions">
+      <button (click)="onEdit()" class="btn btn--outline">Edit</button>
+
+      <button (click)="onDelete()" class="btn btn--danger">Delete</button>
+    </div>
+  </div>
+</div>
