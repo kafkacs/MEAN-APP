@@ -1,0 +1,50 @@
+<header class="nav">
+  <div class="container inner">
+    <a class="brand" routerLink="/landing" (click)="closeMenu()">
+      <span class="mark">AC</span>
+      <span class="name">Alshamary Car</span>
+    </a>
+
+    <button class="toggle" (click)="toggleMenu()">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+
+    <nav class="links" [class.open]="isMenuOpen()">
+      <a
+        routerLink="/bookings"
+        routerLinkActive="isActive"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeMenu()"
+      >
+        {{ 'navbar.bookings' | translate }}
+      </a>
+
+      <a routerLink="/cars" routerLinkActive="isActive" (click)="closeMenu()">
+        {{ 'navbar.cars' | translate }}
+      </a>
+
+      <a routerLink="/contact" routerLinkActive="isActive" (click)="closeMenu()">
+        {{ 'navbar.contact' | translate }}
+      </a>
+
+      <button class="translate-btn" type="button" (click)="translate()">
+        {{ translatedLang() }}
+      </button>
+
+      <span class="spacer"></span>
+
+      <div class="user-menu">
+        <button class="user-btn" (click)="toggleDropdown()">Welcome, {{ user()?.fullName }}</button>
+
+        @if (isDropdownOpen()) {
+          <div class="dropdown">
+            <a routerLink="/profile" (click)="closeMenu()">Profile</a>
+            <button (click)="logout()">Logout</button>
+          </div>
+        }
+      </div>
+    </nav>
+  </div>
+</header>
