@@ -1,0 +1,50 @@
+<article class="file-upload-container" appDropArea>
+  <section class="actions">
+    <button type="button" class="primary" (click)="fileInput.click()">
+      {{ "common.choose" | translate }}
+    </button>
+
+    <button type="button" class="ghost">
+      {{ "common.cancel" | translate }}
+    </button>
+  </section>
+
+  <div class="drop-zone">
+    <p>
+      {{ "common.dragDrop" | translate }}
+      <span>{{ this.config().text }}</span>
+    </p>
+  </div>
+
+  @if (this.files.length > 0) {
+    <div class="divider"></div>
+  }
+
+  <section class="files">
+    @for (file of files; track $index) {
+      <div class="file">
+        <img class="file-img" [src]="file.src" alt="" />
+
+        <div class="info">
+          <p class="name">
+            {{ file.name | slice: 0 : 18 }}
+          </p>
+          <span class="size">{{ file.size }} KB</span>
+        </div>
+
+        <button type="button" class="remove" (click)="removeFile($index)">
+          ✕
+        </button>
+      </div>
+    }
+  </section>
+
+  <input
+    #fileInput
+    type="file"
+    (change)="onFilePicked($event)"
+    hidden
+    [accept]="validFileFormats"
+    [multiple]="config().multipleFiles"
+  />
+</article>

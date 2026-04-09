@@ -84,14 +84,16 @@
                 }
               ]
             }
-          },
-          "defaultConfiguration": "production"
+          }
         },
         "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "car-rental:build:production"
+            },
+            "development": {
+              "buildTarget": "car-rental:build:development"
             },
             "local": {
               "buildTarget": "car-rental:build:local"
