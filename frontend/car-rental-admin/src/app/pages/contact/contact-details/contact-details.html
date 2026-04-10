@@ -1,0 +1,21 @@
+<div class="overlay">
+  <div class="dialog">
+    <div class="dialog-buttons">
+      <div class="container">
+        <h2>{{ 'Contact Details' | translate }}</h2>
+        <p>
+          <strong>{{ 'Name' | translate }}:</strong> {{ contact().name }}
+        </p>
+        <p>
+          <strong>{{ 'Email' | translate }}:</strong> {{ contact().email }}
+        </p>
+        <p>
+          <strong>{{ 'Message' | translate }}:</strong> {{ contact().message }}
+        </p>
+      </div>
+      <button class="btn close-btn" (click)="closeDialog()">
+        {{ 'common.cancel' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

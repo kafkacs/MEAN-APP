@@ -34,6 +34,7 @@ function requestLogger(req, res, next) {
         statusColor.bold(status),
         timeColor(`${duration}ms`),
       ].join("  "),
+      "🚀",
     );
   });
 

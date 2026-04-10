@@ -17,6 +17,17 @@ const createMessage = async (data) => {
   return await message.save();
 };
 
+//update
+const updateMessage = async (id, data) => {
+  const message = await Message.findById(id);
+  if (!message) {
+    throw new Error("Message not found");
+  }
+
+  Object.assign(message, data);
+  return await message.save();
+};
+
 // delete
 const deleteMessage = async (id) => {
   return await Message.findByIdAndDelete(id);
@@ -26,5 +37,6 @@ module.exports = {
   findAllMessages,
   findOneMessage,
   createMessage,
+  updateMessage,
   deleteMessage,
 };

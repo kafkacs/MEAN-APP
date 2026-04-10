@@ -1,1 +1,22 @@
-<p>remove-contact-dialog works!</p>
+<div class="overlay">
+  <div class="dialog">
+    <div class="dialog-header">
+      <h3 class="header-title">
+        {{ 'Are you sure you want to remove this message?' | translate }}
+      </h3>
+    </div>
+
+    <div class="conformation-container">
+      {{ 'if you proceed, this message will be permanently deleted.' | translate }}
+    </div>
+
+    <div class="dialog-buttons">
+      <button class="btn close-btn" (click)="closeDialog()">
+        {{ 'common.cancel' | translate }}
+      </button>
+      <button class="btn save-btn" (click)="removeMessage()">
+        {{ 'common.save' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

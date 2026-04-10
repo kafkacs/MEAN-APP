@@ -40,7 +40,7 @@
 
         @if (isDropdownOpen()) {
           <div class="dropdown">
-            <a routerLink="/profile" (click)="closeMenu()">Profile</a>
+            <button (click)="goToProfile()">Profile</button>
             <button (click)="logout()">Logout</button>
           </div>
         }

@@ -8,6 +8,7 @@ import { Cars } from './pages/cars/cars';
 import { CreateCar } from './pages/cars/create-car/create-car';
 import { UpdateCar } from './pages/cars/update-car/update-car';
 import { Contact } from './pages/contact/contact';
+import { Profile } from './pages/profile/profile';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,7 @@ export const routes: Routes = [
       { path: 'create-car', component: CreateCar, title: 'Create Car' },
       { path: 'edit-car/:carID', component: UpdateCar, title: 'Edit Car' },
       { path: 'contact', component: Contact, title: 'Contact' },
+      { path: 'profile', component: Profile, title: 'Profile' },
     ],
   },
   {

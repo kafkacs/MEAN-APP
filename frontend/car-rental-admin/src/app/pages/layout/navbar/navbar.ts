@@ -58,6 +58,11 @@ export class Navbar implements OnInit {
     this.isMenuOpen.set(false);
   }
 
+  goToProfile() {
+    this.router.navigate(['/profile']);
+    this.closeMenu();
+  }
+
   toggleDropdown() {
     this.isDropdownOpen.update((v) => !v);
   }

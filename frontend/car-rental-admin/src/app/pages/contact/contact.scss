@@ -96,13 +96,18 @@
 
   .icon {
     border: none;
-    background: #f5f5f5;
+    background: #f5f5f578;
     padding: 6px 8px;
     border-radius: 6px;
     cursor: pointer;
 
     &:hover {
       background: #eaeaea;
+    }
+  }
+  .delete {
+    &:hover {
+      background: #d32f2f70;
     }
   }
 }

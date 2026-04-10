@@ -16,6 +16,14 @@ router.get(
   controller.findOne,
 );
 
+router.patch(
+  "/:id",
+  auth({ required: true }),
+  param("id").isMongoId().withMessage("Invalid message ID"),
+  validate,
+  controller.update,
+);
+
 router.post("/", auth({ required: false }), controller.create);
 
 router.delete(

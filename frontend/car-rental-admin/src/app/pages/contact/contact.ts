@@ -1,9 +1,13 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
 import { ContactI } from './interfaces/contact.interface';
 import { ContactApisService } from './contact-apis-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DelegatedUIErrorI } from '../../shared/interfaces/delegated-ui-error.interface';
 import { DatePipe, SlicePipe } from '@angular/common';
+import { DialogService } from '../../core/services/dialog/dialog.service';
+import { RemoveContactDialog } from './remove-contact-dialog/remove-contact-dialog';
+import { ContactService } from './contact-service';
+import { ContactDetails } from './contact-details/contact-details';
 
 @Component({
   selector: 'app-contact',
@@ -13,8 +17,16 @@ import { DatePipe, SlicePipe } from '@angular/common';
 })
 export class Contact implements OnInit {
   private readonly contactApisService = inject(ContactApisService);
+  private readonly contactService = inject(ContactService);
+  private readonly dialogService = inject(DialogService);
 
   private destroyRef = inject(DestroyRef);
+
+  constructor() {
+    effect(() => {
+      this.removeContactListener();
+    });
+  }
 
   contacts = signal<ContactI[]>([]);
   total = signal(0);
@@ -58,20 +70,30 @@ export class Contact implements OnInit {
       .updateContact(contact._id, { status: value })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => {
+        next: (res) => {
           contact.status = value as any;
+          console.log('Status updated successfully', res);
         },
       });
   }
 
-  deleteContact(_id: string) {
-    // if (!confirm('Delete this contact?')) return;
-    // this.contactsService.delete(id).subscribe(() => {
-    //   this.fetchContacts();
-    // });
+  removeContactListener() {
+    if (!!this.contactService.removeContact()) {
+      this.contacts().splice(
+        this.contacts().findIndex(
+          (contact) => contact._id === this.contactService.removeContact()!._id,
+        ),
+        1,
+      );
+      this.contactService.removeContact.set(null);
+    }
+  }
+
+  deleteContact(contact: ContactI) {
+    this.dialogService.openDialog(RemoveContactDialog, { contact: contact });
   }
 
   editContact(contact: ContactI) {
-    console.log('Edit:', contact);
+    this.dialogService.openDialog(ContactDetails, { contact: contact });
   }
 }

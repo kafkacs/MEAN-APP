@@ -21,12 +21,12 @@ export const serverRoutes: ServerRoute[] = [
     path: 'contact',
     renderMode: RenderMode.Client,
   },
+  {
+    path: 'profile',
+    renderMode: RenderMode.Client,
+  },
   // {
   //   path: 'bookings',
-  //   renderMode: RenderMode.Client,
-  // },
-  // {
-  //   path: 'contact',
   //   renderMode: RenderMode.Client,
   // },
 ];

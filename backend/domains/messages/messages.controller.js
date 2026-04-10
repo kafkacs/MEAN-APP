@@ -55,6 +55,24 @@ exports.create = async (req, res) => {
   }
 };
 
+//update
+exports.update = async (req, res) => {
+  try {
+    const updatedMessage = await messagesService.updateMessage(
+      req.params.id,
+      req.body,
+    );
+
+    res.json({
+      frontFacingMessage: "Message updated successfully",
+      data: updatedMessage,
+      httpStatus: 200,
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 //delete
 exports.delete = async (req, res) => {
   try {
@@ -66,6 +84,7 @@ exports.delete = async (req, res) => {
 
     res.json({
       frontFacingMessage: "Message deleted successfully",
+      data: deleted,
       httpStatus: 200,
     });
   } catch (error) {
