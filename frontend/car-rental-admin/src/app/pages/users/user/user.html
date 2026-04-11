@@ -1,0 +1,38 @@
+<div class="user-card">
+  <div class="user-header">
+    <div class="avatar">
+      {{ user().fullName.charAt(0).toUpperCase() }}
+    </div>
+
+    <div class="info">
+      <h3>{{ user().fullName }}</h3>
+      <p>{{ user().email }}</p>
+    </div>
+
+    <span class="role-badge" [ngClass]="user().role === 1 ? 'admin' : 'client'">
+      {{ user().role === 2 ? 'Admin' : 'Client' }}
+    </span>
+  </div>
+
+  <div class="user-body">
+    <div class="item">
+      <p>Phone: {{ user().phone }}</p>
+    </div>
+
+    <div class="item">
+      <p>Birthday: {{ user().birthDate | date: 'mediumDate' }}</p>
+    </div>
+
+    <div class="item">
+      <p>Bookings: {{ user().bookingsIDs.length }}</p>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="edit">details</button>
+    <div>
+      <button class="edit" (click)="onEdit(user()._id)">Edit</button>
+      <button class="delete" (click)="onDelete(user()._id)">Delete</button>
+    </div>
+  </div>
+</div>

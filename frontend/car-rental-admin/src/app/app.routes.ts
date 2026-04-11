@@ -9,6 +9,8 @@ import { CreateCar } from './pages/cars/create-car/create-car';
 import { UpdateCar } from './pages/cars/update-car/update-car';
 import { Contact } from './pages/contact/contact';
 import { Profile } from './pages/profile/profile';
+import { Users } from './pages/users/users';
+import { UserDetails } from './pages/users/user-details/user-details';
 
 export const routes: Routes = [
   {
@@ -22,6 +24,8 @@ export const routes: Routes = [
       { path: 'edit-car/:carID', component: UpdateCar, title: 'Edit Car' },
       { path: 'contact', component: Contact, title: 'Contact' },
       { path: 'profile', component: Profile, title: 'Profile' },
+      { path: 'users', component: Users, title: 'Users' },
+      { path: 'users/:userID', component: UserDetails, title: 'User Details' },
     ],
   },
   {

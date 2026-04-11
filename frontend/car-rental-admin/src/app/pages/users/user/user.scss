@@ -1,0 +1,122 @@
+.user-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: 0.3s;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.user-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  background: #6366f1;
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.info p {
+  margin: 0;
+  font-size: 13px;
+  color: #777;
+}
+
+.role-badge {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+
+  &.admin {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+
+  &.client {
+    background: #e0f2fe;
+    color: #0284c7;
+  }
+}
+
+.user-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+  color: #444;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+button {
+  flex: 1;
+  padding: 8px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.edit {
+  background: #eef2ff;
+  color: #4f46e5;
+
+  &:hover {
+    background: #e0e7ff;
+  }
+}
+
+.delete {
+  background: #fee2e2;
+  color: #dc2626;
+
+  &:hover {
+    background: #fecaca;
+  }
+}
+
+@media (max-width: 600px) {
+  .user-card {
+    padding: 16px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+}

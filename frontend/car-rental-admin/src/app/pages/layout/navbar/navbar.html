@@ -25,6 +25,10 @@
         {{ 'navbar.cars' | translate }}
       </a>
 
+      <a routerLink="/users" routerLinkActive="isActive" (click)="closeMenu()">
+        {{ 'navbar.users' | translate }}
+      </a>
+
       <a routerLink="/contact" routerLinkActive="isActive" (click)="closeMenu()">
         {{ 'navbar.contact' | translate }}
       </a>

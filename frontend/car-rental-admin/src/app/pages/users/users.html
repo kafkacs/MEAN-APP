@@ -1,0 +1,30 @@
+<section class="users">
+  <div class="container users__header">
+    <div>
+      <div class="chip">Clients</div>
+      <h1 class="users__title">Users Management</h1>
+      <p class="users__subtitle">Edit, delete, or review your users.</p>
+    </div>
+
+    <button class="btn btn--primary users__create" (click)="onCreateUser()">+ Add User</button>
+  </div>
+
+  <div class="users-list">
+    <div class="visual-top">
+      <div class="pill"></div>
+      <div class="pill muted"></div>
+      <div class="pill muted"></div>
+    </div>
+
+    <!-- ----------users----------- -->
+
+    <div class="users-cards">
+      @for (user of users(); track $index) {
+        <app-user [user]="user"></app-user>
+      }
+      @if (users().length === 0) {
+        <div class="empty">No users found.</div>
+      }
+    </div>
+  </div>
+</section>
