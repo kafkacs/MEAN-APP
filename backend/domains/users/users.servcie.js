@@ -1,5 +1,8 @@
 const bcrypt = require("bcryptjs");
 const User = require("./entities/User");
+const {
+  buildFindAllUsersAggregation,
+} = require("./aggregations/find-all-users-aggregation");
 
 const SALT_ROUNDS = 10;
 
@@ -27,11 +30,8 @@ const toPublicUser = (user) => {
 
 // get all
 const getAllUsers = async (params) => {
-  const { skip, limit, ...restOfParams } = params;
-  return await User.find(restOfParams)
-    .select("-password")
-    .skip(skip)
-    .limit(limit);
+  const aggregation = buildFindAllUsersAggregation(params);
+  return await User.aggregate(aggregation);
 };
 
 // get by id
@@ -102,7 +102,10 @@ const updateUser = async (id, data) => {
 
 // delete
 const deleteUser = async (id) => {
-  return await User.findByIdAndDelete(id);
+  const user = await User.findById(id);
+
+  user.isDeleted = true;
+  return await user.save();
 };
 
 module.exports = {

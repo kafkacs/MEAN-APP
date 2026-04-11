@@ -2,6 +2,8 @@ import { DatePipe, NgClass } from '@angular/common';
 import { Component, inject, model, ModelSignal } from '@angular/core';
 import { UserI } from '../../../shared/interfaces/user.interface';
 import { Router } from '@angular/router';
+import { DialogService } from '../../../core/services/dialog/dialog.service';
+import { RemoveUserDialog } from '../remove-user-dialog/remove-user-dialog';
 
 @Component({
   selector: 'app-user',
@@ -11,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class User {
   private readonly router = inject(Router);
+  private readonly dialogService = inject(DialogService);
 
   user: ModelSignal<UserI> = model.required<UserI>();
 
@@ -18,7 +21,7 @@ export class User {
     this.router.navigate([`update-user/${id}`]);
   }
 
-  onDelete(id: string) {
-    console.log('Delete user:', id);
+  onDelete() {
+    this.dialogService.openDialog(RemoveUserDialog, { user: this.user() });
   }
 }

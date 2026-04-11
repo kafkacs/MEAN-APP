@@ -15,6 +15,10 @@ export class UsersApisService {
     return this.apis.get<UserI[]>('users', filterUsersDto);
   }
 
+  findOneUser(userID: string) {
+    return this.apis.get<UserI>(`users/${userID}`);
+  }
+
   createUser(createUserDto: CreateUserDto) {
     return this.apis.post<UserI>('users/register', createUserDto);
   }

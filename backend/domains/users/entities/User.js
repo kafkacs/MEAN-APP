@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema(
       default: 1,
       required: true,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
     bookingsIDs: [
       {
         type: mongoose.Schema.Types.ObjectId,

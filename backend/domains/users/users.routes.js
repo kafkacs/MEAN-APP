@@ -30,7 +30,7 @@ router.get(
 
 router.post("/", auth({ required: true }), controller.create);
 
-router.put(
+router.patch(
   "/:id",
   auth({ required: true }),
   param("id").isMongoId().withMessage("Invalid user ID"),

@@ -44,6 +44,7 @@ export class Signup {
     fullName: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
     birthDate: ['', [Validators.required]],
+    gender: ['1', [Validators.required]],
     phone: [''],
     password: ['', [Validators.required, Validators.minLength(8)]],
   });

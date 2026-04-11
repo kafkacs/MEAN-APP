@@ -1,1 +1,95 @@
-<p>update-user works!</p>
+<section class="create-car">
+  <div class="container">
+    <div class="top-bar">
+      <button class="btn btn--outline" (click)="goBack()">← Back</button>
+
+      <h1 class="title">Update User</h1>
+    </div>
+
+    <div class="form-card card">
+      <form [formGroup]="updateUserForm" (ngSubmit)="onSubmit()">
+        <div class="grid">
+          <!-- --------------------full name------- -->
+
+          <label class="label" for="signup-name">{{
+            'authPages.signup.fullName' | translate
+          }}</label>
+
+          <app-text-input
+            [config]="{
+              control: updateUserForm.controls.fullName,
+              placeholder: ('' | translate),
+            }"
+          ></app-text-input>
+          @if (showControlError('fullName', 'required')) {
+            <span class="field-error">{{
+              'validation.required' | translate: { value: 'authPages.signup.fullName' | translate }
+            }}</span>
+          }
+          @if (showControlError('fullName', 'minlength')) {
+            <span class="field-error">{{
+              'validation.minLength'
+                | translate
+                  : {
+                      value: 'authPages.signup.fullName' | translate,
+                      length: 2,
+                    }
+            }}</span>
+          }
+          <!-- --------------------email------- -->
+          <label class="label" for="signup-email">{{ 'authPages.signup.email' | translate }}</label>
+          <app-text-input
+            [config]="{
+              control: updateUserForm.controls.email,
+              placeholder: ('' | translate),
+            }"
+          ></app-text-input>
+          @if (showControlError('email', 'required')) {
+            <span class="field-error">{{
+              'validation.required' | translate: { value: 'authPages.signup.email' | translate }
+            }}</span>
+          }
+          @if (showControlError('email', 'email')) {
+            <span class="field-error">{{ 'validation.email' | translate }}</span>
+          }
+
+          <!-- ------------date-------------------- -->
+          <label class="label" for="signup-birthdate">{{
+            'authPages.signup.birthdate' | translate
+          }}</label>
+          <app-date-input
+            [config]="{
+              control: updateUserForm.controls.birthDate,
+            }"
+          ></app-date-input>
+
+          <!-- ------------phoneNumber-------------------- -->
+
+          <label class="label" for="signup-phone">{{ 'authPages.signup.phone' | translate }}</label>
+          <app-text-input
+            [config]="{
+              control: updateUserForm.controls.phone,
+              placeholder: ('' | translate),
+            }"
+          ></app-text-input>
+
+          <!-- ------------------------gender--------------- -->
+          <label class="label">{{ 'Gender' | translate }}</label>
+
+          <app-radio-input
+            [formControl]="updateUserForm.controls.gender"
+            label=""
+            [options]="genderOptions"
+          >
+          </app-radio-input>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn btn--primary" [disabled]="updateUserForm.invalid">
+            Update User
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
