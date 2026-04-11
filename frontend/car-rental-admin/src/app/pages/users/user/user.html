@@ -24,13 +24,17 @@
     </div>
 
     <div class="item">
+      <p>Gender: {{ user().gender + '' === '1' ? 'Male' : 'Female' }}</p>
+    </div>
+
+    <div class="item">
       <p>Bookings: {{ user().bookingsIDs.length }}</p>
     </div>
   </div>
 
   <div class="actions">
     <button class="edit">details</button>
-    <div>
+    <div class="actions-buttons">
       <button class="edit" (click)="onEdit(user()._id)">Edit</button>
       <button class="delete" (click)="onDelete(user()._id)">Delete</button>
     </div>

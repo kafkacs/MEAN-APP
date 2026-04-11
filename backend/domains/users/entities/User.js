@@ -24,6 +24,11 @@ const userSchema = new mongoose.Schema(
       default: 1,
       required: false,
     },
+    gender: {
+      type: Number,
+      default: 1,
+      required: true,
+    },
     bookingsIDs: [
       {
         type: mongoose.Schema.Types.ObjectId,

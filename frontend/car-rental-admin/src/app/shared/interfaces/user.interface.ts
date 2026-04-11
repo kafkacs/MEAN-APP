@@ -5,6 +5,7 @@ export interface UserI {
   phone: string;
   birthDate: string;
   accountStatus: number;
+  gender: number;
   role: number;
   bookingsIDs: string[];
 

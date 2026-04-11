@@ -41,7 +41,7 @@ const getUserById = async (id) => {
 
 // create
 const createUser = async (data) => {
-  const birthDate = data.birthDate ?? data.birthdate;
+  const birthDate = data.birthDate;
   if (!birthDate) {
     throw new Error("birthDate is required");
   }

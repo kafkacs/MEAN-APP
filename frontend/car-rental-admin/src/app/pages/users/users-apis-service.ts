@@ -16,7 +16,7 @@ export class UsersApisService {
   }
 
   createUser(createUserDto: CreateUserDto) {
-    return this.apis.post<UserI>('users', createUserDto);
+    return this.apis.post<UserI>('users/register', createUserDto);
   }
 
   updateUser(userID: string, updateUserDto: UpdateUserDto) {

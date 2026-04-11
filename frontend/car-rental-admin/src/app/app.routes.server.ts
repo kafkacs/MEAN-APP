@@ -30,6 +30,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
+    path: 'create-user',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'update-user/:userID',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'users/:userID',
     renderMode: RenderMode.Client,
   },

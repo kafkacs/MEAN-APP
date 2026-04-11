@@ -16,6 +16,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs/internal/operators/finalize';
 import { DelegatedUIErrorI } from '../../shared/interfaces/delegated-ui-error.interface';
 import { User } from './user/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -27,6 +28,7 @@ export class Users implements OnInit {
   private readonly usersApisService = inject(UsersApisService);
   private readonly usersService = inject(UsersService);
 
+  private readonly router = inject(Router);
   private readonly cd = inject(ChangeDetectorRef);
   private readonly renderer = inject(Renderer2);
 
@@ -53,7 +55,9 @@ export class Users implements OnInit {
     this.findAllUsers({ skip: 0, limit: this.limit() }, false);
   }
 
-  onCreateUser() {}
+  onCreateUser() {
+    this.router.navigate([`create-user`]);
+  }
 
   removeUserListener() {
     if (!!this.usersService.removeUser()) {

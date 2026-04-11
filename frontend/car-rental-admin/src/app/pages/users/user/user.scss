@@ -67,12 +67,11 @@
 .user-body {
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
 .item {
   display: flex;
-  gap: 8px;
+  gap: 4px;
   font-size: 14px;
   color: #444;
 }
@@ -91,6 +90,11 @@ button {
   cursor: pointer;
   font-weight: 600;
   transition: 0.2s;
+}
+
+.actions-buttons {
+  display: flex;
+  gap: 10px;
 }
 
 .edit {
