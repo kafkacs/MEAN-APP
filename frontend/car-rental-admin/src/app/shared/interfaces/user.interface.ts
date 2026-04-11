@@ -7,7 +7,8 @@ export interface UserI {
   accountStatus: number;
   gender: number;
   role: number;
-  bookingsIDs: string[];
+  bookingsIDs?: string[];
+  isDeleted?: boolean;
 
   [key: string]: any;
 }

@@ -103,8 +103,7 @@ const updateUser = async (id, data) => {
 // delete
 const deleteUser = async (id) => {
   const user = await User.findById(id);
-
-  user.isDeleted = true;
+  user.isDeleted = !user.isDeleted;
   return await user.save();
 };
 

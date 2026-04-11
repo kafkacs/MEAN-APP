@@ -28,12 +28,12 @@
     </div>
 
     <div class="item">
-      <p>Bookings: {{ user().bookingsIDs.length }}</p>
+      <p>Bookings: {{ user().bookingsIDs?.length || 0 }}</p>
     </div>
   </div>
 
   <div class="actions">
-    <button class="edit">details</button>
+    <button (click)="onDetails()" class="edit">details</button>
     <div class="actions-buttons">
       <button class="edit" (click)="onEdit(user()._id)">Edit</button>
       <button class="delete" (click)="onDelete()">Delete</button>

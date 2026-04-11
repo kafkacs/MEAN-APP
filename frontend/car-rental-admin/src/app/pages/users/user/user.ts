@@ -20,6 +20,9 @@ export class User {
   onEdit(id: string) {
     this.router.navigate([`update-user/${id}`]);
   }
+  onDetails() {
+    this.router.navigate([`users/${this.user()._id}`]);
+  }
 
   onDelete() {
     this.dialogService.openDialog(RemoveUserDialog, { user: this.user() });
