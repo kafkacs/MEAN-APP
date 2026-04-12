@@ -102,15 +102,23 @@
           </div>
         </div>
       </div>
-      <div class="divider"></div>
+    } @else {
+      <div class="user-section">
+        <div class="user-row">
+          <div class="user-details">
+            <span class="user-email"> - </span>
+          </div>
+        </div>
+      </div>
     }
+    <div class="divider"></div>
 
     <div class="card-footer">
       <div class="total-block">
         <span class="total-label">Total</span>
         <span class="total-price">${{ booking().totalPrice }}</span>
       </div>
-      <button class="details-btn">
+      <button (click)="goToDetails()" class="details-btn">
         Details
         <svg
           xmlns="http://www.w3.org/2000/svg"

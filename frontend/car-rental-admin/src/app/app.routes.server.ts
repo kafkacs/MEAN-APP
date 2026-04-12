@@ -45,4 +45,8 @@ export const serverRoutes: ServerRoute[] = [
     path: 'bookings',
     renderMode: RenderMode.Client,
   },
+  {
+    path: 'booking/:bookingID',
+    renderMode: RenderMode.Client,
+  },
 ];

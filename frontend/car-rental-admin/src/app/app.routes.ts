@@ -14,6 +14,7 @@ import { UserDetails } from './pages/users/user-details/user-details';
 import { CreateUser } from './pages/users/create-user/create-user';
 import { UpdateUser } from './pages/users/update-user/update-user';
 import { Bookings } from './pages/bookings/bookings';
+import { BookingDetail } from './pages/bookings/booking-detail/booking-detail';
 
 export const routes: Routes = [
   {
@@ -32,6 +33,7 @@ export const routes: Routes = [
       { path: 'update-user/:userID', component: UpdateUser, title: 'Update User' },
       { path: 'users/:userID', component: UserDetails, title: 'User Details' },
       { path: 'bookings', component: Bookings, title: 'Bookings' },
+      { path: 'booking/:bookingID', component: BookingDetail, title: 'Booking details' },
     ],
   },
   {
