@@ -95,7 +95,7 @@ exports.update = async (req, res) => {
   try {
     const updatedBooking = await bookingsService.updateBookingStatus(
       req.params.id,
-      req.body,
+      req.body.status,
     );
 
     res.json({

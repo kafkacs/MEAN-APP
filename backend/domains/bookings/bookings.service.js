@@ -104,16 +104,22 @@ const findAllForUser = async (query, userID) => {
   return await Booking.aggregate(pipeline);
 };
 
-//update booking status
-// const validStatuses = ["pending", "confirmed", "cancelled", "completed"];
-const updateBookingStatus = async (id, data) => {
-  const booking = await Booking.findById(id);
+// update booking status
+const validStatuses = ["pending", "confirmed", "cancelled", "completed"];
 
+const updateBookingStatus = async (id, status) => {
+  if (!validStatuses.includes(status)) {
+    throw new Error(
+      `Invalid status. Must be one of: ${validStatuses.join(", ")}`,
+    );
+  }
+
+  const booking = await Booking.findById(id);
   if (!booking) {
     throw new Error("Booking not found");
   }
 
-  if (data.status == "confirmed") {
+  if (status === "confirmed") {
     const car = await carsService.getCarById(booking.carID);
 
     if (!car || !car.available) {
@@ -121,22 +127,31 @@ const updateBookingStatus = async (id, data) => {
     }
 
     car.available = false;
+    car.books.push({
+      bookingID: booking._id,
+      startDate: booking.startDate,
+      endDate: booking.endDate,
+    });
+
     await car.save();
   }
 
-  if (data.status == "cancelled" || data.status == "completed") {
+  if (status === "cancelled" || status === "completed") {
     const car = await carsService.getCarById(booking.carID);
 
     if (!car) {
-      throw new Error("Car not found!");
+      throw new Error("Car not found");
     }
 
     car.available = true;
+    car.books = car.books.filter(
+      (b) => b.bookingID.toString() !== booking._id.toString(),
+    );
+
     await car.save();
   }
 
-  Object.assign(booking, data);
-  return await booking.save();
+  return await Booking.findByIdAndUpdate(id, { status }, { new: true });
 };
 
 //delete booking

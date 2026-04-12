@@ -9,6 +9,22 @@ const carSchema = new mongoose.Schema(
     model: { type: String, required: true },
     pricePerDay: { type: Number, required: true },
     available: { type: Boolean, required: true },
+    books: [
+      {
+        bookingID: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Booking",
+        },
+        startDate: {
+          type: Date,
+          required: true,
+        },
+        endDate: {
+          type: Date,
+          required: true,
+        },
+      },
+    ],
     imageUrl: {
       type: String,
     },

@@ -5,10 +5,11 @@ import { BookingI } from '../interfaces/booking.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BookingsApisService } from '../bookings-apis-service';
 import { DelegatedUIErrorI } from '../../../shared/interfaces/delegated-ui-error.interface';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-booking-detail',
-  imports: [DatePipe, SlicePipe],
+  imports: [DatePipe, SlicePipe, FormsModule],
   templateUrl: './booking-detail.html',
   styleUrl: './booking-detail.scss',
 })
@@ -72,8 +73,7 @@ export class BookingDetail implements OnInit {
       });
   }
 
-  onStatusChange(event: Event) {
-    const newStatus = (event.target as HTMLSelectElement).value;
+  onStatusChange(newStatus: string) {
     const current = this.booking();
     if (!current || newStatus === current.status) return;
 
@@ -81,25 +81,23 @@ export class BookingDetail implements OnInit {
     this.statusSuccess.set(false);
     this.statusError.set(false);
 
-    //  this.bookingsApisService
-    //   .updateBooking(current._id, { status: newStatus })
-    //   .pipe(takeUntilDestroyed(this.destroyRef))
-    //   .subscribe({
-    //     next: () => {
-    //       this.booking.update((b) =>
-    //         b ? { ...b, status: newStatus as BookingI['status'] } : b
-    //       );
-    //       this.statusUpdating.set(false);
-    //       this.statusSuccess.set(true);
-    //       setTimeout(() => this.statusSuccess.set(false), 3000);
-    //     },
-    //     error: (err: DelegatedUIErrorI) => {
-    //       console.error(err.description, err.title);
-    //       this.statusUpdating.set(false);
-    //       this.statusError.set(true);
-    //       setTimeout(() => this.statusError.set(false), 4000);
-    //     },
-    //   });
+    this.bookingsApisService
+      .updateBooking(this.bookingID(), { status: newStatus })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.booking.update((b) => (b ? { ...b, status: newStatus as BookingI['status'] } : b));
+          this.statusUpdating.set(false);
+          this.statusSuccess.set(true);
+          setTimeout(() => this.statusSuccess.set(false), 3000);
+        },
+        error: (err: DelegatedUIErrorI) => {
+          console.error(err.description, err.title);
+          this.statusUpdating.set(false);
+          this.statusError.set(true);
+          setTimeout(() => this.statusError.set(false), 4000);
+        },
+      });
   }
 
   isStepDone(stepValue: string): boolean {

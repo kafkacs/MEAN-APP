@@ -65,8 +65,8 @@
       <div class="status-row">
         <select
           class="status-select"
-          [value]="booking()?.status"
-          (change)="onStatusChange($event)"
+          [ngModel]="booking()!.status"
+          (ngModelChange)="onStatusChange($event)"
           [disabled]="statusUpdating()"
         >
           @for (opt of statusOptions; track opt.value) {
