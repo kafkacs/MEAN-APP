@@ -9,14 +9,11 @@ import { FilterBookingsDto } from './dtos/filter-bookings.dto';
 export class BookingsApisService {
   private readonly apis = inject(Apis);
 
-  findAllCars(filterBookingsDto?: FilterBookingsDto) {
+  findAllBookings(filterBookingsDto?: FilterBookingsDto) {
     return this.apis.get<BookingI[]>('bookings', filterBookingsDto);
   }
 
   findAllForUser(userID: string, filterBookingsDto?: FilterBookingsDto) {
-    return this.apis.get<BookingI[]>(
-      `bookings/user/${userID}`,
-      filterBookingsDto,
-    );
+    return this.apis.get<BookingI[]>(`bookings/user/${userID}`, filterBookingsDto);
   }
 }

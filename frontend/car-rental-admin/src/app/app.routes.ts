@@ -13,6 +13,7 @@ import { Users } from './pages/users/users';
 import { UserDetails } from './pages/users/user-details/user-details';
 import { CreateUser } from './pages/users/create-user/create-user';
 import { UpdateUser } from './pages/users/update-user/update-user';
+import { Bookings } from './pages/bookings/bookings';
 
 export const routes: Routes = [
   {
@@ -30,6 +31,7 @@ export const routes: Routes = [
       { path: 'create-user', component: CreateUser, title: 'Create User' },
       { path: 'update-user/:userID', component: UpdateUser, title: 'Update User' },
       { path: 'users/:userID', component: UserDetails, title: 'User Details' },
+      { path: 'bookings', component: Bookings, title: 'Bookings' },
     ],
   },
   {

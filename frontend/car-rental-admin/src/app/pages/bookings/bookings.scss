@@ -1,62 +1,43 @@
-.cars {
-  padding: 40px 0 60px;
+.bookings-page {
+  padding: 40px 16px;
 }
 
-.cars__header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.page-header {
   margin-bottom: 24px;
-
-  @media (width <= 850px) {
-    padding: 0 16px;
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }
 
-.cars__title {
+.bookings__title {
   font-size: 26px;
   font-weight: 700;
   color: #111827;
   margin: 0;
 }
 
-.cars__create {
-  height: fit-content;
-  padding: 10px 18px;
-  font-weight: 600;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  white-space: nowrap;
-
-  @media (width <= 850px) {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-.cars-list {
-  width: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
-  border-radius: 18px;
+.title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
 }
 
 .filters {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
+  justify-content: space-between;
   gap: 20px;
-  padding: 16px 18px;
+  padding: 18px 20px;
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  margin-bottom: 20px;
+  border-radius: 14px;
+  margin-bottom: 28px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  width: 100%;
 }
 
 .filter-group {
@@ -80,13 +61,35 @@
   }
 }
 
+.date-input {
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1f2937;
+  background: #f9fafb;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+  outline: none;
+
+  &:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    background: #fff;
+  }
+}
+
 .status-pills {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
 }
 
-.status-pill {
+.pill {
   height: 34px;
   padding: 0 14px;
   border-radius: 20px;
@@ -105,28 +108,28 @@
     color: #374151;
   }
 
-  &--all.status-pill--active {
+  &--all.pill--active {
     background: #111827;
     border-color: #111827;
     color: #fff;
   }
 
-  &--available.status-pill--active {
+  &--pending.pill--active {
+    background: #fef3c7;
+    border-color: #d97706;
+    color: #92400e;
+  }
+
+  &--confirmed.pill--active {
     background: #dcfce7;
     border-color: #16a34a;
     color: #14532d;
   }
 
-  &--unavailable.status-pill--active {
+  &--cancelled.pill--active {
     background: #fee2e2;
     border-color: #dc2626;
     color: #7f1d1d;
-  }
-
-  &--maintenance.status-pill--active {
-    background: #fef3c7;
-    border-color: #d97706;
-    color: #92400e;
   }
 }
 
@@ -153,19 +156,10 @@
   }
 }
 
-.cars-cards {
-  width: 100%;
+.grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  padding-top: 4px;
-
-  @media (width <= 1100px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media (width <= 700px) {
-    grid-template-columns: 1fr;
-  }
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
 
 .loading,
@@ -203,8 +197,23 @@
   padding: 60px 20px;
   color: #9ca3af;
   font-size: 14px;
-  grid-column: 1 / -1;
+
   p {
     margin: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 22px;
+  }
+
+  .filters {
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .status-pills {
+    gap: 5px;
   }
 }

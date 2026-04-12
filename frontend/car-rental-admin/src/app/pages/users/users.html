@@ -1,30 +1,121 @@
 <section class="users">
-  <div class="container users__header">
-    <div>
-      <div class="chip">Clients</div>
-      <h1 class="users__title">Users Management</h1>
-      <p class="users__subtitle">Edit, delete, or review your users.</p>
-    </div>
-
-    <button class="btn btn--primary users__create" (click)="onCreateUser()">+ Add User</button>
-  </div>
-
   <div class="users-list">
-    <div class="visual-top">
-      <div class="pill"></div>
-      <div class="pill muted"></div>
-      <div class="pill muted"></div>
+    <div class="users__header">
+      <div>
+        <div class="chip">Clients</div>
+        <h1 class="users__title">Users Management</h1>
+      </div>
+      <button class="btn btn--primary users__create" (click)="onCreateUser()">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="15"
+          height="15"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        Add User
+      </button>
+    </div>
+    <div class="filters">
+      <div class="filter-group">
+        <label class="filter-label">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          Role
+        </label>
+        <div class="role-pills">
+          @for (role of roleOptions; track role) {
+            <button
+              class="role-pill"
+              [class]="
+                'role-pill role-pill--' + role + (activeRole() === role ? ' role-pill--active' : '')
+              "
+              (click)="onRoleChange(role)"
+            >
+              {{ role }}
+            </button>
+          }
+        </div>
+      </div>
+
+      @if (hasActiveFilters) {
+        <button class="clear-btn" (click)="clearFilters()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+          Clear
+        </button>
+      }
     </div>
 
-    <!-- ----------users----------- -->
+    @if (isFetching() && !users().length) {
+      <div class="loading">
+        <span class="spinner"></span>
+        Loading users...
+      </div>
+    } @else if (users().length) {
+      <div class="users-cards">
+        @for (user of users(); track user._id) {
+          <app-user [user]="user"></app-user>
+        }
+      </div>
 
-    <div class="users-cards">
-      @for (user of users(); track $index) {
-        <app-user [user]="user"></app-user>
+      @if (isFetching()) {
+        <div class="load-more-spinner">
+          <span class="spinner"></span>
+        </div>
       }
-      @if (users().length === 0) {
-        <div class="empty">No users found.</div>
-      }
-    </div>
+    } @else {
+      <div class="empty">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="40"
+          height="40"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#d1d5db"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <p>No users found.</p>
+        @if (hasActiveFilters) {
+          <button class="clear-btn" (click)="clearFilters()">Clear filters</button>
+        }
+      </div>
+    }
   </div>
 </section>

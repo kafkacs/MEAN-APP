@@ -108,6 +108,10 @@ exports.login = async (req, res) => {
 
     const user = await usersService.loginUser(email, password);
 
+    if (user.isDeleted) {
+      return res.status(401).json({ message: "User is deleted!" });
+    }
+
     res.json({
       frontFacingMessage: "Login successful",
       data: buildAuthResponse(user),

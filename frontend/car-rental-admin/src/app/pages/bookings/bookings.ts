@@ -2,120 +2,106 @@ import {
   ChangeDetectorRef,
   Component,
   DestroyRef,
-  effect,
   inject,
   OnDestroy,
   OnInit,
   Renderer2,
   signal,
 } from '@angular/core';
+import { BookingI } from './interfaces/booking.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize } from 'rxjs';
+import { BookingsApisService } from './bookings-apis-service';
+import { FilterBookingsDto } from './dtos/filter-bookings.dto';
+import { finalize } from 'rxjs/internal/operators/finalize';
 import { DelegatedUIErrorI } from '../../shared/interfaces/delegated-ui-error.interface';
-import { Car } from './car/car';
-import { CarsApisService } from './cars-apis-service';
-import { FilterCarsDto } from './dtos/filter-cars.dto';
-import { CarI } from './interfaces/car.interface';
-import { Router } from '@angular/router';
-import { CarsService } from './cars-service';
+import { Booking } from './booking/booking';
 import { FormsModule } from '@angular/forms';
 
-export type CarStatus = 'true' | 'false';
+export type BookingStatus = 'pending' | 'confirmed' | 'completed' | 'cancelled';
 
 @Component({
-  selector: 'app-cars',
-  imports: [Car, FormsModule],
-  templateUrl: './cars.html',
-  styleUrl: './cars.scss',
+  selector: 'app-bookings',
+  imports: [Booking, FormsModule],
+  templateUrl: './bookings.html',
+  styleUrl: './bookings.scss',
 })
-export class Cars implements OnInit, OnDestroy {
-  private readonly carsApisService = inject(CarsApisService);
+export class Bookings implements OnInit, OnDestroy {
+  private bookingsApisService = inject(BookingsApisService);
   private readonly cd = inject(ChangeDetectorRef);
   private readonly renderer = inject(Renderer2);
-  private readonly router = inject(Router);
-  private readonly carsService = inject(CarsService);
   private readonly destroyRef = inject(DestroyRef);
 
-  constructor() {
-    effect(() => {
-      this.filterCarsFormListener();
-      this.removeCarListener();
-    });
-  }
-
-  cars = signal<CarI[]>([]);
+  bookings = signal<BookingI[]>([]);
 
   private scrollListenerFn!: () => void;
   private throttleTimer: NodeJS.Timeout | null = null;
+  private debounceTimer: NodeJS.Timeout | null = null;
 
   readonly limit = signal<number>(20);
   readonly lastFetchedCount = signal<number>(-1);
   readonly isFetching = signal<boolean>(false);
 
-  readonly statusOptions: (CarStatus | 'all')[] = ['all', 'true', 'false'];
-  readonly activeStatus = signal<CarStatus | 'all'>('all');
-
-  get hasActiveFilters(): boolean {
-    return this.activeStatus() !== 'all';
-  }
+  readonly statusOptions: (BookingStatus | 'all')[] = [
+    'all',
+    'pending',
+    'confirmed',
+    'completed',
+    'cancelled',
+  ];
+  readonly activeStatus = signal<BookingStatus | 'all'>('all');
+  readonly startDateFilter = signal<string>('');
 
   ngOnInit(): void {
-    this.findAllCars({ skip: 0, limit: this.limit() }, false);
+    this.findAllBookings({ skip: 0, limit: this.limit() }, false);
     this.setupScrollListener();
   }
 
-  onCreateCar() {
-    this.router.navigate([`create-car`]);
-  }
-
-  onStatusChange(status: CarStatus | 'all'): void {
+  onStatusChange(status: BookingStatus | 'all'): void {
     if (this.activeStatus() === status) return;
     this.activeStatus.set(status);
     this.resetAndFetch();
   }
 
+  onStartDateChange(value: string): void {
+    this.startDateFilter.set(value);
+
+    if (this.debounceTimer) clearTimeout(this.debounceTimer);
+    this.debounceTimer = setTimeout(() => {
+      this.resetAndFetch();
+    }, 400);
+  }
+
   clearFilters(): void {
     this.activeStatus.set('all');
+    this.startDateFilter.set('');
     this.resetAndFetch();
+  }
+
+  get hasActiveFilters(): boolean {
+    return this.activeStatus() !== 'all' || !!this.startDateFilter();
   }
 
   private resetAndFetch(): void {
     this.lastFetchedCount.set(-1);
-    this.findAllCars({ skip: 0, limit: this.limit() }, false);
+    this.findAllBookings({ skip: 0, limit: this.limit() }, false);
   }
 
-  private buildFilters(): Partial<FilterCarsDto> {
-    const filters: Partial<FilterCarsDto> = {};
-    if (this.activeStatus() !== 'all')
-      filters.isAvailable = (this.activeStatus() as CarStatus) === 'true';
+  private buildFilters(): Partial<FilterBookingsDto> {
+    const filters: Partial<FilterBookingsDto> = {};
+    if (this.activeStatus() !== 'all') filters.status = this.activeStatus() as BookingStatus;
+    if (this.startDateFilter()) filters.startDate = this.startDateFilter();
     return filters;
   }
 
-  removeCarListener() {
-    if (!!this.carsService.removeCar()) {
-      this.cars.update((prev) =>
-        prev.filter((car) => car._id !== this.carsService.removeCar()!._id),
-      );
-      this.carsService.removeCar.set(null);
-    }
-  }
-
-  filterCarsFormListener() {
-    if (!!this.carsService.filterCars()) {
-      this.lastFetchedCount.set(-1);
-      this.findAllCars(this.carsService.filterCars()!, false);
-    }
-  }
-
-  findAllCars(filterCarsDto: FilterCarsDto, isOnScroll: boolean) {
+  findAllBookings(filterBookingsDto: FilterBookingsDto, isOnScroll: boolean) {
     if (this.isFetching()) return;
 
     this.isFetching.set(true);
 
-    this.carsApisService
-      .findAllCars({
+    this.bookingsApisService
+      .findAllBookings({
         limit: this.limit(),
-        skip: isOnScroll ? filterCarsDto.skip : 0,
+        skip: isOnScroll ? filterBookingsDto.skip! : 0,
         ...this.buildFilters(),
       })
       .pipe(
@@ -128,17 +114,16 @@ export class Cars implements OnInit, OnDestroy {
       .subscribe({
         next: (response) => {
           const incoming = response.data;
-
           this.lastFetchedCount.set(incoming.length);
 
           if (isOnScroll) {
-            this.cars.update((prev) => [...prev, ...incoming]);
+            this.bookings.update((prev) => [...prev, ...incoming]);
           } else {
-            this.cars.set(incoming);
+            this.bookings.set(incoming);
           }
         },
         error: (err: DelegatedUIErrorI) => {
-          if (!isOnScroll) this.cars.set([]);
+          if (!isOnScroll) this.bookings.set([]);
           console.error(err.title, err.description);
         },
       });
@@ -161,12 +146,13 @@ export class Cars implements OnInit, OnDestroy {
 
     const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
     if (window.scrollY >= scrollableHeight - 200) {
-      this.findAllCars({ skip: this.cars().length, limit: this.limit() }, true);
+      this.findAllBookings({ skip: this.bookings().length, limit: this.limit() }, true);
     }
   }
 
   ngOnDestroy(): void {
     if (this.scrollListenerFn) this.scrollListenerFn();
     if (this.throttleTimer) clearTimeout(this.throttleTimer);
+    if (this.debounceTimer) clearTimeout(this.debounceTimer);
   }
 }

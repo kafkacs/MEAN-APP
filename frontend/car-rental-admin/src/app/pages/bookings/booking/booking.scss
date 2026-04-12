@@ -1,0 +1,327 @@
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.07),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+  max-width: 360px;
+  width: 100%;
+  height: 100%;
+
+  &:hover {
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+  }
+
+  &--pending {
+    --accent: #d97706;
+  }
+
+  &--confirmed {
+    --accent: #16a34a;
+  }
+
+  &--cancelled {
+    --accent: #dc2626;
+  }
+}
+
+.card-image {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+.car-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+
+  .card:hover & {
+    transform: scale(1.03);
+  }
+}
+
+.status-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: capitalize;
+  backdrop-filter: blur(4px);
+
+  &.pending {
+    background: rgba(255, 243, 205, 0.92);
+    color: #92400e;
+    border: 1px solid rgba(217, 119, 6, 0.2);
+  }
+
+  &.confirmed {
+    background: rgba(220, 252, 231, 0.92);
+    color: #14532d;
+    border: 1px solid rgba(22, 163, 74, 0.2);
+  }
+
+  &.cancelled {
+    background: rgba(254, 226, 226, 0.92);
+    color: #7f1d1d;
+    border: 1px solid rgba(220, 38, 38, 0.2);
+  }
+}
+
+.card-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.car-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.car-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.price-per-day {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent, #374151);
+  white-space: nowrap;
+
+  .per {
+    font-size: 11px;
+    font-weight: 500;
+    color: #9ca3af;
+  }
+}
+
+.booking-id {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.id-value {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 11px;
+  color: #6b7280;
+  letter-spacing: 0.3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 190px;
+}
+
+.divider {
+  height: 1px;
+  background: #f3f4f6;
+  margin: 0 -4px;
+}
+
+.dates-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
+}
+
+.date-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  &--right {
+    text-align: right;
+    align-items: flex-end;
+  }
+}
+
+.date-arrow {
+  color: #d1d5db;
+  display: flex;
+  align-items: center;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #9ca3af;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  svg {
+    color: #9ca3af;
+  }
+}
+
+.date-block--right .label {
+  flex-direction: row-reverse;
+}
+
+.value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.time {
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 400;
+}
+
+.user-section {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow: hidden;
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+  text-transform: capitalize;
+}
+
+.user-email {
+  font-size: 11px;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.total-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.total-label {
+  font-size: 11px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.total-price {
+  font-size: 20px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.5px;
+}
+
+.details-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #111827;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+  letter-spacing: 0.1px;
+
+  svg {
+    transition: transform 0.15s ease;
+  }
+
+  &:hover {
+    background: #1f2937;
+    transform: translateY(-1px);
+
+    svg {
+      transform: translateX(2px);
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 500px) {
+  .card-content {
+    padding: 14px;
+  }
+
+  .card-image {
+    height: 160px;
+  }
+
+  .car-name {
+    font-size: 15px;
+  }
+}

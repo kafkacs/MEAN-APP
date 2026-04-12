@@ -1,29 +1,41 @@
-<section class="cars">
-  <div class="cars-list">
-    <div class="cars__header">
+<div class="bookings-page">
+  <div class="container">
+    <div class="page-header">
       <div>
-        <div class="chip">Fleet</div>
-        <h1 class="cars__title">Manage Cars</h1>
+        <div class="chip">Bookings</div>
+        <h1 class="bookings__title">Bookings Management</h1>
       </div>
-      <button class="btn btn--primary cars__create" (click)="onCreateCar()">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="15"
-          height="15"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <line x1="12" y1="5" x2="12" y2="19" />
-          <line x1="5" y1="12" x2="19" y2="12" />
-        </svg>
-        Add Car
-      </button>
     </div>
+
     <div class="filters">
+      <div class="filter-group">
+        <label class="filter-label">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+          Start Date
+        </label>
+        <input
+          class="date-input"
+          type="date"
+          [ngModel]="startDateFilter()"
+          (ngModelChange)="onStartDateChange($event)"
+        />
+      </div>
+
       <div class="filter-group">
         <label class="filter-label">
           <svg
@@ -45,21 +57,12 @@
         <div class="status-pills">
           @for (status of statusOptions; track status) {
             <button
-              class="status-pill"
-              [class]="
-                'status-pill status-pill--' +
-                status +
-                (activeStatus() === status ? ' status-pill--active' : '')
-              "
+              class="pill"
+              [class.pill--active]="activeStatus() === status"
+              [class]="'pill pill--' + status + (activeStatus() === status ? ' pill--active' : '')"
               (click)="onStatusChange(status)"
             >
-              @if (status === 'true') {
-                Available
-              } @else if (status === 'false') {
-                Unavailable
-              } @else if (status == 'all') {
-                All
-              }
+              {{ status }}
             </button>
           }
         </div>
@@ -81,20 +84,20 @@
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
           </svg>
-          Clear
+          Clear filters
         </button>
       }
     </div>
 
-    @if (isFetching() && !cars().length) {
+    @if (isFetching() && !bookings().length) {
       <div class="loading">
         <span class="spinner"></span>
-        Loading cars...
+        Loading bookings...
       </div>
-    } @else if (cars().length) {
-      <div class="cars-cards">
-        @for (item of cars(); track item._id) {
-          <app-car [car]="item"></app-car>
+    } @else if (bookings().length) {
+      <div class="grid">
+        @for (booking of bookings(); track booking._id) {
+          <app-booking [booking]="booking"></app-booking>
         }
       </div>
 
@@ -119,11 +122,11 @@
           <circle cx="11" cy="11" r="8" />
           <line x1="21" y1="21" x2="16.65" y2="16.65" />
         </svg>
-        <p>No cars found.</p>
+        <p>No bookings found</p>
         @if (hasActiveFilters) {
           <button class="clear-btn" (click)="clearFilters()">Clear filters</button>
         }
       </div>
     }
   </div>
-</section>
+</div>
