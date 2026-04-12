@@ -16,4 +16,8 @@ export class BookingsApisService {
   findAllForUser(userID: string, filterBookingsDto?: FilterBookingsDto) {
     return this.apis.get<BookingI[]>(`bookings/user/${userID}`, filterBookingsDto);
   }
+
+  findOneBooking(bookingID: string) {
+    return this.apis.get<BookingI>(`bookings/${bookingID}`);
+  }
 }

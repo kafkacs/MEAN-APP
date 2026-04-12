@@ -30,7 +30,7 @@ exports.findOne = async (req, res) => {
 
     res.json({
       frontFacingMessage: "Booking retrieved successfully",
-      data: booking,
+      data: booking[0],
       httpStatus: 200,
     });
   } catch (err) {

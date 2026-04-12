@@ -5,6 +5,9 @@ const {
   buildFindAllAggregation,
 } = require("./aggregations/find-all-aggregation");
 const {
+  buildFindOneAggregation,
+} = require("./aggregations/find-one-aggregation");
+const {
   buildFindAllForUserAggregation,
 } = require("./aggregations/find-all-for-user-aggregation");
 const fs = require("fs");
@@ -20,7 +23,18 @@ const findAll = async (query) => {
 
 //find one booking by id
 const findOne = async (id) => {
-  return await Booking.findById(id);
+  const pipeLine = buildFindOneAggregation(id);
+
+  return await Booking.aggregate(pipeLine);
+
+  // const projectionForCar =
+  //   "_id carName available model imageUrl pricePerDay transmissionType seatsNumber carType";
+
+  // const projectionForUser = "role _id fullName email gender phone birthDate";
+
+  // return await Booking.findById(id)
+  //   .populate("carID", projectionForCar)
+  //   .populate("userID", projectionForUser);
 };
 
 // create booking
