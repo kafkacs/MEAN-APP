@@ -4,13 +4,13 @@
       <div class="chip">Fleet</div>
       <h1 class="cars__title">Choose your ride</h1>
       <p class="cars__subtitle">
-        Filter by type or price, then pick the car that fits your trip.
+        Filter by availability, then pick the car that fits your trip.
       </p>
     </div>
     @if (!isLoggedIn()) {
-      <a class="btn btn--primary cars__cta" (click)="goToLogin()"
-        >Book faster with an account</a
-      >
+      <a class="btn btn--primary cars__cta" (click)="goToLogin()">
+        Book faster with an account
+      </a>
     }
   </div>
 
@@ -20,13 +20,109 @@
       <div class="pill muted"></div>
       <div class="pill muted"></div>
     </div>
+    <div class="filters">
+      <div class="filter-group">
+        <label class="filter-label">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+          Status
+        </label>
+        <div class="status-pills">
+          @for (status of statusOptions; track status) {
+            <button
+              class="status-pill"
+              [class]="
+                'status-pill status-pill--' +
+                status +
+                (activeStatus() === status ? ' status-pill--active' : '')
+              "
+              (click)="onStatusChange(status)"
+            >
+              @if (status === "true") {
+                Available
+              } @else if (status === "false") {
+                Unavailable
+              } @else {
+                All
+              }
+            </button>
+          }
+        </div>
+      </div>
 
-    <!-- ----------cars----------- -->
-
-    <div class="cars-cards">
-      @for (item of cars(); track $index) {
-        <app-car [car]="item"></app-car>
+      @if (hasActiveFilters) {
+        <button class="clear-btn" (click)="clearFilters()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+          Clear
+        </button>
       }
     </div>
+
+    @if (isFetching() && !cars().length) {
+      <div class="loading">
+        <span class="spinner"></span>
+        Loading cars...
+      </div>
+    } @else if (cars().length) {
+      <div class="cars-cards">
+        @for (item of cars(); track item._id) {
+          <app-car [car]="item"></app-car>
+        }
+      </div>
+
+      @if (isFetching()) {
+        <div class="load-more-spinner">
+          <span class="spinner"></span>
+        </div>
+      }
+    } @else {
+      <div class="empty">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="40"
+          height="40"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#d1d5db"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <p>No cars found.</p>
+        @if (hasActiveFilters) {
+          <button class="clear-btn" (click)="clearFilters()">
+            Clear filters
+          </button>
+        }
+      </div>
+    }
   </div>
 </section>
