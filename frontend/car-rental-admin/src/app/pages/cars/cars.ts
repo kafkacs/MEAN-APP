@@ -87,7 +87,7 @@ export class Cars implements OnInit, OnDestroy {
   private buildFilters(): Partial<FilterCarsDto> {
     const filters: Partial<FilterCarsDto> = {};
     if (this.activeStatus() !== 'all')
-      filters.isAvailable = (this.activeStatus() as CarStatus) === 'true';
+      filters.available = (this.activeStatus() as CarStatus) === 'true';
     return filters;
   }
 

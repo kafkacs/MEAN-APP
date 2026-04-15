@@ -10,6 +10,7 @@ import { UsersApisService } from '../users-apis-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DelegatedUIErrorI } from '../../../shared/interfaces/delegated-ui-error.interface';
 import { removeEmptyValues } from '../../../shared/utils/remove-empty-vlaues.util';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-create-user',
@@ -25,6 +26,7 @@ export class CreateUser {
   private readonly destroyRef = inject(DestroyRef);
 
   submitted = false;
+  fullNameControl = new FormControl('');
 
   createUserForm = this.fb.group({
     fullName: ['', Validators.required],

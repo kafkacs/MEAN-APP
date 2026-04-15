@@ -31,7 +31,7 @@ const toPublicUser = (user) => {
 // get all
 const getAllUsers = async (params) => {
   const aggregation = buildFindAllUsersAggregation(params);
-  return await User.aggregate(aggregation);
+  return await User.aggregate(aggregation).exec();
 };
 
 // get by id

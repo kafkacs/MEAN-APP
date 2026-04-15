@@ -1,9 +1,14 @@
 const Car = require("./entities/Car");
+const {
+  buildFindAllAggregation,
+} = require("./aggregations/find-all-aggregation");
 
 // find all cars
 const getAllCars = async (query) => {
   const { skip, limit, ...restOfQuery } = query;
-  return await Car.find(restOfQuery).skip(skip).limit(limit);
+  const pipeLine = buildFindAllAggregation(restOfQuery, skip, limit);
+
+  return await Car.aggregate(pipeLine).exec();
 };
 
 // find one car by id

@@ -19,12 +19,15 @@ import { DelegatedUIErrorI } from '../../shared/interfaces/delegated-ui-error.in
 import { User } from './user/user';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { TextInput } from '../../shared/components/text-input/text-input';
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 export type UserRole = 'admin' | 'user';
 
 @Component({
   selector: 'app-users',
-  imports: [User, FormsModule],
+  imports: [User, FormsModule, TextInput],
   templateUrl: './users.html',
   styleUrl: './users.scss',
 })
@@ -44,6 +47,7 @@ export class Users implements OnInit, OnDestroy {
   }
 
   users = signal<UserI[]>([]);
+  fullNameControl = new FormControl('');
 
   private scrollListenerFn!: () => void;
   private throttleTimer: NodeJS.Timeout | null = null;
@@ -56,12 +60,18 @@ export class Users implements OnInit, OnDestroy {
   readonly activeRole = signal<UserRole | 'all'>('all');
 
   get hasActiveFilters(): boolean {
-    return this.activeRole() !== 'all';
+    return this.activeRole() !== 'all' || !!this.fullNameControl.value?.trim();
   }
 
   ngOnInit(): void {
     this.findAllUsers({ skip: 0, limit: this.limit() }, false);
     this.setupScrollListener();
+
+    this.fullNameControl.valueChanges
+      .pipe(debounceTime(400), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.resetAndFetch();
+      });
   }
 
   onCreateUser() {
@@ -76,6 +86,7 @@ export class Users implements OnInit, OnDestroy {
 
   clearFilters(): void {
     this.activeRole.set('all');
+    this.fullNameControl.setValue('');
     this.resetAndFetch();
   }
 
@@ -86,7 +97,16 @@ export class Users implements OnInit, OnDestroy {
 
   private buildFilters(): Partial<FilterUsersDto> {
     const filters: Partial<FilterUsersDto> = {};
-    if (this.activeRole() !== 'all') filters.role = this.activeRole() as UserRole;
+
+    if (this.activeRole() !== 'all') {
+      filters.role = this.activeRole() as UserRole;
+    }
+
+    const fullName = this.fullNameControl.value?.trim();
+    if (fullName) {
+      filters.fullName = fullName;
+    }
+
     return filters;
   }
 

@@ -19,6 +19,6 @@ export class LoginService {
     }
 
     this.storageService.accessToken = data;
-    this.router.navigate(['']);
+    this.router.navigate(['/bookings']);
   }
 }

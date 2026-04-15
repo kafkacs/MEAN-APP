@@ -1,19 +1,27 @@
-const mongoose = require("mongoose");
-
 const buildFindAllUsersAggregation = (params = {}) => {
   const { skip = 0, limit = 10, ...filters } = params;
 
+  const match = {
+    isDeleted: { $ne: true },
+  };
+
   if (filters._id) {
-    filters._id = new mongoose.Types.ObjectId(filters._id);
+    match._id = new mongoose.Types.ObjectId(filters._id);
+  }
+
+  if (filters.email) {
+    match.email = { $regex: filters.email, $options: "i" };
+  }
+
+  if (filters.fullName) {
+    match.fullName = {
+      $regex: filters.fullName,
+      $options: "i",
+    };
   }
 
   return [
-    {
-      $match: {
-        isDeleted: { $ne: true },
-        ...filters,
-      },
-    },
+    { $match: match },
 
     {
       $project: {
@@ -21,12 +29,8 @@ const buildFindAllUsersAggregation = (params = {}) => {
       },
     },
 
-    {
-      $skip: Number(skip),
-    },
-    {
-      $limit: Number(limit),
-    },
+    { $skip: Number(skip) },
+    { $limit: Number(limit) },
   ];
 };
 

@@ -1,16 +1,35 @@
 const mongoose = require("mongoose");
 
 const buildFindAllAggregation = (filters = {}, skip = 0, limit = 10) => {
+  const matchStage = {};
+
   if (filters.userID) {
-    filters.userID = new mongoose.Types.ObjectId(filters.userID);
+    matchStage.userID = new mongoose.Types.ObjectId(filters.userID);
   }
 
   if (filters.carID) {
-    filters.carID = new mongoose.Types.ObjectId(filters.carID);
+    matchStage.carID = new mongoose.Types.ObjectId(filters.carID);
+  }
+
+  if (filters.status) {
+    matchStage.status = filters.status;
+  }
+
+  if (filters.startDate) {
+    const start = new Date(filters.startDate);
+    const end = new Date(filters.startDate);
+
+    start.setHours(0, 0, 0, 0);
+    end.setHours(23, 59, 59, 999);
+
+    matchStage.startDate = {
+      $gte: start,
+      $lte: end,
+    };
   }
 
   return [
-    { $match: filters },
+    { $match: matchStage },
 
     {
       $lookup: {

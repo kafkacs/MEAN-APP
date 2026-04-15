@@ -14,52 +14,39 @@ export class Apis {
 
   get = <T>(url: string, params?: any): Observable<ResponseFromBackendI<T>> => {
     let httpParams = new HttpParams();
-    for (const property in params) {
-      httpParams = httpParams.set(property, params[property]);
+
+    if (params && typeof params === 'object' && !Array.isArray(params)) {
+      for (const property in params) {
+        if (params[property] !== null && params[property] !== undefined) {
+          httpParams = httpParams.set(property, params[property]);
+        }
+      }
     }
 
-    return this.http.get<ResponseFromBackendI<T>>(
-      `${environment.beUrl}${url}`,
-      {
-        params: httpParams,
-      },
-    );
+    return this.http.get<ResponseFromBackendI<T>>(`${environment.beUrl}${url}`, {
+      params: httpParams,
+    });
   };
 
   post = <T>(url: string, body: any): Observable<ResponseFromBackendI<T>> => {
-    return this.http.post<ResponseFromBackendI<T>>(
-      `${environment.beUrl}${url}`,
-      body,
-    );
+    return this.http.post<ResponseFromBackendI<T>>(`${environment.beUrl}${url}`, body);
   };
 
   patch = <T>(url: string, body?: any): Observable<ResponseFromBackendI<T>> => {
-    return this.http.patch<ResponseFromBackendI<T>>(
-      `${environment.beUrl}${url}`,
-      body,
-    );
+    return this.http.patch<ResponseFromBackendI<T>>(`${environment.beUrl}${url}`, body);
   };
 
   put = <T>(url: string, body?: any): Observable<ResponseFromBackendI<T>> => {
-    return this.http.put<ResponseFromBackendI<T>>(
-      `${environment.beUrl}${url}`,
-      body,
-    );
+    return this.http.put<ResponseFromBackendI<T>>(`${environment.beUrl}${url}`, body);
   };
 
-  delete = <T>(
-    url: string,
-    params?: any,
-  ): Observable<ResponseFromBackendI<T>> => {
+  delete = <T>(url: string, params?: any): Observable<ResponseFromBackendI<T>> => {
     let httpParams = new HttpParams();
     for (const property in params) {
       httpParams = httpParams.set(property, params[property]);
     }
-    return this.http.delete<ResponseFromBackendI<T>>(
-      `${environment.beUrl}${url}`,
-      {
-        params: httpParams,
-      },
-    );
+    return this.http.delete<ResponseFromBackendI<T>>(`${environment.beUrl}${url}`, {
+      params: httpParams,
+    });
   };
 }

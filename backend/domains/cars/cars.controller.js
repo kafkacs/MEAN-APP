@@ -10,6 +10,7 @@ exports.getAll = async (req, res) => {
     }
 
     const cars = await carsService.getAllCars(req.query);
+
     res.json({
       frontFacingMessage: "Cars retrieved successfully",
       data: cars,
