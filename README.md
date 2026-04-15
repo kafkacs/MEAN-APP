@@ -1,1 +1,1 @@
-# Car rental project, created using Express + mongoDB and angular.
+# Car rental project, created using Express + MongoDB and angular.
