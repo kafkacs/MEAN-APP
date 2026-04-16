@@ -1,4 +1,13 @@
-import { Component, inject, signal, computed, OnInit, DestroyRef } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal,
+  computed,
+  OnInit,
+  DestroyRef,
+  HostListener,
+  ElementRef,
+} from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Translation } from '../../../core/services/translation/translation';
 import { StorageService } from '../../../core/services/storage/storage';
@@ -18,6 +27,7 @@ export class Navbar implements OnInit {
   private readonly translation = inject(Translation);
   private readonly layoutApisService = inject(LayoutApisService);
   private readonly router = inject(Router);
+  private readonly elRef = inject(ElementRef);
 
   private readonly destroyRef = inject(DestroyRef);
 
@@ -48,6 +58,16 @@ export class Navbar implements OnInit {
           console.error('Login error:', err);
         },
       });
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: Event) {
+    const target = event.target as HTMLElement;
+
+    if (!this.elRef.nativeElement.contains(target)) {
+      this.isDropdownOpen.set(false);
+      this.isMenuOpen.set(false);
+    }
   }
 
   toggleMenu() {

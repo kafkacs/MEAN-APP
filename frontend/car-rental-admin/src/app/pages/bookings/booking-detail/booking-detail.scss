@@ -233,7 +233,7 @@ $radius: 14px;
 
   &--doc,
   &--status {
-    margin-bottom: 0;
+    margin-bottom: 1em;
   }
 
   &__title {
@@ -327,6 +327,35 @@ $radius: 14px;
   border: 1px solid $border;
   object-fit: contain;
   max-height: 280px;
+}
+
+.delete-card {
+  margin-top: 1em;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.delete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 0, 0, 0.815);
+  border: 1px solid $border;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-family: inherit;
+  color: white;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+
+  &:hover {
+    background: $red;
+    border-color: $border, 8%;
+  }
 }
 
 .btn-outline {

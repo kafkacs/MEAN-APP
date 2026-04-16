@@ -1,4 +1,6 @@
 const bookingsService = require("./bookings.service");
+const path = require("path");
+const fs = require("fs");
 
 //find all
 exports.findAll = async (req, res) => {
@@ -66,11 +68,15 @@ exports.create = async (req, res) => {
     let imageUrl = null;
 
     if (req.file) {
-      const relativePath = req.file.path
-        .split("backend\\")[1]
-        .replace(/\\/g, "/");
+      const relativePath = path.relative(
+        path.join(__dirname, "../../"),
+        req.file.path,
+      );
 
-      imageUrl = `${req.protocol}://${req.get("host")}/${relativePath}`;
+      imageUrl =
+        `${req.protocol}://${req.get("host")}` +
+        "/" +
+        relativePath.replace(/\\/g, "/");
     }
 
     const bookingData = {
@@ -80,10 +86,9 @@ exports.create = async (req, res) => {
 
     const newBooking = await bookingsService.createBooking(bookingData);
 
-    res.json({
+    res.status(201).json({
       frontFacingMessage: "Booking created successfully",
       data: newBooking,
-      httpStatus: 201,
     });
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -111,11 +116,35 @@ exports.update = async (req, res) => {
 //delete booking
 exports.delete = async (req, res) => {
   try {
-    const deletedBooking = await bookingsService.deleteBooking(req.params.id);
+    const existingBooking = await bookingsService.findOne(req.params.id);
 
-    if (!deletedBooking) {
+    if (!existingBooking || !existingBooking[0]) {
       return res.status(404).json({ message: "Booking not found" });
     }
+
+    const booking = existingBooking[0];
+
+    if (booking.imageUrl) {
+      try {
+        const url = new URL(booking.imageUrl);
+        const relativePath = url.pathname;
+
+        const imagePath = path.join(__dirname, "../../", relativePath);
+
+        const normalizedPath = imagePath.replace(/^\/+/, "");
+
+        if (fs.existsSync(normalizedPath)) {
+          fs.unlinkSync(normalizedPath);
+          console.log("Deleted booking image:", normalizedPath);
+        } else {
+          console.log("Booking image not found:", normalizedPath);
+        }
+      } catch (err) {
+        console.error("Invalid image URL:", booking.imageUrl);
+      }
+    }
+
+    const deletedBooking = await bookingsService.deleteBooking(req.params.id);
 
     res.json({
       frontFacingMessage: "Booking deleted successfully",

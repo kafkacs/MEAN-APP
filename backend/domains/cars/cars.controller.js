@@ -1,4 +1,6 @@
 const carsService = require("./cars.service");
+const path = require("path");
+const fs = require("fs");
 
 // find all /
 exports.getAll = async (req, res) => {
@@ -46,23 +48,27 @@ exports.create = async (req, res) => {
     let imageUrl = null;
 
     if (req.file) {
-      const relativePath = req.file.path
-        .split("backend\\")[1]
-        .replace(/\\/g, "/");
+      const relativePath = path.relative(
+        path.join(__dirname, "../../"),
+        req.file.path,
+      );
 
-      imageUrl = `${req.protocol}://${req.get("host")}/${relativePath}`;
+      imageUrl =
+        `${req.protocol}://${req.get("host")}` +
+        "/" +
+        relativePath.replace(/\\/g, "/");
     }
 
-    const bookingData = {
+    const carData = {
       ...req.body,
       imageUrl,
     };
-    const newCar = await carsService.createCar(bookingData);
 
-    res.json({
+    const newCar = await carsService.createCar(carData);
+
+    res.status(201).json({
       frontFacingMessage: "Car created successfully",
       data: newCar,
-      httpStatus: 201,
     });
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -72,14 +78,52 @@ exports.create = async (req, res) => {
 // update one car
 exports.update = async (req, res) => {
   try {
-    const updated = await carsService.updateCar(req.params.id, req.body);
-    if (!updated) {
+    const existingCar = await carsService.getCarById(req.params.id);
+
+    if (!existingCar) {
       return res.status(404).json({ message: "Car not found" });
     }
 
+    let imageUrl = existingCar.imageUrl;
+
+    if (req.file) {
+      if (existingCar.imageUrl) {
+        const url = new URL(existingCar.imageUrl);
+        const relativePath = url.pathname;
+
+        const imagePath = path.join(__dirname, "../../", relativePath);
+
+        const normalizedPath = imagePath.replace(/^\/+/, "");
+
+        if (fs.existsSync(normalizedPath)) {
+          fs.unlinkSync(normalizedPath);
+          console.log("Deleted:", normalizedPath);
+        } else {
+          console.log("File not found:", normalizedPath);
+        }
+      }
+
+      const relativePath = path.relative(
+        path.join(__dirname, "../../"),
+        req.file.path,
+      );
+
+      imageUrl =
+        `${req.protocol}://${req.get("host")}` +
+        "/" +
+        relativePath.replace(/\\/g, "/");
+    }
+
+    const updatedData = {
+      ...req.body,
+      imageUrl,
+    };
+
+    const updatedCar = await carsService.updateCar(req.params.id, updatedData);
+
     res.json({
       frontFacingMessage: "Car updated successfully",
-      data: updated,
+      data: updatedCar,
       httpStatus: 200,
     });
   } catch (err) {
@@ -90,11 +134,29 @@ exports.update = async (req, res) => {
 // DELETE /:id
 exports.remove = async (req, res) => {
   try {
-    const deleted = await carsService.deleteCar(req.params.id);
+    const existingCar = await carsService.getCarById(req.params.id);
 
-    if (!deleted) {
-      return res.status(400).json({ message: err.message });
+    if (!existingCar) {
+      return res.status(404).json({ message: "Car not found" });
     }
+
+    if (existingCar.imageUrl) {
+      const url = new URL(existingCar.imageUrl);
+      const relativePath = url.pathname;
+
+      const imagePath = path.join(__dirname, "../../", relativePath);
+
+      const normalizedPath = imagePath.replace(/^\/+/, "");
+
+      if (fs.existsSync(normalizedPath)) {
+        fs.unlinkSync(normalizedPath);
+        console.log("Deleted:", normalizedPath);
+      } else {
+        console.log("File not found:", normalizedPath);
+      }
+    }
+
+    const deleted = await carsService.deleteCar(req.params.id);
 
     res.json({
       frontFacingMessage: "Car deleted successfully",

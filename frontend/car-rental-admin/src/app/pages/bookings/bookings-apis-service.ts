@@ -25,4 +25,8 @@ export class BookingsApisService {
   updateBooking(bookingID: string, updateBookingDto: UpdateBookingDto) {
     return this.apis.patch<BookingI>(`bookings/${bookingID}`, updateBookingDto);
   }
+
+  deleteBooking(bookingID: string) {
+    return this.apis.delete<BookingI>(`bookings/${bookingID}`);
+  }
 }

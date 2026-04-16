@@ -6,6 +6,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BookingsApisService } from '../bookings-apis-service';
 import { DelegatedUIErrorI } from '../../../shared/interfaces/delegated-ui-error.interface';
 import { FormsModule } from '@angular/forms';
+import { DialogService } from '../../../core/services/dialog/dialog.service';
+import { RemoveBookingDialog } from '../remove-booking-dialog/remove-booking-dialog';
 
 @Component({
   selector: 'app-booking-detail',
@@ -14,9 +16,11 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './booking-detail.scss',
 })
 export class BookingDetail implements OnInit {
-  private route = inject(ActivatedRoute);
-  private destroyRef = inject(DestroyRef);
   private bookingsApisService = inject(BookingsApisService);
+  private route = inject(ActivatedRoute);
+  private dialogService = inject(DialogService);
+
+  private destroyRef = inject(DestroyRef);
 
   private readonly statusOrder = ['pending', 'confirmed', 'completed'];
 
@@ -98,6 +102,12 @@ export class BookingDetail implements OnInit {
           setTimeout(() => this.statusError.set(false), 4000);
         },
       });
+  }
+
+  onDelete() {
+    this.dialogService.openDialog(RemoveBookingDialog, {
+      booking: this.booking(),
+    });
   }
 
   isStepDone(stepValue: string): boolean {

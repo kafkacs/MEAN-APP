@@ -160,5 +160,9 @@
         <img [src]="booking()?.imageUrl" alt="License document" class="doc-image" />
       </div>
     }
+
+    <div class="delete-card">
+      <button (click)="onDelete()" class="delete-btn">Delete booking</button>
+    </div>
   </div>
 }

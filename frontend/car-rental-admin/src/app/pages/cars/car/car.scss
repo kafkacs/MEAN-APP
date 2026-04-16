@@ -35,8 +35,17 @@
       color: #059669;
 
       &.unavailable {
-        background: rgba(239, 68, 68, 0.15);
+        background: rgb(141 141 141 / 47%);
         color: #dc2626;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 17px;
+        top: 1px;
+        height: 100%;
+        width: 100%;
+        border-radius: 0px;
+        left: 0px;
       }
     }
   }
