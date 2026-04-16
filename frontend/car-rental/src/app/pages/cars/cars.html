@@ -1,15 +1,15 @@
 <section class="cars">
   <div class="container cars__header">
     <div>
-      <div class="chip">Fleet</div>
-      <h1 class="cars__title">Choose your ride</h1>
+      <div class="chip">{{ ["cars.fleet" | translate] }}</div>
+      <h1 class="cars__title">{{ ["cars.chooseRide" | translate] }}</h1>
       <p class="cars__subtitle">
-        Filter by availability, then pick the car that fits your trip.
+        {{ ["cars.filter" | translate] }}
       </p>
     </div>
     @if (!isLoggedIn()) {
       <a class="btn btn--primary cars__cta" (click)="goToLogin()">
-        Book faster with an account
+        {{ ["cars.bookFaster" | translate] }}
       </a>
     }
   </div>
@@ -37,7 +37,7 @@
             <circle cx="12" cy="12" r="10" />
             <polyline points="12 6 12 12 16 14" />
           </svg>
-          Status
+          {{ ["cars.status" | translate] }}
         </label>
         <div class="status-pills">
           @for (status of statusOptions; track status) {
@@ -51,11 +51,11 @@
               (click)="onStatusChange(status)"
             >
               @if (status === "true") {
-                Available
+                {{ ["cars.available" | translate] }}
               } @else if (status === "false") {
-                Unavailable
+                {{ ["cars.unavailable" | translate] }}
               } @else {
-                All
+                {{ ["cars.all" | translate] }}
               }
             </button>
           }
@@ -86,7 +86,7 @@
     @if (isFetching() && !cars().length) {
       <div class="loading">
         <span class="spinner"></span>
-        Loading cars...
+        {{ ["cars.loadingCars" | translate] }}
       </div>
     } @else if (cars().length) {
       <div class="cars-cards">
@@ -116,10 +116,10 @@
           <circle cx="11" cy="11" r="8" />
           <line x1="21" y1="21" x2="16.65" y2="16.65" />
         </svg>
-        <p>No cars found.</p>
+        <p>{{ ["cars.noCarsFound" | translate] }}</p>
         @if (hasActiveFilters) {
           <button class="clear-btn" (click)="clearFilters()">
-            Clear filters
+            {{ ["cars.clearFilters" | translate] }}
           </button>
         }
       </div>

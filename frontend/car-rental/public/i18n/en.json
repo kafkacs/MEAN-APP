@@ -115,7 +115,10 @@
     "cars": "Cars",
     "contact": "Contact",
     "login": "Login",
-    "signup": "Sign Up"
+    "signup": "Sign Up",
+    "welcome": "Welcome",
+    "profile": "Profile",
+    "logout": "Logout"
   },
   "landing": {
     "fees": "No hidden fees • 24/7 roadside help",
@@ -198,5 +201,32 @@
     "message": "Message",
     "submit": "Send message",
     "success": "Thanks! Your message has been recorded."
+  },
+  "cars": {
+    "fleet": "Fleet",
+    "chooseRide": "Choose your ride",
+    "filter": "Filter by availability, then pick the car that fits your trip.",
+    "bookFaster": "Book faster with an account",
+    "status": "Status",
+    "available": "Available",
+    "unavailable": "Unavailable",
+    "all": "All",
+    "loadingCars": "Loading cars...",
+    "noCarsFound": "No cars found.",
+    "clearFilters": "Clear filters",
+    "rentNow": "Rent Now",
+    "details": "Details",
+    "seats": "seats"
+  },
+  "footer": {
+    "slogan": "Simple, fast car rentals for city trips and weekend getaways.",
+    "explore": "Explore",
+    "home": "Home",
+    "cars": "Cars",
+    "account": "Account",
+    "login": "Login",
+    "signup": "Sign up",
+    "support": "Support",
+    "contact": "Contact"
   }
 }

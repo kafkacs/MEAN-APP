@@ -1,4 +1,11 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal,
+  computed,
+  ElementRef,
+  HostListener,
+} from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Translation } from '../../../core/services/translation/translation';
 import { StorageService } from '../../../core/services/storage/storage';
@@ -13,17 +20,27 @@ import { TranslateModule } from '@ngx-translate/core';
 export class Navbar {
   private readonly storageService = inject(StorageService);
   private readonly translation = inject(Translation);
+  private readonly elRef = inject(ElementRef);
 
   isMenuOpen = signal<boolean>(false);
   isDropdownOpen = signal<boolean>(false);
 
   user = signal(this.storageService.loggedInUser);
-
   isLoggedIn = computed(() => !!this.user());
 
   translatedLang = signal<string>(
     this.storageService.language === 'en' ? 'العربية' : 'English',
   );
+
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: Event) {
+    const target = event.target as HTMLElement;
+
+    if (!this.elRef.nativeElement.contains(target)) {
+      this.isDropdownOpen.set(false);
+      this.isMenuOpen.set(false);
+    }
+  }
 
   toggleMenu() {
     this.isMenuOpen.update((v) => !v);

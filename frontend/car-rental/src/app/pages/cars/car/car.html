@@ -3,7 +3,11 @@
     <img [src]="car().imageUrl" [alt]="car().carName" />
 
     <div class="badge" [class.unavailable]="!car().available">
-      {{ car().available ? "Available" : "Unavailable" }}
+      {{
+        car().available
+          ? ["cars.available" | translate]
+          : ["cars.unavailable" | translate]
+      }}
     </div>
   </div>
 
@@ -20,7 +24,7 @@
       } @else if (car().transmissionType == 2 + "") {
         <span>Manual</span>
       }
-      <span>{{ car().seatsNumber }} seats</span>
+      <span>{{ car().seatsNumber }} {{ ["cars.seats" | translate] }} </span>
     </div>
 
     <div class="type">
@@ -29,12 +33,18 @@
 
     <div class="actions">
       @if (car().available == false) {
-        <button class="btn disabled" disabled>Rent Now</button>
+        <button class="btn disabled" disabled>
+          {{ ["cars.rentNow" | translate] }}
+        </button>
       } @else {
-        <button (click)="goToRent()" class="btn btn--primary">Rent Now</button>
+        <button (click)="goToRent()" class="btn btn--primary">
+          {{ ["cars.rentNow" | translate] }}
+        </button>
       }
 
-      <button (click)="goToDetails()" class="btn">Details</button>
+      <button (click)="goToDetails()" class="btn">
+        {{ ["cars.details" | translate] }}
+      </button>
     </div>
   </div>
 </div>

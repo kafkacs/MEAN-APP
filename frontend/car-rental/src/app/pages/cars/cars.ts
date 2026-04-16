@@ -18,12 +18,13 @@ import { CarsApisService } from './cars-apis-service';
 import { FilterCarsDto } from './dtos/filter-cars.dto';
 import { Router } from '@angular/router';
 import { StorageService } from '../../core/services/storage/storage';
+import { TranslateModule } from '@ngx-translate/core';
 
 export type CarStatus = 'true' | 'false';
 
 @Component({
   selector: 'app-cars',
-  imports: [Car],
+  imports: [Car, TranslateModule],
   templateUrl: './cars.html',
   styleUrl: './cars.scss',
 })

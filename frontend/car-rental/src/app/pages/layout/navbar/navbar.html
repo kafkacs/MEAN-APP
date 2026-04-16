@@ -54,13 +54,17 @@
       } @else {
         <div class="user-menu">
           <button class="user-btn" (click)="toggleDropdown()">
-            Welcome, {{ user()?.fullName }}
+            {{ "navbar.welcome" | translate }}, {{ user()?.fullName }}
           </button>
 
           @if (isDropdownOpen()) {
             <div class="dropdown">
-              <a routerLink="/profile" (click)="closeMenu()">Profile</a>
-              <button (click)="logout()">Logout</button>
+              <a routerLink="/profile" (click)="closeMenu()">{{
+                "navbar.profile" | translate
+              }}</a>
+              <a (click)="logout()">
+                {{ "navbar.logout" | translate }}
+              </a>
             </div>
           }
         </div>
