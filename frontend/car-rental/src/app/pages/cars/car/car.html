@@ -2,11 +2,15 @@
   <div class="image">
     <img [src]="car().imageUrl" [alt]="car().carName" />
 
-    <div class="badge" [class.unavailable]="!car().available">
+    <div
+      class="badge"
+      [class.unavailable]="!car().available || isCurrentlyBooked()"
+    >
+      <span class="badge-dot"></span>
       {{
-        car().available
-          ? ["cars.available" | translate]
-          : ["cars.unavailable" | translate]
+        car().available && !isCurrentlyBooked()
+          ? ("cars.available" | translate)
+          : ("cars.unavailable" | translate)
       }}
     </div>
   </div>
@@ -24,16 +28,47 @@
       } @else if (car().transmissionType == 2 + "") {
         <span>Manual</span>
       }
-      <span>{{ car().seatsNumber }} {{ ["cars.seats" | translate] }} </span>
+      <span>{{ car().seatsNumber }} {{ ["cars.seats" | translate] }}</span>
     </div>
 
     <div class="type">
       {{ car().carType }}
     </div>
 
+    @if (car().books && car().books.length > 0) {
+      <div class="booked-dates">
+        <div class="booked-dates__title">
+          <span class="booked-dates__icon">📅</span>
+          Booked Periods
+        </div>
+        <div class="booked-dates__list">
+          @for (book of car().books; track $index) {
+            <div class="booked-dates__item">
+              <span> {{ $index + 1 }} : </span>
+              <span>{{ book.startDate | date: "MMM d" }}</span>
+              <span class="booked-dates__arrow">→</span>
+              <span>{{ book.endDate | date: "MMM d, y" }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    } @else {
+      <div class="booked-dates">
+        <div class="booked-dates__title">
+          <span class="booked-dates__icon">📅</span>
+          Booked Periods
+        </div>
+        <div class="booked-dates__list">
+          <div class="booked-dates__item">
+            <span>No books on this car</span>
+          </div>
+        </div>
+      </div>
+    }
+
     <div class="actions">
-      @if (car().available == false) {
-        <button class="btn disabled" disabled>
+      @if (!car().available || isCurrentlyBooked()) {
+        <button class="btn btn--disabled" disabled>
           {{ ["cars.rentNow" | translate] }}
         </button>
       } @else {

@@ -1,13 +1,21 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { CarI } from '../interfaces/car.interface';
 import { CarsApisService } from '../cars-apis-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TransmissionType } from '../enums/transmission-type.enum';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-car-details',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './car-details.html',
   styleUrl: './car-details.scss',
 })
@@ -22,6 +30,20 @@ export class CarDetails implements OnInit {
   car = signal<CarI | null>(null);
 
   transmissionTypeOptions = TransmissionType;
+
+  isCurrentlyBooked = computed(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return (
+      this.car()?.books?.some((b) => {
+        const start = new Date(b.startDate);
+        start.setHours(0, 0, 0, 0);
+        const end = new Date(b.endDate);
+        end.setHours(0, 0, 0, 0);
+        return today >= start && today <= end;
+      }) ?? false
+    );
+  });
 
   ngOnInit(): void {
     this.getProductFromRoute();
@@ -53,6 +75,16 @@ export class CarDetails implements OnInit {
           console.error('Error fetching car details:', err);
         },
       });
+  }
+
+  isActivePeriod(book: { startDate: string; endDate: string }): boolean {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const start = new Date(book.startDate);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(book.endDate);
+    end.setHours(0, 0, 0, 0);
+    return today >= start && today <= end;
   }
 
   goToRent() {

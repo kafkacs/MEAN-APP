@@ -6,11 +6,11 @@ import { AuthApisService } from '../auth/auth-apis-service';
 import { UserI } from '../../shared/interfaces/user.interface';
 import { BookingI } from '../bookings/interfaces/booking.interface';
 import { BookingsApisService } from '../bookings/bookings-apis-service';
-import { NgClass } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
-  imports: [NgClass],
+  imports: [NgClass, DatePipe],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })

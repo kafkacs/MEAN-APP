@@ -130,9 +130,23 @@ export class BookingDetail implements OnInit {
   downloadImage() {
     const url = this.booking()?.imageUrl;
     if (!url) return;
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'booking-license';
-    a.click();
+
+    fetch(url)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const blobUrl = window.URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = 'booking-image.jpg';
+        document.body.appendChild(a);
+        a.click();
+
+        a.remove();
+        window.URL.revokeObjectURL(blobUrl);
+      })
+      .catch((err) => {
+        console.error('Download failed', err);
+      });
   }
 }

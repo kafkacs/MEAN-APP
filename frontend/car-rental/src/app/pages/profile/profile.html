@@ -47,7 +47,6 @@
         </div>
       </div>
 
-      <!-- ✅ moved inside container -->
       <div class="card bookings-card">
         <h3>Your bookings</h3>
 
@@ -81,12 +80,12 @@
                   <div class="dates">
                     <div>
                       <span>Start</span>
-                      <strong>{{ booking.startDate }}</strong>
+                      <strong>{{ booking.startDate | date }}</strong>
                     </div>
 
                     <div>
                       <span>End</span>
-                      <strong>{{ booking.endDate }}</strong>
+                      <strong>{{ booking.endDate | date }}</strong>
                     </div>
                   </div>
                 </div>

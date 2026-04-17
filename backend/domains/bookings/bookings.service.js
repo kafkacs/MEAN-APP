@@ -107,6 +107,7 @@ const findAllForUser = async (query, userID) => {
 // update booking status
 const validStatuses = ["pending", "confirmed", "cancelled", "completed"];
 
+// update booking status
 const updateBookingStatus = async (id, status) => {
   if (!validStatuses.includes(status)) {
     throw new Error(
@@ -122,11 +123,18 @@ const updateBookingStatus = async (id, status) => {
   if (status === "confirmed") {
     const car = await carsService.getCarById(booking.carID);
 
-    if (!car || !car.available) {
-      throw new Error("Car not found or not available");
+    if (!car) {
+      throw new Error("Car not found");
     }
 
-    car.available = false;
+    const hasConflict = car.books.some((b) => {
+      return booking.startDate < b.endDate && booking.endDate > b.startDate;
+    });
+
+    if (hasConflict) {
+      throw new Error("Car is already booked for the selected dates");
+    }
+
     car.books.push({
       bookingID: booking._id,
       startDate: booking.startDate,
@@ -143,7 +151,6 @@ const updateBookingStatus = async (id, status) => {
       throw new Error("Car not found");
     }
 
-    car.available = true;
     car.books = car.books.filter(
       (b) => b.bookingID.toString() !== booking._id.toString(),
     );
@@ -153,7 +160,6 @@ const updateBookingStatus = async (id, status) => {
 
   return await Booking.findByIdAndUpdate(id, { status }, { new: true });
 };
-
 //delete booking
 const deleteBooking = async (id) => {
   const booking = await Booking.findById(id);

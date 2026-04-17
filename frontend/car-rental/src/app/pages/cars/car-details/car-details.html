@@ -1,71 +1,145 @@
 <section class="details">
-  <div class="container grid">
-    <div class="gallery card">
-      <img [src]="car()?.imageUrl" [alt]="car()?.carName" />
-
-      <div class="badge" [class.unavailable]="!car()?.available">
-        {{ car()?.available ? "Available" : "Unavailable" }}
-      </div>
-    </div>
-
-    <div class="info">
-      <div class="header">
-        <div>
-          <h1 class="name">{{ car()?.carName }}</h1>
-          <div class="type">{{ car()?.carType }} • {{ car()?.model }}</div>
+  <div class="container">
+    <div class="details__hero">
+      <div class="details__gallery">
+        <img [src]="car()?.imageUrl" [alt]="car()?.carName" />
+        <div
+          class="details__badge"
+          [class.unavailable]="!car()?.available || isCurrentlyBooked()"
+        >
+          <span class="details__badge-dot"></span>
+          {{
+            car()?.available && !isCurrentlyBooked()
+              ? "Available"
+              : "Unavailable"
+          }}
         </div>
-
-        <div class="price">
-          ${{ car()?.pricePerDay }}
-          <span>/day</span>
-        </div>
+        <div class="details__overlay-label">{{ car()?.carType }}</div>
       </div>
 
-      <div class="specs card">
-        <div class="spec">
-          <div class="label">Transmission</div>
-          @if (car()?.transmissionType == 1 + "") {
-            <div class="value">Automatic</div>
-          } @else if (car()?.transmissionType == 2 + "") {
-            <div class="value">Manual</div>
-          }
-        </div>
-
-        <div class="spec">
-          <div class="label">Seats</div>
-          <div class="value">{{ car()?.seatsNumber }}</div>
-        </div>
-
-        <div class="spec">
-          <div class="label">Type</div>
-          <div class="value">{{ car()?.carType }}</div>
-        </div>
-      </div>
-
-      <div class="description card">
-        <div class="title">About this car</div>
-        <p>
-          Perfect for city drives and long trips. Comfortable seating, reliable
-          performance, and great fuel efficiency. Ideal for business or leisure.
-        </p>
-      </div>
-
-      <div class="booking card">
-        <div class="booking-top">
-          <div class="price">${{ car()?.pricePerDay }} <span>/day</span></div>
-          <div class="status" [class.unavailable]="!car()?.available">
-            {{ car()?.available ? "Available now" : "Not available" }}
+      <div class="details__sidebar">
+        <div class="details__heading">
+          <div class="details__model">{{ car()?.model }}</div>
+          <h1 class="details__name">{{ car()?.carName }}</h1>
+          <div class="details__price">
+            ${{ car()?.pricePerDay }}<span>/day</span>
           </div>
         </div>
 
-        <div class="actions">
-          @if (car()?.available == false) {
-            <button class="btn disabled" disabled>Rent Now</button>
-          } @else {
-            <button (click)="goToRent()" class="btn btn--primary">Rent Now</button>
-          }
+        <div class="details__specs">
+          <div class="details__spec">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 8v4l3 3" />
+            </svg>
+            <div>
+              <div class="details__spec-label">Transmission</div>
+              <div class="details__spec-value">
+                @if (car()?.transmissionType == 1 + "") {
+                  Automatic
+                } @else if (car()?.transmissionType == 2 + "") {
+                  Manual
+                }
+              </div>
+            </div>
+          </div>
 
-          <button (click)="goToContact()" class="btn">Contact</button>
+          <div class="details__spec">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+            <div>
+              <div class="details__spec-label">Seats</div>
+              <div class="details__spec-value">
+                {{ car()?.seatsNumber }} Passengers
+              </div>
+            </div>
+          </div>
+
+          <div class="details__spec">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="1" y="3" width="15" height="13" rx="2" />
+              <path d="M16 8h4l3 4v3h-7V8z" />
+              <circle cx="5.5" cy="18.5" r="2.5" />
+              <circle cx="18.5" cy="18.5" r="2.5" />
+            </svg>
+            <div>
+              <div class="details__spec-label">Category</div>
+              <div class="details__spec-value">{{ car()?.carType }}</div>
+            </div>
+          </div>
+        </div>
+
+        @if (car()?.books && car()?.books!.length > 0) {
+          <div class="details__booked">
+            <div class="details__booked-header">
+              <span>Booked Periods</span>
+            </div>
+            <div class="details__booked-list">
+              @for (book of car()?.books; track book.bookingID) {
+                <div
+                  class="details__booked-item"
+                  [class.active]="isActivePeriod(book)"
+                >
+                  <div class="details__booked-dates">
+                    <span>{{ book.startDate | date: "MMM d, y" }}</span>
+                    <span class="details__booked-sep">—</span>
+                    <span>{{ book.endDate | date: "MMM d, y" }}</span>
+                  </div>
+                  @if (isActivePeriod(book)) {
+                    <span class="details__booked-now">Active</span>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+        <div class="details__cta">
+          <div
+            class="details__availability"
+            [class.unavailable]="!car()?.available || isCurrentlyBooked()"
+          >
+            <span class="details__availability-dot"></span>
+            {{
+              car()?.available && !isCurrentlyBooked()
+                ? "Available now — ready to rent"
+                : "Currently unavailable"
+            }}
+          </div>
+          <div class="details__actions">
+            @if (!car()?.available || isCurrentlyBooked()) {
+              <button class="btn btn--disabled" disabled>Rent Now</button>
+            } @else {
+              <button (click)="goToRent()" class="btn btn--primary">
+                Rent Now
+              </button>
+            }
+            <button (click)="goToContact()" class="btn btn--outline">
+              Contact Us
+            </button>
+          </div>
         </div>
       </div>
     </div>

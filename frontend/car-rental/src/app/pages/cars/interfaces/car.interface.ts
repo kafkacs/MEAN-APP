@@ -8,6 +8,13 @@ export interface CarI {
   pricePerDay: string;
   imageUrl: string;
   available: boolean;
+  books: BooksI[];
 
   [key: string]: any;
+}
+
+interface BooksI {
+  bookingID: string;
+  startDate: string;
+  endDate: string;
 }
