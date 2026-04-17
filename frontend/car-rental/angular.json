@@ -32,7 +32,6 @@
             ],
             "styles": ["src/styles.scss"],
             "server": "src/main.server.ts",
-            "outputMode": "server",
             "security": {
               "allowedHosts": []
             },
@@ -88,6 +87,10 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "host": "0.0.0.0",
+            "allowedHosts": ["all"]
+          },
           "configurations": {
             "production": {
               "buildTarget": "car-rental:build:production"
