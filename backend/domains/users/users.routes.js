@@ -18,6 +18,12 @@ router.get(
   controller.findLoggedInUser,
 );
 
+router.post(
+  "/change-password",
+  auth({ required: true }),
+  controller.changePassword,
+);
+
 router.get("/", auth({ required: true }), controller.getAll);
 
 router.get(

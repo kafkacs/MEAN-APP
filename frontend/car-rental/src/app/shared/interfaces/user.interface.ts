@@ -6,6 +6,7 @@ export interface UserI {
   birthDate: string;
   accountStatus: number;
   role: number;
+  gender: number;
   bookingsIDs: string[];
 
   [key: string]: any;

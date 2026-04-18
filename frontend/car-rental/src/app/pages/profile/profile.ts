@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DelegatedUIErrorI } from '../../shared/interfaces/delegated-ui-error.interface';
 import { StorageService } from '../../core/services/storage/storage';
@@ -7,6 +7,8 @@ import { UserI } from '../../shared/interfaces/user.interface';
 import { BookingI } from '../bookings/interfaces/booking.interface';
 import { BookingsApisService } from '../bookings/bookings-apis-service';
 import { DatePipe, NgClass } from '@angular/common';
+import { DialogService } from '../../core/services/dialog/dialog.service';
+import { ChangePasswordDialog } from '../auth/change-password-dialog/change-password-dialog';
 
 @Component({
   selector: 'app-profile',
@@ -14,11 +16,11 @@ import { DatePipe, NgClass } from '@angular/common';
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
-export class Profile implements OnInit {
+export class Profile {
   private readonly storageService = inject(StorageService);
   private readonly authApisService = inject(AuthApisService);
   private readonly bookingsApisService = inject(BookingsApisService);
-
+  private readonly dialogService = inject(DialogService);
   private readonly destroyRef = inject(DestroyRef);
 
   user = signal<UserI | null>(null);
@@ -26,43 +28,56 @@ export class Profile implements OnInit {
   bookings = signal<BookingI[]>([]);
   isLoadingBookings = signal(true);
 
-  ngOnInit(): void {
-    this.getUser();
+  constructor() {
+    effect(() => {
+      const token = this.storageService.accessToken;
+
+      if (!token) {
+        this.isLoading.set(false);
+        return;
+      }
+
+      this.fetchUser(token);
+    });
   }
 
-  getUser() {
+  fetchUser(token: string) {
     this.authApisService
-      .findLoggedInUser(this.storageService.accessToken!)
+      .findLoggedInUser(token)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (loggedInResponse) => {
-          const { data } = loggedInResponse;
+        next: (res) => {
+          const { data } = res;
           this.storageService.loggedInUser = data;
           this.user.set(data);
           this.isLoading.set(false);
-          this.findAllUserBookings();
+
+          this.fetchBookings(data._id!);
         },
         error: (err: DelegatedUIErrorI) => {
-          console.error('Login error:', err);
+          console.error('User fetch error:', err);
           this.isLoading.set(false);
         },
       });
   }
 
-  findAllUserBookings() {
+  private fetchBookings(userId: string) {
     this.bookingsApisService
-      .findAllForUser(this.user()!._id!, { skip: 0, limit: 30 })
+      .findAllForUser(userId, { skip: 0, limit: 30 })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response) => {
-          const { data } = response;
-          this.bookings.set(data);
+        next: (res) => {
+          this.bookings.set(res.data);
           this.isLoadingBookings.set(false);
         },
         error: (err: DelegatedUIErrorI) => {
-          console.error('Error fetching user bookings:', err);
+          console.error('Bookings error:', err);
           this.isLoadingBookings.set(false);
         },
       });
+  }
+
+  openChangePasswordDialog() {
+    this.dialogService.openDialog(ChangePasswordDialog);
   }
 }

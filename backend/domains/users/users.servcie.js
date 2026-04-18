@@ -87,6 +87,34 @@ const loginUser = async (email, password) => {
   return user;
 };
 
+// change password
+const changePassword = async (userID, body) => {
+  const { oldPassword, newPassword, confirmPassword } = body;
+
+  const user = await User.findById(userID);
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const stored = user.password;
+  const isMatch = isBcryptHash(stored)
+    ? await bcrypt.compare(oldPassword, stored)
+    : oldPassword === stored;
+
+  if (!isMatch) {
+    throw new Error("Old password is incorrect");
+  }
+
+  if (newPassword !== confirmPassword) {
+    throw new Error("New password and confirm password do not match");
+  }
+
+  user.password = await bcrypt.hash(newPassword, SALT_ROUNDS);
+  await user.save();
+
+  return toPublicUser(user);
+};
+
 // update
 const updateUser = async (id, data) => {
   const payload = { ...data };
@@ -115,4 +143,5 @@ module.exports = {
   toPublicUser,
   updateUser,
   deleteUser,
+  changePassword,
 };

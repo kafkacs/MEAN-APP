@@ -6,7 +6,7 @@ import {
   ElementRef,
   HostListener,
 } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Translation } from '../../../core/services/translation/translation';
 import { StorageService } from '../../../core/services/storage/storage';
 import { TranslateModule } from '@ngx-translate/core';
@@ -20,6 +20,8 @@ import { TranslateModule } from '@ngx-translate/core';
 export class Navbar {
   private readonly storageService = inject(StorageService);
   private readonly translation = inject(Translation);
+  private readonly router = inject(Router);
+
   private readonly elRef = inject(ElementRef);
 
   isMenuOpen = signal<boolean>(false);
@@ -58,6 +60,7 @@ export class Navbar {
     this.storageService.loggedInUser = null;
     this.storageService.accessToken = null;
     this.storageService.refreshToken = null;
+    this.router.navigate(['/landing']);
 
     this.user.set(null);
     this.isDropdownOpen.set(false);

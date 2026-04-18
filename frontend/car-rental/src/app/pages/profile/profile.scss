@@ -2,13 +2,11 @@
   padding: clamp(40px, 6vw, 80px) 16px;
 }
 
-/* container */
 .container {
   max-width: 1100px;
   margin: 0 auto;
 }
 
-/* grid layout */
 .profile-grid {
   display: grid;
   grid-template-columns: 300px 1fr;
@@ -27,7 +25,6 @@
   }
 }
 
-/* card base */
 .card {
   padding: clamp(16px, 2vw, 24px);
   border-radius: 20px;
@@ -43,9 +40,30 @@
   border-color: rgba(255, 255, 255, 0.15);
 }
 
-/* profile card */
 .profile-card {
   text-align: center;
+  .change-password-btn {
+    margin-top: 16px;
+    width: 100%;
+    padding: 10px;
+
+    border-radius: 10px;
+    border: 1px solid rgba(79, 70, 229, 0.4);
+
+    background: rgba(79, 70, 229, 0.1);
+    color: #4f46e5;
+
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+
+    transition: 0.2s ease;
+  }
+
+  .change-password-btn:hover {
+    background: rgba(79, 70, 229, 0.2);
+    border-color: rgba(79, 70, 229, 0.7);
+  }
 }
 
 .avatar {
@@ -75,7 +93,6 @@
   font-size: 14px;
 }
 
-/* status badge */
 .status {
   margin-top: 12px;
   padding: 6px 12px;
@@ -121,14 +138,13 @@
 .item strong {
   font-size: 15px;
 }
-/* bookings grid stays same */
+
 .bookings-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 18px;
 }
 
-/* card */
 .booking-card {
   border-radius: 18px;
   overflow: hidden;
@@ -147,7 +163,6 @@
   border-color: rgba(255, 255, 255, 0.18);
 }
 
-/* image */
 .booking-card .image {
   position: relative;
   height: 160px;
@@ -166,7 +181,6 @@
   transform: scale(1.05);
 }
 
-/* status badge (top-left overlay) */
 .booking-card .status {
   position: absolute;
   top: 10px;
@@ -180,7 +194,6 @@
   backdrop-filter: blur(6px);
 }
 
-/* status colors */
 .status.confirmed {
   background: rgba(0, 255, 150, 0.15);
   border: 1px solid rgba(0, 255, 150, 0.3);
@@ -201,7 +214,6 @@
   border: 1px solid rgba(120, 120, 255, 0.3);
 }
 
-/* content */
 .booking-card .content {
   padding: 14px;
   display: flex;
@@ -209,7 +221,6 @@
   gap: 10px;
 }
 
-/* header */
 .booking-card .header {
   display: flex;
   justify-content: space-between;
@@ -226,7 +237,6 @@
   font-weight: 700;
 }
 
-/* meta */
 .meta {
   font-size: 12px;
   opacity: 0.6;

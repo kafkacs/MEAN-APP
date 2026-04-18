@@ -133,6 +133,33 @@ exports.logout = async (req, res) => {
   });
 };
 
+//POST / change password
+exports.changePassword = async (req, res) => {
+  try {
+    if (
+      !req.body.oldPassword ||
+      !req.body.newPassword ||
+      !req.body.confirmPassword
+    ) {
+      return res.status(400).json({
+        message:
+          "Old Password Or New Password Or Confirm Password is not provided!",
+      });
+    }
+
+    const userID = getIdFromToken(req);
+    const user = await usersService.changePassword(userID, req.body);
+
+    res.json({
+      frontFacingMessage: "Password changed successfully",
+      data: buildAuthResponse(user),
+      httpStatus: 200,
+    });
+  } catch (err) {
+    res.status(401).json({ message: err.message });
+  }
+};
+
 // PUT /:id
 exports.update = async (req, res) => {
   try {
