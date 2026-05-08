@@ -61,7 +61,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-left: auto;
+    margin-inline-start: auto;
 
     a {
       color: var(--muted);
@@ -163,7 +163,7 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 870px) {
     .toggle {
       display: inline-grid;
       place-items: center;

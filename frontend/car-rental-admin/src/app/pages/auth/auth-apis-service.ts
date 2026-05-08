@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Apis } from '../../core/services/apis/apis';
 import { SignUpDto } from './dtos/signup.dto';
 import { UserI } from '../../shared/interfaces/user.interface';
+import { ChangePasswordDto } from './dtos/change-password.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -22,5 +23,9 @@ export class AuthApisService {
 
   findLoggedInUser(token: string) {
     return this.apis.get<UserI>('users/logged-in-user', token);
+  }
+
+  changePassword(changePasswordDto: ChangePasswordDto) {
+    return this.apis.post<UserI>('users/change-password', changePasswordDto);
   }
 }

@@ -13,6 +13,10 @@
           <p class="email">{{ user()?.email }}</p>
 
           <div class="status">Active account</div>
+
+          <button class="change-password-btn" (click)="openChangePasswordDialog()">
+            Change Password
+          </button>
         </div>
 
         <div class="card info-card">
@@ -36,7 +40,7 @@
 
             <div class="item">
               <span>Date of birth</span>
-              <strong>{{ user()?.birthDate }}</strong>
+              <strong>{{ user()?.birthDate | date }}</strong>
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 export interface DelegatedUIErrorI {
+  message: string;
   title: string;
   description: string;
   error: {

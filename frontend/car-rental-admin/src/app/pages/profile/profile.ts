@@ -4,16 +4,20 @@ import { DelegatedUIErrorI } from '../../shared/interfaces/delegated-ui-error.in
 import { StorageService } from '../../core/services/storage/storage';
 import { AuthApisService } from '../auth/auth-apis-service';
 import { UserI } from '../../shared/interfaces/user.interface';
+import { DatePipe } from '@angular/common';
+import { DialogService } from '../../core/services/dialog/dialog.service';
+import { ChangePasswordDialog } from '../auth/change-password-dialog/change-password-dialog';
 
 @Component({
   selector: 'app-profile',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
 export class Profile implements OnInit {
   private readonly storageService = inject(StorageService);
   private readonly authApisService = inject(AuthApisService);
+  private readonly dialogService = inject(DialogService);
 
   private readonly destroyRef = inject(DestroyRef);
 
@@ -41,5 +45,9 @@ export class Profile implements OnInit {
           this.isLoading.set(false);
         },
       });
+  }
+
+  openChangePasswordDialog() {
+    this.dialogService.openDialog(ChangePasswordDialog);
   }
 }

@@ -43,9 +43,30 @@
   border-color: rgba(255, 255, 255, 0.15);
 }
 
-/* profile card */
 .profile-card {
   text-align: center;
+  .change-password-btn {
+    margin-top: 16px;
+    width: 100%;
+    padding: 10px;
+
+    border-radius: 10px;
+    border: 1px solid rgba(79, 70, 229, 0.4);
+
+    background: rgba(79, 70, 229, 0.1);
+    color: #4f46e5;
+
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+
+    transition: 0.2s ease;
+  }
+
+  .change-password-btn:hover {
+    background: rgba(79, 70, 229, 0.2);
+    border-color: rgba(79, 70, 229, 0.7);
+  }
 }
 
 .avatar {

@@ -1,12 +1,7 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { DialogService } from '../../../core/services/dialog/dialog.service';
-import {
-  FormBuilder,
-  Validators,
-  AbstractControl,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, Validators, AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { PasswordInput } from '../../../shared/components/password-input/password-input';
 import { AuthApisService } from '../auth-apis-service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -62,7 +57,6 @@ export class ChangePasswordDialog {
     this.success.set(null);
 
     const newForm = removeEmptyValues(this.form.value);
-    console.log(newForm);
 
     this.authApisService
       .changePassword(newForm)
